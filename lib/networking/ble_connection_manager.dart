@@ -128,7 +128,8 @@ class BLEConnectionManager {
 
     // Start scanning w/ timeout
     await FlutterBluePlus.startScan(
-        withNames: [SERVICE_NAME],
+        //withNames: [SERVICE_NAME],
+        withServices: [MATRIX_WELCOME_SERVICE_UUID],
         timeout: const Duration(seconds: 15));
 
     // Wait for scan until end

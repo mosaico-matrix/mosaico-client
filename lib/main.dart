@@ -38,12 +38,6 @@ class HomePage extends StatelessWidget
 
   const HomePage({super.key});
 
-  void onPressed() async {
-     RunnerService.test();
-    // await BLEConnectionManager.searchAndConnectMatrix();
-    // print("Once here we are connected to the matrix or the matrix is not available.");
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +51,9 @@ class HomePage extends StatelessWidget
             // Spacer
             const Spacer(),
 
-            ElevatedButton(onPressed: onPressed, child: const Text("Clicca qui")),
+            ElevatedButton(onPressed: () {
+              Navigator.pushNamed(context, Routes.debug);
+            }, child: Text("Debug")),
 
             // Main widgets
             const Padding(
