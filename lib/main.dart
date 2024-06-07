@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:magicsquare/configuration/carousel_menu_items.dart';
-import 'package:magicsquare/configuration/routes.dart';
-import 'package:magicsquare/widgets/dash_button.dart';
-import 'package:magicsquare/widgets/device_status_notch.dart';
+import 'package:mosaico/configuration/carousel_menu_items.dart';
+import 'package:mosaico/configuration/routes.dart';
+import 'package:mosaico/widgets/dash_button.dart';
+import 'package:mosaico/widgets/device_status_notch.dart';
 import 'configuration/app_color_scheme.dart';
 
 void main() {

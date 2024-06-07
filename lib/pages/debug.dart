@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:magicsquare/services/ble/widget_service.dart';
+import 'package:mosaico/networking/ble/matrix_service.dart';
+import 'package:mosaico/networking/coap/widget_service.dart';
 
 void dumpData(data) {
   print(data);
@@ -22,8 +23,8 @@ class DebugPage extends StatelessWidget {
               content: BleSection(),
             ),
             DebugSection(
-              title: 'Network',
-              content: NetworkSection(),
+              title: 'COAP',
+              content: CoapSection(),
             ),
           ],
         ),
@@ -39,14 +40,11 @@ class BleSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-
-        // Runner
-        DebugSubSection(title: "Widget", children: [
+        DebugSubSection(title: "Matrix", children: [
           ElevatedButton(
             onPressed: () {
-              WidgetService.installWidget(1);
             },
-            child: const Text('Install widget 1'),
+            child: const Text('Send network credentials'),
           ),
 
         ])
@@ -55,14 +53,22 @@ class BleSection extends StatelessWidget {
   }
 }
 
-class NetworkSection extends StatelessWidget {
-  const NetworkSection({super.key});
+class CoapSection extends StatelessWidget {
+  const CoapSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: <Widget>[
-        Text('Network Debug Information'),
+        DebugSubSection(title: "Widgets", children: [
+          ElevatedButton(
+            onPressed: () {
+              WidgetService.installWidget(1);
+            },
+            child: const Text('Install widget with ID 1'),
+          ),
+
+        ])
       ],
     );
   }

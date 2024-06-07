@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:magicsquare/widgets/led_matrix.dart';
+import 'package:mosaico/widgets/led_matrix.dart';
 
 class MatrixProgressIndicator extends StatelessWidget
 {

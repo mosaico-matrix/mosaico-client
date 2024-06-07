@@ -1,5 +1,5 @@
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:magicsquare/networking/ble_connection_manager.dart';
+import 'package:mosaico/networking/ble_connection_manager.dart';
 
 
 abstract class BaseService {

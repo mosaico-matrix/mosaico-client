@@ -1,10 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:magicsquare/pages/widgets/boards_page.dart';
-
-import '../pages/controller_test_page.dart';
 import '../pages/debug.dart';
-import '../pages/widgets/text_page.dart';
-import '../pages/widgets/texts_page.dart';
 
 class Routes {
 
@@ -17,11 +12,6 @@ class Routes {
 
   static Map<String, WidgetBuilder> getRoutes() {
     return <String, WidgetBuilder>{
-      texts: (context) => const TextsPage(),
-      text: (context) => TextPage(),
-      images: (context) => const TextsPage(),
-      boards: (context) => const BoardsPage(),
-      controllerTest: (context) => const ControllerTestPage(),
       debug: (context) => const DebugPage(),
     };
   }

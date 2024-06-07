@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:magicsquare/configuration/configs.dart';
-import 'package:magicsquare/exceptions/api_exception.dart';
-import 'package:magicsquare/models/api/serializable.dart';
+import 'package:mosaico/configuration/configs.dart';
+import 'package:mosaico/exceptions/api_exception.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
 
-import '../configuration/settings.dart';
+import '../../configuration/settings.dart';
+import '../../models/rest/serializable.dart';
 
 class BaseService {
   // Logger

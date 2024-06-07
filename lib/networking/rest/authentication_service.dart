@@ -1,7 +1,7 @@
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../configuration/settings.dart';
+import '../../configuration/settings.dart';
 import 'base_service.dart';
 
 class AuthenticationService extends BaseService

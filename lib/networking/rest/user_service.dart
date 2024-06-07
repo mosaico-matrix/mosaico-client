@@ -1,5 +1,4 @@
-import '../models/api/user.dart';
-
+import '../../models/rest/user.dart';
 import 'base_service.dart';
 
 class UserService extends BaseService
