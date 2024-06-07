@@ -17,12 +17,12 @@ class Routes {
 
   static Map<String, WidgetBuilder> getRoutes() {
     return <String, WidgetBuilder>{
-      texts: (context) => TextsPage(),
+      texts: (context) => const TextsPage(),
       text: (context) => TextPage(),
-      images: (context) => TextsPage(),
-      boards: (context) => BoardsPage(),
-      controllerTest: (context) => ControllerTestPage(),
-      debug: (context) => DebugPage(),
+      images: (context) => const TextsPage(),
+      boards: (context) => const BoardsPage(),
+      controllerTest: (context) => const ControllerTestPage(),
+      debug: (context) => const DebugPage(),
     };
   }
 

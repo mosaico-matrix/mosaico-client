@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:magicsquare/services/ble/runner_service.dart';
+import 'package:magicsquare/services/ble/widget_service.dart';
 
 void dumpData(data) {
   print(data);
 }
 
 class DebugPage extends StatelessWidget {
+  const DebugPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Debug'),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
           children: <Widget>[
             DebugSection(
@@ -31,18 +33,20 @@ class DebugPage extends StatelessWidget {
 }
 
 class BleSection extends StatelessWidget {
+  const BleSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
 
         // Runner
-        DebugSubSection(title: "Runner", children: [
+        DebugSubSection(title: "Widget", children: [
           ElevatedButton(
             onPressed: () {
-
+              WidgetService.installWidget(1);
             },
-            child: const Text('Test'),
+            child: const Text('Install widget 1'),
           ),
 
         ])
@@ -52,6 +56,8 @@ class BleSection extends StatelessWidget {
 }
 
 class NetworkSection extends StatelessWidget {
+  const NetworkSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Column(
@@ -66,7 +72,7 @@ class DebugSubSection extends StatelessWidget {
   final String title;
   final List<Widget> children;
 
-  DebugSubSection({required this.title, required this.children});
+  const DebugSubSection({super.key, required this.title, required this.children});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +102,7 @@ class DebugSection extends StatelessWidget {
   final String title;
   final Widget content;
 
-  DebugSection({required this.title, required this.content});
+  const DebugSection({super.key, required this.title, required this.content});
 
   @override
   Widget build(BuildContext context) {

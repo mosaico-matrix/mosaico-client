@@ -1,7 +1,5 @@
-import 'dart:convert';
 
 import 'package:magicsquare/models/api/text.dart';
-import '../models/api/user.dart';
 
 import 'base_service.dart';
 

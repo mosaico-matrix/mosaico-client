@@ -10,7 +10,7 @@ class ListCell extends StatelessWidget {
   final int widgetId;
   final String editRoute;
 
-  ListCell({required this.title, required this.widgetType, required this.widgetId, required this.editRoute});
+  const ListCell({super.key, required this.title, required this.widgetType, required this.widgetId, required this.editRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class ListCell extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(0),
             border:
-            Border(
+            const Border(
               bottom: BorderSide(
                 color: Colors.white,
                 width: 1.0,

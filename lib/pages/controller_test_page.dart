@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:magicsquare/configuration/runners.dart';
 
 import '../networking/tcp_client.dart';
@@ -7,7 +6,7 @@ import '../networking/udp_client.dart';
 
 class ControllerTestPage extends StatelessWidget {
 
-  ControllerTestPage({super.key});
+  const ControllerTestPage({super.key});
   
   
   void onButtonPressed(String direction) async {
@@ -26,20 +25,20 @@ class ControllerTestPage extends StatelessWidget {
       builder: (context, snapshot) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Controller Test Page'),
+            title: const Text('Controller Test Page'),
           ),
           body: Center(
             child: Column(
               children: [
-                ElevatedButton(onPressed: () => onButtonPressed('W'), child: Text('UP')),
+                ElevatedButton(onPressed: () => onButtonPressed('W'), child: const Text('UP')),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton(onPressed: () => onButtonPressed('A'), child: Text('LEFT')),
-                    ElevatedButton(onPressed: () => onButtonPressed('D'), child: Text('RIGHT')),
+                    ElevatedButton(onPressed: () => onButtonPressed('A'), child: const Text('LEFT')),
+                    ElevatedButton(onPressed: () => onButtonPressed('D'), child: const Text('RIGHT')),
                   ],
                 ),
-                ElevatedButton(onPressed: () => onButtonPressed('S'), child: Text('DOWN')),
+                ElevatedButton(onPressed: () => onButtonPressed('S'), child: const Text('DOWN')),
               ],
             ),
           ),

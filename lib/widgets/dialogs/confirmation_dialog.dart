@@ -14,8 +14,8 @@ class ConfirmationDialog {
             title: Text(title),
             content: Text(message),
             actions: [
-              TextButton(onPressed: ()=> {Navigator.of(context).pop(true), onCancel()}, child: Text("Annulla")),
-              TextButton(onPressed: ()=> {Navigator.of(context).pop(true), onConfirm()}, child: Text("Ok")),
+              TextButton(onPressed: ()=> {Navigator.of(context).pop(true), onCancel()}, child: const Text("Annulla")),
+              TextButton(onPressed: ()=> {Navigator.of(context).pop(true), onConfirm()}, child: const Text("Ok")),
             ],
           );
         });

@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
 
 import '../configuration/settings.dart';
-import 'authentication_service.dart';
 
 class BaseService {
   // Logger

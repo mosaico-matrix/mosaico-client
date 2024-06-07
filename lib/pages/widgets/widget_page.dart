@@ -5,7 +5,6 @@ import 'package:magicsquare/models/api/widgetable.dart';
 import 'package:magicsquare/networking/tcp_client.dart';
 import 'package:magicsquare/widgets/matrix_progress_indicator.dart';
 
-import '../../widgets/dialogs/confirmation_dialog.dart';
 import '../../widgets/dialogs/toaster.dart';
 
 abstract class WidgetPage<WidgetType> extends StatefulWidget {
@@ -132,7 +131,7 @@ abstract class WidgetPageState<WidgetType> extends State<WidgetPage> {
           ],
         ),
         body: widget.widgetModel == null
-            ? MatrixProgressIndicator()
+            ? const MatrixProgressIndicator()
             : getPageContent(context));
   }
 }

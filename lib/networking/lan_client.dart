@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:magicsquare/configuration/configs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

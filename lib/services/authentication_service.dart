@@ -1,6 +1,4 @@
-import 'dart:convert';
 
-import 'package:magicsquare/configuration/configs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../configuration/settings.dart';

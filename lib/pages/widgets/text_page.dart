@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:magicsquare/configuration/configs.dart';
 import 'package:magicsquare/models/api/text.dart' as TextModel;
 import 'package:magicsquare/pages/widgets/widget_page.dart';
 import 'package:magicsquare/services/text_service.dart';
-import 'package:magicsquare/widgets/dialogs/color_picker_dialog.dart';
 import 'package:magicsquare/widgets/dialogs/confirmation_dialog.dart';
 import 'package:flutter_dropdown/flutter_dropdown.dart';
 import '../../configuration/runners.dart';
@@ -82,10 +79,10 @@ class _TextPageState extends WidgetPageState<TextModel.Text> {
     return DropDown(
       items: [for (int i in Configs.availableFontSizes) i.toString()],
       hint: Text(widget.widgetModel!.lines[index].fontHeight.toString(),
-          style: TextStyle(color: Colors.white)),
+          style: const TextStyle(color: Colors.white)),
       customWidgets: [
         for (int i in Configs.availableFontSizes)
-          Text(i.toString(), style: TextStyle(color: Colors.white))
+          Text(i.toString(), style: const TextStyle(color: Colors.white))
       ],
       icon: const Icon(Icons.text_fields_rounded),
       onChanged: (value) {
@@ -134,7 +131,7 @@ class _TextPageState extends WidgetPageState<TextModel.Text> {
         decoration: const InputDecoration(
           border: InputBorder.none,
         ),
-        style: TextStyle(
+        style: const TextStyle(
             fontSize: 24,
             color: Colors.red), // colorFromHex(widget.widgetModel!.lines[index].color)),
         onChanged: (text) {

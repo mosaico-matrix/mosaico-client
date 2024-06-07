@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:magicsquare/configuration/carousel_menu_items.dart';
 import 'package:magicsquare/configuration/routes.dart';
-import 'package:magicsquare/services/ble/runner_service.dart';
 import 'package:magicsquare/widgets/dash_button.dart';
 import 'package:magicsquare/widgets/device_status_notch.dart';
 import 'configuration/app_color_scheme.dart';
-import 'networking/ble_connection_manager.dart';
 
 void main() {
   runApp(const MyApp());
@@ -53,7 +51,7 @@ class HomePage extends StatelessWidget
 
             ElevatedButton(onPressed: () {
               Navigator.pushNamed(context, Routes.debug);
-            }, child: Text("Debug")),
+            }, child: const Text("Debug")),
 
             // Main widgets
             const Padding(

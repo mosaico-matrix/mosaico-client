@@ -1,7 +1,6 @@
 // Modal widget for the carousel menu
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:magicsquare/widgets/carousel_menu_item.dart';
 
 class BlurredCarouselMenu extends StatelessWidget {
@@ -14,13 +13,13 @@ class BlurredCarouselMenu extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(0.8),
       appBar: AppBar(
-        title: Text(title, style: TextStyle(color: Colors.white)),
+        title: Text(title, style: const TextStyle(color: Colors.white)),
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
             color: Colors.white,
-            icon: Icon(Icons.close),
+            icon: const Icon(Icons.close),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ],
@@ -32,7 +31,7 @@ class BlurredCarouselMenu extends StatelessWidget {
           itemCount: menuItems.length,
           itemBuilder: (BuildContext context, int index) {
             return Center(
-                child: Container(
+                child: SizedBox(
                   height: 400,
                   width: MediaQuery.of(context).size.width,
                   child: menuItems[index].buildWidget(context),
@@ -48,7 +47,7 @@ class BlurTransition extends StatelessWidget {
   final Animation<double> animation;
   final Widget child;
 
-  BlurTransition({required this.animation, required this.child});
+  const BlurTransition({super.key, required this.animation, required this.child});
 
   @override
   Widget build(BuildContext context) {

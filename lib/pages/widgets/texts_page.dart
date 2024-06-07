@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:magicsquare/configuration/routes.dart';
 import 'package:magicsquare/models/api/text.dart' as TextModel;
-import 'package:magicsquare/services/authentication_service.dart';
 import 'package:magicsquare/services/text_service.dart';
 import 'package:magicsquare/widgets/list_cell.dart';
 import 'package:magicsquare/widgets/matrix_progress_indicator.dart';
@@ -11,6 +9,8 @@ import '../../configuration/runners.dart';
 
 
 class TextsPage extends StatefulWidget {
+  const TextsPage({super.key});
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -40,7 +40,7 @@ class _MyHomePageState extends State<TextsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Testi'),
+        title: const Text('Testi'),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -52,7 +52,7 @@ class _MyHomePageState extends State<TextsPage> {
 
       ),
       body: items == null
-          ?  Center(child: MatrixProgressIndicator())
+          ?  const Center(child: MatrixProgressIndicator())
           : ListView.builder(
               itemCount: items!.length,
               itemBuilder: (context, index) {
@@ -61,7 +61,7 @@ class _MyHomePageState extends State<TextsPage> {
                   child: ListCell(
                       title: items![index].name,
                       widgetType: MatrixWidgetEnum.TEXT,
-                      widgetId: items![index].id!,
+                      widgetId: items![index].id,
                       editRoute: Routes.text,
                   ),
                 );

@@ -5,7 +5,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:magicsquare/configuration/routes.dart';
 
 import 'blurred_carousel_menu.dart';
 import 'carousel_menu_item.dart';

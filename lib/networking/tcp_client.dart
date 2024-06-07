@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:magicsquare/models/device_status.dart';
 import 'package:tcp_client_dart/tcp_client_dart.dart';
 import '../configuration/runners.dart';
 import 'lan_client.dart';
@@ -65,7 +64,7 @@ class TCPClient extends LanClient {
     TcpClient.debug = false;
     try {
       var client =
-      await TcpClient.connect(await LanClient.getMatrixIp(), _matrixTcpPort, terminatorString: '\n', timeout: Duration(seconds: 5));
+      await TcpClient.connect(await LanClient.getMatrixIp(), _matrixTcpPort, terminatorString: '\n', timeout: const Duration(seconds: 5));
 //     // this will watch the connection status
 //     client.connectionStream.listen(print);
 //

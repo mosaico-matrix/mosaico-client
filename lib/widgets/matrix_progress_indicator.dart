@@ -3,6 +3,8 @@ import 'package:magicsquare/widgets/led_matrix.dart';
 
 class MatrixProgressIndicator extends StatelessWidget
 {
+  const MatrixProgressIndicator({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Center(

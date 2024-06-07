@@ -14,9 +14,18 @@ class BLEConnectionManager {
     printer: PrettyPrinter(),
   );
 
+  static void _onMatrixDisconnected(BluetoothConnectionState state) async {
+    if (state == BluetoothConnectionState.disconnected) {
+      Toaster.error("Matrix disconnected");
+      logger.d("Matrix disconnected");
+      _connectedMatrix = null;
+    }
+  }
 
-  static Future<void> _onMatrixFound(BluetoothDevice device) async
+
+  static Future<void> _onMatrixConnected(BluetoothDevice device) async
   {
+    Toaster.success("Connected to matrix");
     logger.d("Matrix found: ${device.advName}");
 
     // Connect to device and stop scanning
@@ -26,12 +35,7 @@ class BLEConnectionManager {
 
 
     // listen for disconnection
-    var subscription = device.connectionState.listen((BluetoothConnectionState state) async {
-      if (state == BluetoothConnectionState.disconnected) {
-        logger.d("Matrix disconnected");
-        _connectedMatrix = null;
-      }
-    });
+    var subscription = device.connectionState.listen(_onMatrixDisconnected);
     device.cancelWhenDisconnected(subscription, delayed:true, next:true);
   }
 
@@ -57,7 +61,7 @@ class BLEConnectionManager {
         logger.d("Found the service we are looking for, hello matrix!");
 
         // Found the service, connect to the device
-        _onMatrixFound(device);
+        _onMatrixConnected(device);
       }
     }
 
