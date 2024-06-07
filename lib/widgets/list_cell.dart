@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:magicsquare/networking/tcp_client.dart';
-import 'package:magicsquare/services/text_service.dart';
 import '../configuration/runners.dart';
 
 class ListCell extends StatelessWidget {
@@ -26,13 +24,13 @@ class ListCell extends StatelessWidget {
           motion: const ScrollMotion(),
           children: [
             SlidableAction(
-              onPressed: (BuildContext context) => TCPClient.displayWidget(widgetType, widgetId),
+              onPressed: (BuildContext context) => (),
               backgroundColor: const Color(0xFF00C3FF),
               foregroundColor: Colors.white,
               icon: Icons.play_arrow,
             ),
             SlidableAction(
-              onPressed: (BuildContext context) => TextService.deleteText(widgetId),
+              onPressed: (BuildContext context) => (),
               backgroundColor: const Color(0xFFFE4A49),
               foregroundColor: Colors.white,
               icon: Icons.delete,

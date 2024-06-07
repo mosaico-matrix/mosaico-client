@@ -1,4 +1,4 @@
-import 'package:magicsquare/configuration/routes.dart';
+import 'package:mosaico/configuration/routes.dart';
 
 import '../widgets/carousel_menu_item.dart';
 
