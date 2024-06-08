@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
 
 import '../../configuration/settings.dart';
-import '../../models/rest/serializable.dart';
+import '../../models/serializable.dart';
 
 class BaseService {
   // Logger
