@@ -97,9 +97,9 @@ class CoapSection extends StatelessWidget {
 
           ElevatedButton(
             onPressed: () async {
-
+              await WidgetService.previewWidget(1, 1);
             },
-            child: const Text('Set active widget'),
+            child: const Text('Set active widget 1 with conf 1'),
           ),
         ]),
       ],

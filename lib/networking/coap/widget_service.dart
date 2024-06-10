@@ -14,4 +14,9 @@ class WidgetService {
     final data = await BaseService.get('/installed_widgets');
     return List<Widget>.from(data.map((widget) => Widget.fromJson(widget)));
   }
+
+  static Future<void> previewWidget(int widgetId, int configId) async {
+    await BaseService.post('/active_widget', '{"widget_id": $widgetId, "config_id": $configId}');
+  }
+
 }
