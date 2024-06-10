@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mosaico/networking/ble/matrix_service.dart';
 import 'package:mosaico/networking/coap/widget_service.dart';
+import 'package:mosaico/widgets/dialogs/toaster.dart';
 
 void dumpData(data) {
-  print(data);
+  Toaster.success(data.toString());
 }
 
 class DebugPage extends StatelessWidget {
@@ -60,15 +61,47 @@ class CoapSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        DebugSubSection(title: "Widgets", children: [
+        DebugSubSection(title: "Install widgets", children: [
           ElevatedButton(
-            onPressed: () {
-              WidgetService.installWidget(1);
+            onPressed: () async {
+              await WidgetService.installWidget(1);
             },
             child: const Text('Install widget with ID 1'),
           ),
+          ElevatedButton(
+            onPressed: () async {
+              await WidgetService.installWidget(2);
+            },
+            child: const Text('Install widget with ID 2'),
+          ),
 
-        ])
+          ElevatedButton(
+            onPressed: () async {
+              var widgets = await WidgetService.getInstalledWidgets();
+              // Create string representation of widgets
+              var widgetString = widgets.map((e) => e.name).join('\n');
+              dumpData(widgetString);
+            },
+            child: const Text('Get installed widgets'),
+          ),
+
+        ]),
+
+        DebugSubSection(title: "Active widget", children: [
+          ElevatedButton(
+            onPressed: () async {
+
+            },
+            child: const Text('Get active widget'),
+          ),
+
+          ElevatedButton(
+            onPressed: () async {
+              await WidgetService.previewWidget(1, 1);
+            },
+            child: const Text('Set active widget 1 with conf 1'),
+          ),
+        ]),
       ],
     );
   }

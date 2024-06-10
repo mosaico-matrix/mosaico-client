@@ -1,16 +1,23 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mosaico/configuration/carousel_menu_items.dart';
 import 'package:mosaico/configuration/routes.dart';
+import 'package:mosaico/exceptions/exception_handler.dart';
 import 'package:mosaico/widgets/dash_button.dart';
 import 'package:mosaico/widgets/device_status_notch.dart';
+import 'package:mosaico/widgets/dialogs/toaster.dart';
 import 'configuration/app_color_scheme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runZonedGuarded(() {
+    runApp(const MyApp());
+  }, (error, stackTrace) {
+    handleException(error, stackTrace);
+  });
 }
 
 class MyApp extends StatelessWidget {
-
   const MyApp({super.key});
 
   @override
@@ -28,8 +35,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget
-{
+class HomePage extends StatelessWidget {
   // Home configuration
   static const double widgetSpacing = 40.0;
   static const double horizontalPadding = 10.0;
@@ -42,16 +48,17 @@ class HomePage extends StatelessWidget
       body: Center(
         child: Column(
           children: [
-
             // Header notch with device status
             const DeviceStatusNotch(),
 
             // Spacer
             const Spacer(),
 
-            ElevatedButton(onPressed: () {
-              Navigator.pushNamed(context, Routes.debug);
-            }, child: const Text("Debug")),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.debug);
+                },
+                child: const Text("Debug")),
 
             // Main widgets
             const Padding(
