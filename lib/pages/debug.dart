@@ -61,7 +61,7 @@ class CoapSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        DebugSubSection(title: "Widgets", children: [
+        DebugSubSection(title: "Install widgets", children: [
           ElevatedButton(
             onPressed: () async {
               await WidgetService.installWidget(1);
@@ -85,7 +85,23 @@ class CoapSection extends StatelessWidget {
             child: const Text('Get installed widgets'),
           ),
 
-        ])
+        ]),
+
+        DebugSubSection(title: "Active widget", children: [
+          ElevatedButton(
+            onPressed: () async {
+
+            },
+            child: const Text('Get active widget'),
+          ),
+
+          ElevatedButton(
+            onPressed: () async {
+
+            },
+            child: const Text('Set active widget'),
+          ),
+        ]),
       ],
     );
   }

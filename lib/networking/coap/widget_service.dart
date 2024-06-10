@@ -1,16 +1,17 @@
 import 'dart:convert';
+import 'package:mosaico/exceptions/coap_exception.dart';
 import 'package:mosaico/networking/coap/base_service.dart';
+import 'package:mosaico/widgets/dialogs/toaster.dart';
 import '../../models/widget.dart';
 
 class WidgetService {
+
   static Future<void> installWidget(int id) async {
-    final response = await BaseService.post('/installed_widgets', '{"id": $id}');
-    // No need to display the message here
+    await BaseService.post('/installed_widgets', '{"id": $id}');
   }
 
   static Future<List<Widget>> getInstalledWidgets() async {
-    final response = await BaseService.get('/installed_widgets');
-    final List<dynamic> jsonData = response['data'];
-    return jsonData.map((e) => Widget.fromJson(e)).toList();
+    final data = await BaseService.get('/installed_widgets');
+    return List<Widget>.from(data.map((widget) => Widget.fromJson(widget)));
   }
 }
