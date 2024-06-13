@@ -12,7 +12,7 @@ class BaseService {
   static final _client = CoapClient(
     Uri(
       scheme: 'coap',
-      host: '192.168.1.25',
+      host: '10.0.2.2',
       port: 5683,
     ),
     config: CoapConfig(),

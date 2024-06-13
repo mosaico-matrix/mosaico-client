@@ -87,6 +87,17 @@ class CoapSection extends StatelessWidget {
 
         ]),
 
+        DebugSubSection(title: "Widget configurations", children: [
+          ElevatedButton(
+            onPressed: () async {
+              
+            },
+            child: const Text('Add test config to widget 1'),
+          ),
+
+
+        ]),
+
         DebugSubSection(title: "Active widget", children: [
           ElevatedButton(
             onPressed: () async {
