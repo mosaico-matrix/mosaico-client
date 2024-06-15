@@ -49,6 +49,9 @@ dependencies:
   flutter_blue_plus: ^1.32.7
   fluttertoast: ^8.2.5
   coap: ^9.0.4
+  mosaico_flutter_core:
+    path: ../mosaico-flutter-core
+
 
 dev_dependencies:
   flutter_test:

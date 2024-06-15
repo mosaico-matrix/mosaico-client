@@ -7,7 +7,7 @@ import 'package:mosaico/exceptions/exception_handler.dart';
 import 'package:mosaico/widgets/dash_button.dart';
 import 'package:mosaico/widgets/device_status_notch.dart';
 import 'package:mosaico/widgets/dialogs/toaster.dart';
-import 'configuration/app_color_scheme.dart';
+import 'package:mosaico_flutter_core/configuration/app_color_scheme.dart';
 
 void main() {
   runZonedGuarded(() {
