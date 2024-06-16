@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mosaico/networking/ble/matrix_service.dart';
-import 'package:mosaico/networking/coap/widget_service.dart';
-import 'package:mosaico/widgets/dialogs/toaster.dart';
+import 'package:mosaico_flutter_core/modules/networking/channels/coap/widget_service.dart';
+import 'package:mosaico_flutter_core/toaster.dart';
 
 void dumpData(data) {
   Toaster.success(data.toString());

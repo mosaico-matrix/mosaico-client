@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import '../configuration/runners.dart';
 
 class ListCell extends StatelessWidget {
   final String title;
-  final MatrixWidgetEnum widgetType;
   final int widgetId;
   final String editRoute;
 
-  const ListCell({super.key, required this.title, required this.widgetType, required this.widgetId, required this.editRoute});
+  const ListCell({super.key, required this.title,required this.widgetId, required this.editRoute});
 
   @override
   Widget build(BuildContext context) {

@@ -6,16 +6,16 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import 'blurred_carousel_menu.dart';
-import 'carousel_menu_item.dart';
+import '../../../widgets/blurred_carousel_menu.dart';
+import '../../../widgets/carousel_menu_item.dart';
 
-class DashButton extends StatelessWidget {
+class DashboardButton extends StatelessWidget {
   final String title;
   final Color startColor;
   final Color endColor;
   final List<CarouselMenuItem> menuItems;
 
-  const DashButton(
+  const DashboardButton(
       {super.key,
       required this.title,
       required this.startColor,
