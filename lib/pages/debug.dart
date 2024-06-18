@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mosaico_flutter_core/modules/networking/channels/coap/widget_service.dart';
+import 'package:mosaico_flutter_core/modules/networking/channels/coap/widgets_service.dart';
 import 'package:mosaico_flutter_core/toaster.dart';
 
 void dumpData(data) {
@@ -63,20 +63,20 @@ class CoapSection extends StatelessWidget {
         DebugSubSection(title: "Install widgets", children: [
           ElevatedButton(
             onPressed: () async {
-              await WidgetService.installWidget(1);
+              await WidgetsService.installWidget(1);
             },
             child: const Text('Install widget with ID 1'),
           ),
           ElevatedButton(
             onPressed: () async {
-              await WidgetService.installWidget(2);
+              await WidgetsService.installWidget(2);
             },
             child: const Text('Install widget with ID 2'),
           ),
 
           ElevatedButton(
             onPressed: () async {
-              var widgets = await WidgetService.getInstalledWidgets();
+              var widgets = await WidgetsService.getInstalledWidgets();
               // Create string representation of widgets
               var widgetString = widgets.map((e) => e.name).join('\n');
               dumpData(widgetString);
@@ -107,7 +107,7 @@ class CoapSection extends StatelessWidget {
 
           ElevatedButton(
             onPressed: () async {
-              await WidgetService.previewWidget(1, 1);
+              await WidgetsService.previewWidget(1, 1);
             },
             child: const Text('Set active widget 1 with conf 1'),
           ),
