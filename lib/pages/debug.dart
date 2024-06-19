@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mosaico_flutter_core/modules/config_form/models/config_output.dart';
+import 'package:mosaico_flutter_core/modules/config_form/pages/config_generator.dart';
+import 'package:mosaico_flutter_core/modules/networking/channels/coap/widget_configurations_service.dart';
 import 'package:mosaico_flutter_core/modules/networking/channels/coap/widgets_service.dart';
 import 'package:mosaico_flutter_core/toaster.dart';
 
 void dumpData(data) {
-  Toaster.success(data.toString());
+  Toaster.info(data.toString());
 }
 
 class DebugPage extends StatelessWidget {
@@ -42,11 +45,9 @@ class BleSection extends StatelessWidget {
       children: <Widget>[
         DebugSubSection(title: "Matrix", children: [
           ElevatedButton(
-            onPressed: () {
-            },
+            onPressed: () {},
             child: const Text('Send network credentials'),
           ),
-
         ])
       ],
     );
@@ -65,15 +66,8 @@ class CoapSection extends StatelessWidget {
             onPressed: () async {
               await WidgetsService.installWidget(1);
             },
-            child: const Text('Install widget with ID 1'),
+            child: const Text('Install widget with store_id 1'),
           ),
-          ElevatedButton(
-            onPressed: () async {
-              await WidgetsService.installWidget(2);
-            },
-            child: const Text('Install widget with ID 2'),
-          ),
-
           ElevatedButton(
             onPressed: () async {
               var widgets = await WidgetsService.getInstalledWidgets();
@@ -83,28 +77,70 @@ class CoapSection extends StatelessWidget {
             },
             child: const Text('Get installed widgets'),
           ),
-
+          ElevatedButton(
+            onPressed: () async {
+              // Get widget configuration file
+              var config = await WidgetsService.getWidgetConfigurationForm(1);
+              dumpData(config.toString());
+            },
+            child: const Text('Get configuration form for widget with id 1'),
+          ),
         ]),
-
         DebugSubSection(title: "Widget configurations", children: [
           ElevatedButton(
             onPressed: () async {
-              
+              // Get widget configuration file
+              var configForm =
+                  await WidgetsService.getWidgetConfigurationForm(1);
+
+              // Get result from the configuration generator
+              ConfigOutput? generatedConfig = await Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => ConfigGenerator(configForm)));
+
+              if (generatedConfig != null) {
+                WidgetConfigurationsService.uploadWidgetConfiguration(1, "TEST", generatedConfig.exportToArchive());
+              } else {
+                Toaster.error('Configuration generation cancelled');
+              }
             },
-            child: const Text('Add test config to widget 1'),
+            child: const Text(
+                'Create configuration named TEST for widget with id 1'),
           ),
 
+          ElevatedButton(
+            onPressed: () async {
+              var configs = await WidgetConfigurationsService.getWidgetConfigurations(1);
+              for (var config in configs) {
+                dumpData(config.name);
+              }
+            },
+            child: const Text(
+                'Get configurations for widget with id 1'),
+          ),
 
-        ]),
-
-        DebugSubSection(title: "Active widget", children: [
           ElevatedButton(
             onPressed: () async {
 
+              var configs = await WidgetConfigurationsService.getWidgetConfigurations(1);
+              for (var config in configs) {
+                if (config.name == "TEST") {
+                  Toaster.info('Deleting configuration named TEST');
+                  await WidgetConfigurationsService.deleteWidgetConfiguration(config.id);
+                  return;
+                }
+              }
+              Toaster.error('Configuration named TEST not found');
             },
+            child: const Text(
+                'Delete configuration named TEST for widget with id 1'),
+          ),
+        ]),
+        DebugSubSection(title: "Active widget", children: [
+          ElevatedButton(
+            onPressed: () async {},
             child: const Text('Get active widget'),
           ),
-
           ElevatedButton(
             onPressed: () async {
               await WidgetsService.previewWidget(1, 1);
@@ -121,7 +157,8 @@ class DebugSubSection extends StatelessWidget {
   final String title;
   final List<Widget> children;
 
-  const DebugSubSection({super.key, required this.title, required this.children});
+  const DebugSubSection(
+      {super.key, required this.title, required this.children});
 
   @override
   Widget build(BuildContext context) {
@@ -144,8 +181,6 @@ class DebugSubSection extends StatelessWidget {
     );
   }
 }
-
-
 
 class DebugSection extends StatelessWidget {
   final String title;
