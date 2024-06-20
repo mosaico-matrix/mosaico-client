@@ -96,10 +96,10 @@ class CoapSection extends StatelessWidget {
               // Get result from the configuration generator
               ConfigOutput? generatedConfig = await Navigator.of(context).push(
                   MaterialPageRoute(
-                      builder: (context) => ConfigGenerator(configForm)));
+                      builder: (context) => ConfigGenerator(configForm, initialConfigName: "TEST")));
 
               if (generatedConfig != null) {
-                WidgetConfigurationsService.uploadWidgetConfiguration(1, "TEST", generatedConfig.exportToArchive());
+                WidgetConfigurationsService.uploadWidgetConfiguration(1, generatedConfig.getConfigName(), generatedConfig.exportToArchive());
               } else {
                 Toaster.error('Configuration generation cancelled');
               }
@@ -111,6 +111,10 @@ class CoapSection extends StatelessWidget {
           ElevatedButton(
             onPressed: () async {
               var configs = await WidgetConfigurationsService.getWidgetConfigurations(1);
+              if(configs.isEmpty) {
+                Toaster.error('No configurations found');
+                return;
+              }
               for (var config in configs) {
                 dumpData(config.name);
               }
