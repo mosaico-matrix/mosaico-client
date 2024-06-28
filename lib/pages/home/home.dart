@@ -22,7 +22,7 @@ class Home extends StatelessWidget {
           children: [
 
             // Header notch with device status
-            const DeviceStatusNotch(),
+            //const DeviceStatusNotch(),
 
             // Spacer
             const Spacer(),
