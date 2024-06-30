@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import '../pages/debug.dart';
+import '../pages/debug/debug.dart';
 
 class Routes {
 
