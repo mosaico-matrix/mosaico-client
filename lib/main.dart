@@ -1,15 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mosaico/configuration/carousel_menu_items.dart';
-import 'package:mosaico/configuration/routes.dart';
-import 'package:mosaico/pages/home/home.dart';
-import 'package:mosaico/pages/home/widgets/dashboard_button.dart';
-import 'package:mosaico/pages/home/widgets/device_status_notch.dart';
-import 'package:mosaico_flutter_core/exceptions/exception_handler.dart';
-import 'package:mosaico_flutter_core/toaster.dart';
-import 'package:mosaico_flutter_core/configuration/app_color_scheme.dart';
+import 'package:mosaico/features/home/presentation/pages/home.dart';
+import 'package:mosaico_flutter_core/core/configuration/app_color_scheme.dart';
+import 'package:mosaico_flutter_core/core/exceptions/exception_handler.dart';
 import 'package:toastification/toastification.dart';
+
+import 'core/configuration/routes.dart';
 
 void main() {
   runZonedGuarded(() {
@@ -31,7 +28,7 @@ class App extends StatelessWidget {
         colorScheme: AppColorScheme.getDefaultColorScheme(),
       ),
       home: Builder(
-        builder: (context) =>  const Home(), //TextsPage()//
+        builder: (context) => const Home(), //TextsPage()//
       ),
     );
   }

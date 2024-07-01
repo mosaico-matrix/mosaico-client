@@ -1,7 +1,7 @@
 // Modal widget for the carousel menu
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:mosaico/widgets/carousel_menu_item.dart';
+import 'carousel_menu_item.dart';
 
 class BlurredCarouselMenu extends StatelessWidget {
   final List<CarouselMenuItem> menuItems;

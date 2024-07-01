@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../debug.dart';
+import '../../pages/debug.dart';
 
 class BleSection extends StatelessWidget {
   const BleSection({super.key});

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mosaico/pages/home/widgets/dashboard_button.dart';
-import 'package:mosaico/pages/home/widgets/device_status_notch.dart';
-
-import '../../configuration/carousel_menu_items.dart';
-import '../../configuration/routes.dart';
+import '../../../../core/configuration/routes.dart';
+import '../widgets/dashboard_button.dart';
 
 
 class Home extends StatelessWidget {
@@ -46,14 +43,14 @@ class Home extends StatelessWidget {
                         child: DashboardButton(
                             title: "Widgets",
                             startColor: Colors.red,
-                            menuItems: CarouselMenuItems.widgetsMenuItems,
+                            route: '',
                             endColor: Colors.blue),
                       ),
                       SizedBox(width: horizontalPadding),
                       Expanded(
                         child: DashboardButton(
                             title: "Games",
-                            menuItems: CarouselMenuItems.gamesMenuItems,
+                            route: '',
                             startColor: Colors.green,
                             endColor: Colors.yellow),
                       ),
@@ -65,6 +62,7 @@ class Home extends StatelessWidget {
                       Expanded(
                           child: DashboardButton(
                               title: "Slideshows",
+                              route: '',
                               startColor: Colors.purple,
                               endColor: Colors.orange)),
                     ],
@@ -75,6 +73,7 @@ class Home extends StatelessWidget {
                       Expanded(
                           child: DashboardButton(
                               title: "Store",
+                              route: Routes.store,
                               startColor: Colors.blue,
                               endColor: Colors.red)),
                     ],
