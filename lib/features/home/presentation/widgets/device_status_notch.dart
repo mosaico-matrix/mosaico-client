@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mosaico/widgets/led_matrix.dart';
-import 'package:mosaico_flutter_core/modules/networking/channels/ble/ble_connection_manager.dart';
+import 'package:mosaico_flutter_core/common/widgets/led_matrix.dart';
+import 'package:mosaico_flutter_core/core/networking/services/ble/ble_connection_manager.dart';
 
 class SafeAreaWithWhiteBackground extends StatelessWidget {
   final Widget child;

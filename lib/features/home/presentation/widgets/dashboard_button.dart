@@ -1,26 +1,22 @@
-// Create button dart component with gradient background
-// Path: lib/widgets/dash_button.dart
-
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import '../../../widgets/blurred_carousel_menu.dart';
-import '../../../widgets/carousel_menu_item.dart';
+import '../../../../shared/widgets/blurred_carousel_menu.dart';
+import '../../../../shared/widgets/carousel_menu_item.dart';
 
 class DashboardButton extends StatelessWidget {
   final String title;
   final Color startColor;
   final Color endColor;
-  final List<CarouselMenuItem> menuItems;
+  final String route;
 
   const DashboardButton(
       {super.key,
       required this.title,
       required this.startColor,
       required this.endColor,
-      this.menuItems = const []});
+      required this.route});
 
   // Animation params
   final int _shimmerDuration = 2;
@@ -52,7 +48,7 @@ class DashboardButton extends StatelessWidget {
 
                 // Actual button
                 child: FilledButton(
-                    onPressed: () => openModal(context),
+                    onPressed: () => Navigator.pushNamed(context, route),
 
                     // Style and rounded corners
                     style: ButtonStyle(
@@ -82,26 +78,5 @@ class DashboardButton extends StatelessWidget {
                           endColor,
                           Colors.white
                         ], duration: _shimmerDuration.seconds)))));
-  }
-
-  // Open modal
-  void openModal(BuildContext context) {
-    Navigator.push(
-        context,
-        PageRouteBuilder(
-          opaque: false,
-          pageBuilder: (BuildContext context, _, __) {
-            return BlurredCarouselMenu(menuItems: menuItems, title: title);
-          },
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: BlurTransition(
-                animation: animation,
-                child: child,
-              ),
-            );
-          },
-        ));
   }
 }

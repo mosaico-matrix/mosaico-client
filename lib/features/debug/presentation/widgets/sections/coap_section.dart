@@ -1,15 +1,21 @@
 
 import 'package:flutter/material.dart';
-import 'package:mosaico_flutter_core/modules/config_form/models/config_output.dart';
-import 'package:mosaico_flutter_core/modules/config_form/pages/config_generator.dart';
-import 'package:mosaico_flutter_core/modules/networking/channels/coap/widget_configurations_service.dart';
-import 'package:mosaico_flutter_core/modules/networking/channels/coap/widgets_service.dart';
-import 'package:mosaico_flutter_core/modules/networking/models/mosaico_widget.dart';
-import 'package:mosaico_flutter_core/toaster.dart';
-import '../../debug.dart';
+import 'package:mosaico_flutter_core/core/utils/toaster.dart';
+import 'package:mosaico_flutter_core/features/config_generator/data/models/config_output.dart';
+import 'package:mosaico_flutter_core/features/config_generator/presentation/pages/config_form_page.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widget_configurations_repository_impl.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_repository_impl.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_widget_configurations_repository.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_widgets_repository.dart';
+import '../../pages/debug.dart';
 
 class CoapSection extends StatelessWidget {
-  const CoapSection({super.key});
+
+  CoapSection({super.key});
+
+  MosaicoWidgetsRepository WidgetsService = MosaicoWidgetsRepositoryImpl();
+  MosaicoWidgetConfigurationsRepository WidgetConfigurationsService = MosaicoWidgetConfigurationsRepositoryImpl();
 
   Future<MosaicoWidget> getFirstWidget() async {
     var widgets = await WidgetsService.getInstalledWidgets();
@@ -21,7 +27,7 @@ class CoapSection extends StatelessWidget {
   }
 
   Future<void> installWidget() async {
-    await WidgetsService.installWidget(1);
+    await WidgetsService.installWidget(storeId: 1);
   }
 
   Future<void> getInstalledWidgets() async {
@@ -36,33 +42,33 @@ class CoapSection extends StatelessWidget {
   }
 
   Future<void> deleteFirstInstalledWidget() async {
-    await WidgetsService.uninstallWidget((await getFirstWidget()).id);
+    await WidgetsService.uninstallWidget(widgetId: (await getFirstWidget()).id);
   }
 
   Future<void> getWidgetConfigurationForm() async {
-    var config = await WidgetsService.getWidgetConfigurationForm((await getFirstWidget()).id);
+    var config = await WidgetsService.getWidgetConfigurationForm(widgetId: (await getFirstWidget()).id);
     dumpData(config.toString());
   }
 
   Future<void> createConfiguration(BuildContext context) async {
     var widgetId = (await getFirstWidget()).id;
-    var configForm = await WidgetsService.getWidgetConfigurationForm(widgetId);
+    var configForm = await WidgetsService.getWidgetConfigurationForm(widgetId: widgetId);
     ConfigOutput? generatedConfig = await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ConfigGenerator(configForm, initialConfigName: "TEST"),
+        builder: (context) => ConfigFormPage(configForm, initialConfigName: "TEST"),
       ),
     );
 
     if (generatedConfig != null) {
       await WidgetConfigurationsService.uploadWidgetConfiguration(
-          widgetId, generatedConfig.getConfigName(), generatedConfig.exportToArchive());
+          widgetId: widgetId, configurationName: generatedConfig.getConfigName(), configurationArchivePath:  generatedConfig.exportToArchive());
     } else {
       Toaster.error('Configuration generation cancelled');
     }
   }
 
   Future<void> getWidgetConfigurations() async {
-    var configs = await WidgetConfigurationsService.getWidgetConfigurations((await getFirstWidget()).id);
+    var configs = await WidgetConfigurationsService.getWidgetConfigurations(widgetId: (await getFirstWidget()).id);
     if (configs.isEmpty) {
       Toaster.error('No configurations found');
       return;
@@ -73,11 +79,10 @@ class CoapSection extends StatelessWidget {
   }
 
   Future<void> deleteConfiguration() async {
-    var configs = await WidgetConfigurationsService.getWidgetConfigurations((await getFirstWidget()).id);
+    var configs = await WidgetConfigurationsService.getWidgetConfigurations(widgetId: (await getFirstWidget()).id);
     for (var config in configs) {
       if (config.name == "TEST") {
-        Toaster.info('Deleting configuration named TEST');
-        await WidgetConfigurationsService.deleteWidgetConfiguration(config.id);
+        await WidgetConfigurationsService.deleteWidgetConfiguration(configurationId: config.id);
         return;
       }
     }
@@ -86,10 +91,10 @@ class CoapSection extends StatelessWidget {
 
   Future<void> setActiveWidget() async {
     var widget = await getFirstWidget();
-    var configs = await WidgetConfigurationsService.getWidgetConfigurations(widget.id);
+    var configs = await WidgetConfigurationsService.getWidgetConfigurations(widgetId: widget.id);
     for (var config in configs) {
       if (config.name == "TEST") {
-        await WidgetsService.previewWidget(widget.id, config.id);
+        await WidgetsService.previewWidget(widgetId: widget.id, configurationId:  config.id);
         return;
       }
     }

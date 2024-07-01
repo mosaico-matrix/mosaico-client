@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mosaico/pages/debug/widgets/sections/ble_section.dart';
-import 'package:mosaico/pages/debug/widgets/sections/coap_section.dart';
-import 'package:mosaico_flutter_core/modules/config_form/models/config_output.dart';
-import 'package:mosaico_flutter_core/modules/config_form/pages/config_generator.dart';
-import 'package:mosaico_flutter_core/modules/networking/channels/coap/widget_configurations_service.dart';
-import 'package:mosaico_flutter_core/modules/networking/channels/coap/widgets_service.dart';
-import 'package:mosaico_flutter_core/toaster.dart';
+import 'package:mosaico_flutter_core/core/utils/toaster.dart';
+
+import '../widgets/sections/ble_section.dart';
+import '../widgets/sections/coap_section.dart';
+
 
 void dumpData(data) {
   Toaster.info(data.toString());
@@ -20,7 +18,7 @@ class DebugPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Debug'),
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             DebugSection(
