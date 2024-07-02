@@ -6,25 +6,27 @@ import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/widge
 import 'package:provider/provider.dart';
 import 'package:mosaico_flutter_core/common/widgets/empty_placeholder.dart';
 
-class StorePage extends StatelessWidget {
-  const StorePage({super.key});
+import '../states/installed_widgets_state.dart';
+
+class WidgetsPage extends StatelessWidget {
+  const WidgetsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<StoreState>(
-      create: (context) => StoreState(Provider.of<MosaicoLoadingState>(context, listen: false)),
+    return ChangeNotifierProvider<InstalledWidgetsState>(
+      create: (context) => InstalledWidgetsState(Provider.of<MosaicoLoadingState>(context, listen: false)),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Store'),
+          title: const Text('Widgets'),
         ),
-        body: Consumer<StoreState>(
-          builder: (context, storeState, child) {
+        body: Consumer<InstalledWidgetsState>(
+          builder: (context, installedWidgetsState, child) {
             
             var isLoading = Provider.of<MosaicoLoadingState>(context).isLoading;
 
             // Get widgets after the widget is built
             WidgetsBinding.instance.addPostFrameCallback((_) async {
-              await storeState.init();
+              await installedWidgetsState.init();
             });
 
             // Show loading
@@ -33,15 +35,15 @@ class StorePage extends StatelessWidget {
             }
 
             // Empty
-            if (storeState.widgets?.isEmpty ?? true) {
+            if (installedWidgetsState.widgets?.isEmpty ?? true) {
               return const EmptyPlaceholder();
             }
 
             // Display widgets
             return ListView.builder(
-                    itemCount: storeState.widgets?.length ?? 0,
+                    itemCount: installedWidgetsState.widgets?.length ?? 0,
                     itemBuilder: (context, index) {
-                      return MosaicoStoreWidgetTile(widget: storeState.widgets![index]);
+                      return MosaicoStoreWidgetTile(widget: installedWidgetsState.widgets![index]);
                     },
                   );
           },

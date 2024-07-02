@@ -47,10 +47,11 @@ dependencies:
 #  flutter_colorpicker: ^1.0.3
   flutter_dropdown: ^1.0.1+hotfix.1
   flutter_blue_plus: ^1.32.7
-  fluttertoast: ^8.2.5
+  toastification: ^2.0.0
   coap: ^9.0.4
   mosaico_flutter_core:
     path: ../mosaico-flutter-core
+  provider: ^6.1.2
 
 
 dev_dependencies:
