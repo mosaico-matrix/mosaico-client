@@ -11,29 +11,21 @@ class MosaicoInstalledWidgetTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => StoreWidgetTileState(),
-      child: Consumer<StoreWidgetTileState>(
-          builder: (context, widgetTileState, _) {
-        return MosaicoWidgetTile(
-            widget: widget, trailing: tileTrailing(widgetTileState));
-      }),
-    );
+    return MosaicoWidgetTile(widget: widget, trailing: tileTrailing());
   }
 
-  /// Install widget button or checkmark
-  Widget tileTrailing(StoreWidgetTileState widgetTileState) {
-    if (widgetTileState.isInstalling) {
-      return MosaicoLoadingIndicatorSmall();
-    } else if (widget.installed) {
-      return const Icon(Icons.check);
-    } else {
-      return IconButton(
-        icon: const Icon(Icons.download),
-        onPressed: () {
-          widgetTileState.installWidget(widget);
-        },
-      );
-    }
+
+  Widget tileTrailing() {
+    return DropdownButton<String>(
+      items: <String>['Edit', 'Delete'].map((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      onChanged: (String? value) {
+
+      },
+    );
   }
 }
