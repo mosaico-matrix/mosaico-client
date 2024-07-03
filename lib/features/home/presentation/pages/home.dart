@@ -49,7 +49,7 @@ class Home extends StatelessWidget {
                             child: DashboardButton(
                                 title: "Widgets",
                                 startColor: Colors.red,
-                                route: '',
+                                route: Routes.widgets,
                                 endColor: Colors.blue),
                           ),
                           SizedBox(width: horizontalPadding),

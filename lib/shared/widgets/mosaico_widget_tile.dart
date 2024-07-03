@@ -15,7 +15,7 @@ class MosaicoWidgetTile extends StatelessWidget {
         child: ListTile(
           leading: const Icon(Icons.widgets),
           title: Text(widget.name),
-          subtitle: Text(widget.description),
+          subtitle: widget.description == '' ? null : Text(widget.description),
           trailing: trailing,
         ),
       ),
