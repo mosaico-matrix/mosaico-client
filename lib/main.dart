@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:mosaico/features/home/presentation/pages/home.dart';
 import 'package:mosaico_flutter_core/core/configuration/app_color_scheme.dart';
 import 'package:mosaico_flutter_core/core/exceptions/exception_handler.dart';
+import 'package:mosaico_flutter_core/features/matrix_control/presentation/states/mosaico_device_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/states/mosaico_loading_state.dart';
+import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
 import 'core/configuration/routes.dart';
 import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/widgets/mosaico_loading_wrapper.dart';
@@ -30,8 +32,10 @@ class App extends StatelessWidget {
         colorScheme: AppColorScheme.getDefaultColorScheme(),
       ),
       home: Builder(
-        builder: (context) =>
-            const Home(), //TextsPage()//
+        builder: (context) => ChangeNotifierProvider(
+          create: (context) => MosaicoDeviceState(),
+          child: const Home(),
+        ),
       ),
     );
   }

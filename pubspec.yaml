@@ -52,6 +52,8 @@ dependencies:
   mosaico_flutter_core:
     path: ../mosaico-flutter-core
   provider: ^6.1.2
+  sliding_up_panel: ^2.0.0+1
+  auto_size_text: ^3.0.0
 
 
 dev_dependencies:

@@ -2,16 +2,16 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import '../../../../shared/widgets/blurred_carousel_menu.dart';
-import '../../../../shared/widgets/carousel_menu_item.dart';
+import '../../../../../shared/widgets/blurred_carousel_menu.dart';
+import '../../../../../shared/widgets/carousel_menu_item.dart';
 
-class DashboardButton extends StatelessWidget {
+class HomeButton extends StatelessWidget {
   final String title;
   final Color startColor;
   final Color endColor;
   final String route;
 
-  const DashboardButton(
+  const HomeButton(
       {super.key,
       required this.title,
       required this.startColor,
