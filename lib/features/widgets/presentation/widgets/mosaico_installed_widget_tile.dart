@@ -6,6 +6,7 @@ import 'package:mosaico/shared/widgets/mosaico_widget_tile.dart';
 import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/widgets/mosaico_loading_indicator_small.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget_configuration.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/presentation/widgets/widget_configuration_editor.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/presentation/widgets/widget_configuration_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -17,64 +18,70 @@ class MosaicoInstalledWidgetTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get the all installed widgets state from previous context
     installedWidgetsState = Provider.of<InstalledWidgetsState>(context);
-
-    // Wrap everything in a GestureDetector to add slidable actions
-    return GestureDetector(
-      child: Slidable(
-          // Specify a key if the slidable is dismissible.
-          key: const ValueKey('wtf'),
-
-          // The end action pane is the one at the right or the bottom side.
-          endActionPane: ActionPane(
-            motion: const ScrollMotion(),
-            children: [
-              SlidableAction(
-                onPressed: (BuildContext context) =>
-                    installedWidgetsState.deleteWidget(widget),
-                backgroundColor: const Color(0xFFFE4A49),
-                foregroundColor: Colors.white,
-                icon: Icons.delete,
-              ),
-            ],
+    return MosaicoWidgetTile(
+        widget: widget,
+        slidableActions: [
+          // Show configurations
+          SlidableAction(
+            onPressed: showWidgetConfigurations,
+            backgroundColor: const Color(0xFF4A90E2),
+            foregroundColor: Colors.white,
+            icon: Icons.construction,
           ),
-          child: MosaicoWidgetTile(
-              widget: widget, trailing: tileTrailing(context))),
-    );
+
+          // Delete widget
+          SlidableAction(
+            onPressed: (BuildContext context) =>
+                installedWidgetsState.deleteWidget(widget),
+            backgroundColor: const Color(0xFFFE4A49),
+            foregroundColor: Colors.white,
+            icon: Icons.delete,
+          ),
+        ],
+
+        // Play button
+        trailing: IconButton(
+            onPressed: () => playWidget(context),
+            icon: const Icon(Icons.play_arrow_outlined)));
   }
 
-  Widget tileTrailing(BuildContext context) {
-    return IconButton(
-        onPressed: () async {
+  Future<void> playWidget(BuildContext context) async {
+    // Get all configurations for the widget
+    var configurations =
+        await installedWidgetsState.getWidgetConfigurations(widget);
 
-          // Get all configurations for the widget
-          var configurations =
-              await installedWidgetsState.getWidgetConfigurations(widget);
+    // No configs, preview the widget
+    if (configurations.isEmpty) {
+      installedWidgetsState.previewWidget(widget);
+      return;
+    }
 
-          // No configs, preview the widget
-          if (configurations.isEmpty) {
-            installedWidgetsState.previewWidget(widget);
-            return;
-          }
+    // If there are configurations, show a dialog to select one
+    final selectedConfiguration = await showDialog<MosaicoWidgetConfiguration?>(
+      context: context,
+      builder: (BuildContext context) {
+        return WidgetConfigurationPicker(configurations: configurations);
+      },
+    );
 
-          // If there are configurations, show a dialog to select one
-          final selectedConfiguration =
-              await showDialog<MosaicoWidgetConfiguration?>(
-            context: context,
-            builder: (BuildContext context) {
-              return WidgetConfigurationPicker(configurations: configurations);
-            },
-          );
+    // If a configuration was selected, preview the widget
+    if (selectedConfiguration != null) {
+      installedWidgetsState.previewWidget(widget,
+          configuration: selectedConfiguration);
+    }
+  }
 
-          // If a configuration was selected, preview the widget
-          if (selectedConfiguration != null) {
-            installedWidgetsState.previewWidget(widget,
-                configuration: selectedConfiguration);
-          }
+  void showWidgetConfigurations(BuildContext context) async {
+    var configurations =
+        await installedWidgetsState.getWidgetConfigurations(widget);
 
-
-        },
-        icon: const Icon(Icons.play_arrow_outlined));
+    await showDialog<MosaicoWidgetConfiguration?>(
+      context: context,
+      builder: (BuildContext context) {
+        return WidgetConfigurationEditor(
+            configurations: configurations, widget: widget);
+      },
+    );
   }
 }

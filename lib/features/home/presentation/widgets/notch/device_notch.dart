@@ -25,9 +25,9 @@ class DeviceStatusNotch extends StatelessWidget {
           SizedBox(height: 15),
           DeviceControl(),
           Divider(color: Colors.grey),
-          SizedBox(height: 40),
+          SizedBox(height: 50),
           DeviceStatus(),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           PullBar()
         ],
       ),

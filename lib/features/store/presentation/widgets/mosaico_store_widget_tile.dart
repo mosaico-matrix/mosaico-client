@@ -6,8 +6,8 @@ import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaic
 import 'package:provider/provider.dart';
 
 class MosaicoStoreWidgetTile extends StatelessWidget {
-  final MosaicoWidget widget;
 
+  final MosaicoWidget widget;
   const MosaicoStoreWidgetTile({required this.widget, super.key});
 
   @override
@@ -17,7 +17,7 @@ class MosaicoStoreWidgetTile extends StatelessWidget {
       child: Consumer<StoreWidgetTileState>(
           builder: (context, widgetTileState, _) {
         return MosaicoWidgetTile(
-            widget: widget, trailing: tileTrailing(widgetTileState));
+            widget: widget, trailing: tileTrailing(widgetTileState), slidableActions: []);
       }),
     );
   }

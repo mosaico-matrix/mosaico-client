@@ -1,1 +1,3 @@
-double notchHeight = 150.0;
+class Constants {
+  static double notchHeight = 150.0;
+}
