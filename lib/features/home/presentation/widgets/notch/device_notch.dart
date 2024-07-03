@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mosaico/features/home/presentation/widgets/notch/sections/device_control/device_control.dart';
+import 'package:mosaico/features/home/presentation/widgets/notch/sections/device_info/device_info.dart';
 import 'package:mosaico/features/home/presentation/widgets/notch/sections/device_status/device_status.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/presentation/states/mosaico_device_state.dart';
 import 'package:provider/provider.dart';
@@ -14,12 +16,18 @@ class DeviceStatusNotch extends StatelessWidget {
     });
 
     return const Padding(
-      padding: EdgeInsets.only(bottom: 5, left: 30, right: 30),
+      padding: EdgeInsets.only(bottom: 10, left: 30, right: 30),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          DeviceInfo(),
+          Divider(color: Colors.grey),
+          SizedBox(height: 15),
+          DeviceControl(),
+          Divider(color: Colors.grey),
+          SizedBox(height: 40),
           DeviceStatus(),
-          SizedBox(height: 10),
+          SizedBox(height: 20),
           PullBar()
         ],
       ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mosaico/core/configuration/constants.dart' as constants;
 import 'package:mosaico/features/home/presentation/widgets/buttons/home_buttons.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../widgets/notch/device_notch.dart';
 
+double a = 0.3;
 class Home extends StatelessWidget {
-  static const double notchHeight = 150.0;
-
   const Home({super.key});
 
   @override
@@ -14,7 +14,7 @@ class Home extends StatelessWidget {
       return Scaffold(
           body: SlidingUpPanel(
         slideDirection: SlideDirection.DOWN,
-        minHeight: notchHeight,
+        minHeight: constants.notchHeight,
         parallaxEnabled: true,
         parallaxOffset: 1,
         borderRadius: const BorderRadius.only(
@@ -24,13 +24,13 @@ class Home extends StatelessWidget {
         panel: const Center(
           child: DeviceStatusNotch(),
         ),
-        body: const Center(
+        body: Center(
           child: Column(
             children: [
-              SizedBox(height: notchHeight),
-              Spacer(),
-              HomeButtons(),
-              Spacer()
+              SizedBox(height: constants.notchHeight),
+              const Spacer(),
+              const HomeButtons(),
+              const Spacer()
             ],
           ),
         ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mosaico_flutter_core/common/widgets/led_matrix.dart';
+import 'package:mosaico_flutter_core/features/matrix_control/presentation/states/mosaico_device_state.dart';
+import 'package:provider/provider.dart';
 
 import 'device_status_label.dart';
 import 'device_status_pulse.dart';
@@ -9,15 +11,18 @@ class DeviceStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        LedMatrix(),
-        SizedBox(width: 15), // Adjust the distance between the LED matrix and the device status
-        DeviceStatusLabel(),
-        DeviceStatusPulse(),
-      ],
-    );
+    var deviceState = Provider.of<MosaicoDeviceState>(context);
+    return deviceState.isConnecting
+        ? const LedMatrix()
+        : const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              LedMatrix(),
+              SizedBox(width: 15),
+              DeviceStatusLabel(),
+              DeviceStatusPulse(),
+            ],
+          );
   }
 }
