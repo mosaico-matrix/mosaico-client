@@ -11,7 +11,6 @@ class StoreWidgetTileState with ChangeNotifier {
   bool get isInstalling => _isInstalling;
 
   void installWidget(MosaicoWidget widget) async {
-
     _isInstalling = true;
     notifyListeners();
 

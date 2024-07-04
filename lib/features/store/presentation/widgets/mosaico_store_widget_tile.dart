@@ -6,8 +6,8 @@ import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaic
 import 'package:provider/provider.dart';
 
 class MosaicoStoreWidgetTile extends StatelessWidget {
-
   final MosaicoWidget widget;
+
   const MosaicoStoreWidgetTile({required this.widget, super.key});
 
   @override
@@ -17,24 +17,30 @@ class MosaicoStoreWidgetTile extends StatelessWidget {
       child: Consumer<StoreWidgetTileState>(
           builder: (context, widgetTileState, _) {
         return MosaicoWidgetTile(
-            widget: widget, trailing: tileTrailing(widgetTileState), slidableActions: []);
+            widget: widget, trailing: tileTrailing(widgetTileState));
       }),
     );
   }
 
   /// Install widget button or checkmark
   Widget tileTrailing(StoreWidgetTileState widgetTileState) {
+
+    // Show loading indicator
     if (widgetTileState.isInstalling) {
       return MosaicoLoadingIndicatorSmall();
-    } else if (widget.installed) {
-      return const Icon(Icons.check);
-    } else {
-      return IconButton(
-        icon: const Icon(Icons.download),
-        onPressed: () {
-          widgetTileState.installWidget(widget);
-        },
-      );
     }
+
+    // Show checkmark
+    if (widget.installed) {
+      return const Icon(Icons.check);
+    }
+
+    // Show install button
+    return IconButton(
+      icon: const Icon(Icons.download),
+      onPressed: () {
+        widgetTileState.installWidget(widget);
+      },
+    );
   }
 }
