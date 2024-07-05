@@ -15,7 +15,7 @@ class StorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LoadablePage<StoreState>(
-      title: "Store",
+      heading: Text("Store"),
       state: storeState,
       child: Consumer<StoreState>(
         builder: (context, storeState, _) {

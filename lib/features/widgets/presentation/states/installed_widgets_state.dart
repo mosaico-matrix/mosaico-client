@@ -3,18 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:mosaico/shared/states/loadable_state.dart';
 import 'package:mosaico_flutter_core/common/widgets/dialogs/confirmation_dialog.dart';
 import 'package:mosaico_flutter_core/core/utils/toaster.dart';
-import 'package:mosaico_flutter_core/features/config_generator/data/models/config_output.dart';
-import 'package:mosaico_flutter_core/features/config_generator/presentation/pages/config_form_page.dart';
-import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/states/mosaico_loading_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget_configuration.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widget_configurations_repository_impl.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_repository_impl.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_widget_configurations_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_widgets_repository.dart';
-import 'package:mosaico_flutter_core/features/mosaico_widgets/presentation/widgets/widget_configuration_picker.dart';
-
 import '../widgets/dialogs/widget_configuration_editor.dart';
+import '../widgets/dialogs/widget_configuration_picker.dart';
 
 class InstalledWidgetsState extends LoadableState {
 

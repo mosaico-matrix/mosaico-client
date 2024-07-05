@@ -17,6 +17,7 @@ class DeviceStatusLabel extends StatelessWidget {
               AutoSizeText(state.coapConnectionStatusText,
                   style: TextStyle(
                       fontSize: 30,
+                      fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.onPrimary),
                   maxLines: 1),
               Visibility(

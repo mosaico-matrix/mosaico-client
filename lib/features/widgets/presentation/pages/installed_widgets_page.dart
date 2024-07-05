@@ -18,7 +18,7 @@ class InstalledWidgetsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LoadablePage<InstalledWidgetsState>(
-      title: "Widgets",
+      heading: Text("Installed Widgets"),
       state: widgetsState,
       child: Consumer<InstalledWidgetsState>(
         builder: (context, installedWidgetsState, _) {

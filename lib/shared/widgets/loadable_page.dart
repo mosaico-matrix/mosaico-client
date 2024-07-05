@@ -12,12 +12,12 @@ import 'package:mosaico_flutter_core/common/widgets/empty_placeholder.dart';
 /// The state must extend [LoadableState]
 /// This also calls the init method of the state after the widget is built
 class LoadablePage<T extends LoadableState> extends StatelessWidget {
-  final String title;
+  final Widget heading;
   final Widget child;
   final T state;
 
   const LoadablePage({
-    required this.title,
+    required this.heading,
     required this.child,
     required this.state,
     super.key,
@@ -38,7 +38,7 @@ class LoadablePage<T extends LoadableState> extends StatelessWidget {
       create: (context) => state,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(title),
+          title: heading,
         ),
         body: loadingState.isLoading
             ?

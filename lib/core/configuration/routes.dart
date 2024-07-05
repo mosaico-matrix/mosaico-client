@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:mosaico/shared/pages/widget_details_page.dart';
+import 'package:mosaico/shared/pages/widget_details/mosaico_widget_details_page.dart';
 
 import '../../features/debug/presentation/pages/debug.dart';
 import '../../features/store/presentation/pages/store_page.dart';
@@ -17,7 +17,7 @@ class Routes {
       debug: (context) => const DebugPage(),
       store: (context) => StorePage(),
       widgets: (context) => InstalledWidgetsPage(),
-      widgetDetails: (context) => WidgetDetailsPage(),
+      widgetDetails: (context) => const MosaicoWidgetDetailsPage(),
     };
   }
 

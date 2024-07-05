@@ -1,3 +1,5 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mosaico/core/configuration/routes.dart';
@@ -25,10 +27,18 @@ class MosaicoWidgetTile extends StatelessWidget {
                 ),
                 child: Card(
                   child: ListTile(
-                    leading: const Icon(Icons.widgets),
-                    title: Text(widget.name),
-                    subtitle: widget.description == '' ? null : Text(
-                        widget.description),
+                    leading: CachedNetworkImage(
+                      imageUrl: widget.iconUrl,
+                      width: 50,
+                      height: 50,
+                    ),
+                    title: AutoSizeText(
+                        widget.name,
+                        style: const TextStyle(
+                          fontSize: 20,
+                            fontWeight: FontWeight.bold
+                        )),
+                    subtitle: Text(widget.tagline != '' ? widget.tagline : widget.author, style: const TextStyle(fontSize: 10)),
                     trailing: trailing,
                   ),
                 )
