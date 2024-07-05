@@ -4,6 +4,7 @@ import 'package:mosaico/features/store/presentation/widgets/mosaico_store_widget
 import 'package:mosaico/shared/states/loadable_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/states/mosaico_loading_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/widgets/mosaico_loading_indicator.dart';
+import 'package:parallax_rain/parallax_rain.dart';
 import 'package:provider/provider.dart';
 import 'package:mosaico_flutter_core/common/widgets/empty_placeholder.dart';
 
@@ -12,12 +13,12 @@ import 'package:mosaico_flutter_core/common/widgets/empty_placeholder.dart';
 /// The state must extend [LoadableState]
 /// This also calls the init method of the state after the widget is built
 class LoadablePage<T extends LoadableState> extends StatelessWidget {
-  final Widget heading;
+  final Widget? heading;
   final Widget child;
   final T state;
 
   const LoadablePage({
-    required this.heading,
+    this.heading,
     required this.child,
     required this.state,
     super.key,
@@ -25,6 +26,7 @@ class LoadablePage<T extends LoadableState> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     // Set loading state
     var loadingState = Provider.of<MosaicoLoadingState>(context);
     state.setLoadingState(loadingState);
@@ -37,20 +39,31 @@ class LoadablePage<T extends LoadableState> extends StatelessWidget {
     return ChangeNotifierProvider<T>(
       create: (context) => state,
       child: Scaffold(
-        appBar: AppBar(
-          title: heading,
+        backgroundColor: Colors.black54,
+        appBar: heading == null ? null : AppBar(title: heading),
+        body: ParallaxRain(
+          numberOfDrops: 50,
+          dropFallSpeed: 0.2,
+          dropHeight: 0.8,
+          dropColors: [
+            Colors.red,
+            Colors.green,
+            Colors.blue,
+            Colors.yellow,
+          ],
+          child: loadingState.isLoading
+              ?
+
+              // Loading
+              Center(child: MosaicoLoadingIndicator())
+              : (state.empty()
+                  ?
+
+                  // Empty
+                  const EmptyPlaceholder()
+                  : child
+          ),
         ),
-        body: loadingState.isLoading
-            ?
-
-            // Loading
-            Center(child: MosaicoLoadingIndicator())
-            : (state.empty()
-                ?
-
-                // Empty
-                const EmptyPlaceholder()
-                : child),
       ),
     );
   }

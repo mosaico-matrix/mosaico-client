@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.4.1"
+  animated_bottom_navigation_bar:
+    dependency: "direct main"
+    description:
+      name: animated_bottom_navigation_bar
+      sha256: "2b04a2ae4b0742669e60ddf309467d6a354cefd2d0cd20f4737b1efaf9834cda"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.3"
   archive:
     dependency: transitive
     description:
@@ -455,6 +463,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  parallax_rain:
+    dependency: "direct main"
+    description:
+      name: parallax_rain
+      sha256: "433eb7b572147f26da212d30959332bce87e55a270f725fb2e92e599e97b47d8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   path:
     dependency: transitive
     description:

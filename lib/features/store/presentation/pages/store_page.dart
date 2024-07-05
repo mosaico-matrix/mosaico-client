@@ -9,13 +9,12 @@ import 'package:mosaico_flutter_core/common/widgets/empty_placeholder.dart';
 
 class StorePage extends StatelessWidget {
 
-  final StoreState storeState = StoreState();
   StorePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final StoreState storeState = StoreState();
     return LoadablePage<StoreState>(
-      heading: Text("Store"),
       state: storeState,
       child: Consumer<StoreState>(
         builder: (context, storeState, _) {

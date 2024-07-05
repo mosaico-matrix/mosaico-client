@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:mosaico/features/home/presentation/pages/home.dart';
+import 'package:mosaico/features/home/presentation/pages/home_page.dart';
 import 'package:mosaico_flutter_core/core/configuration/app_color_scheme.dart';
 import 'package:mosaico_flutter_core/core/exceptions/exception_handler.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/presentation/states/mosaico_device_state.dart';
@@ -34,7 +34,7 @@ class App extends StatelessWidget {
       home: Builder(
         builder: (context) => ChangeNotifierProvider(
           create: (context) => MosaicoDeviceState(),
-          child: const Home(),
+          child: HomePage(),
         ),
       ),
     );

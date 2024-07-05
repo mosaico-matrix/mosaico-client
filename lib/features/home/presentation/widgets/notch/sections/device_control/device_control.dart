@@ -21,16 +21,7 @@ class DeviceControl extends StatelessWidget {
                 onPressed: () async {
               await deviceState.stopActiveWidget();
             }, text: "Stop active widget"),
-            Slider(
-              value: 0,
-              onChanged: (double value) {
-                // Update the state
-              },
-              min: 0,
-              max: 1,
-              divisions: 10,
-              label: 'Brightness',
-            ),
+
           ],
         ));
   }
