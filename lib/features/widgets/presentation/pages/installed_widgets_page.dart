@@ -13,9 +13,8 @@ class InstalledWidgetsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final InstalledWidgetsState widgetsState = InstalledWidgetsState();
     return LoadablePage<InstalledWidgetsState>(
-      state: widgetsState,
+      state: Provider.of(context, listen: false),
       child: Consumer<InstalledWidgetsState>(
         builder: (context, installedWidgetsState, _) {
           return ListView.builder(

@@ -15,18 +15,19 @@ import 'package:mosaico_flutter_core/common/widgets/empty_placeholder.dart';
 class LoadablePage<T extends LoadableState> extends StatelessWidget {
   final Widget? heading;
   final Widget child;
+  final String? noDataHintText;
   final T state;
 
   const LoadablePage({
     this.heading,
     required this.child,
     required this.state,
+    this.noDataHintText,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-
     // Set loading state
     var loadingState = Provider.of<MosaicoLoadingState>(context);
     state.setLoadingState(loadingState);
@@ -39,7 +40,7 @@ class LoadablePage<T extends LoadableState> extends StatelessWidget {
     return ChangeNotifierProvider<T>(
       create: (context) => state,
       child: Scaffold(
-        backgroundColor: Colors.black54,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: heading == null ? null : AppBar(title: heading),
         body: ParallaxRain(
           numberOfDrops: 50,
@@ -60,9 +61,8 @@ class LoadablePage<T extends LoadableState> extends StatelessWidget {
                   ?
 
                   // Empty
-                  const EmptyPlaceholder()
-                  : child
-          ),
+                  EmptyPlaceholder(hintText: noDataHintText)
+                  : child),
         ),
       ),
     );

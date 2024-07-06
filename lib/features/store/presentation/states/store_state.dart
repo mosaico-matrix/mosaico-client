@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:mosaico/features/widgets/presentation/states/installed_widgets_state.dart';
 import 'package:mosaico/shared/states/loadable_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/states/mosaico_loading_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
@@ -6,6 +7,9 @@ import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/
 import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_widgets_repository.dart';
 
 class StoreState extends LoadableState {
+
+  final InstalledWidgetsState installedWidgetsState;
+  StoreState({required this.installedWidgetsState});
 
   /// Widget repository
   final MosaicoWidgetsRepository _widgetsRepository = MosaicoWidgetsRepositoryImpl();
@@ -37,5 +41,29 @@ class StoreState extends LoadableState {
 
     loadingState.hideLoading();
     notifyListeners();
+  }
+
+  /// Install a widget
+  int? _installingId;
+  bool isInstalling(int storeId) => _installingId == storeId;
+
+  void installWidget(MosaicoWidget widget) async {
+    _installingId = widget.storeId!;
+    notifyListeners();
+
+    try {
+      await _widgetsRepository.installWidget(storeId: widget.storeId!);
+      widget.installed = true;
+    } catch (e) {
+      _installingId = null;
+      notifyListeners();
+      rethrow;
+    }
+
+    _installingId = null;
+    notifyListeners();
+
+    // Refresh also installed widgets
+    installedWidgetsState.refresh();
   }
 }

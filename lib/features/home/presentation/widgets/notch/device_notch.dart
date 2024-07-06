@@ -6,6 +6,7 @@ import 'package:mosaico_flutter_core/features/matrix_control/presentation/states
 import 'package:provider/provider.dart';
 
 class DeviceStatusNotch extends StatelessWidget {
+
   const DeviceStatusNotch({super.key});
 
   @override

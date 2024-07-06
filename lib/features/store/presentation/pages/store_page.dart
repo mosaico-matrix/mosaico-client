@@ -7,14 +7,21 @@ import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/widge
 import 'package:provider/provider.dart';
 import 'package:mosaico_flutter_core/common/widgets/empty_placeholder.dart';
 
+import '../../../widgets/presentation/states/installed_widgets_state.dart';
+
 class StorePage extends StatelessWidget {
 
   StorePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final StoreState storeState = StoreState();
+
+    final StoreState storeState = StoreState(
+      installedWidgetsState: Provider.of(context, listen: false),
+    );
+
     return LoadablePage<StoreState>(
+      heading: Text('Store'),
       state: storeState,
       child: Consumer<StoreState>(
         builder: (context, storeState, _) {
