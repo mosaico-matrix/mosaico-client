@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:mosaico/shared/states/loadable_state.dart';
-import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/states/mosaico_loading_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
-import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_repository_impl.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_rest_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_widgets_repository.dart';
 
 class MosaicoWidgetDetailsState extends LoadableState {
@@ -10,7 +8,7 @@ class MosaicoWidgetDetailsState extends LoadableState {
 
   /// Repositories
   final MosaicoWidgetsRepository _widgetsRepository =
-      MosaicoWidgetsRepositoryImpl();
+      MosaicoWidgetsRestRepository();
 
   /// Widget
   final int _storeId;

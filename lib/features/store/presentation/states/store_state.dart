@@ -3,7 +3,9 @@ import 'package:mosaico/features/widgets/presentation/states/installed_widgets_s
 import 'package:mosaico/shared/states/loadable_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/states/mosaico_loading_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
-import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_repository_impl.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_coap_repository.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_rest_repository.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_local_widgets_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_widgets_repository.dart';
 
 class StoreState extends LoadableState {
@@ -12,7 +14,8 @@ class StoreState extends LoadableState {
   StoreState({required this.installedWidgetsState});
 
   /// Widget repository
-  final MosaicoWidgetsRepository _widgetsRepository = MosaicoWidgetsRepositoryImpl();
+  final MosaicoWidgetsRepository _widgetsRepository = MosaicoWidgetsRestRepository();
+  final MosaicoLocalWidgetsRepository _localWidgetsRepository = MosaicoWidgetsCoapRepository();
 
   /// List of widgets
   List<MosaicoWidget>? _widgets;
@@ -30,7 +33,7 @@ class StoreState extends LoadableState {
 
     // Fetch widgets and installed widgets
     final storeWidgets = await _widgetsRepository.getStoreWidgets();
-    final installedWidgets = await _widgetsRepository.getInstalledWidgets();
+    final installedWidgets = await _localWidgetsRepository.getInstalledWidgets();
 
     // Set installed status
     _widgets = storeWidgets.map((widget) {
@@ -52,7 +55,7 @@ class StoreState extends LoadableState {
     notifyListeners();
 
     try {
-      await _widgetsRepository.installWidget(storeId: widget.storeId!);
+      await _localWidgetsRepository.installWidget(storeId: widget.storeId!);
       widget.installed = true;
     } catch (e) {
       _installingId = null;

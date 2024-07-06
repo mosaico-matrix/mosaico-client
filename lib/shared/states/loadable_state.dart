@@ -6,8 +6,14 @@ abstract class LoadableState extends ChangeNotifier {
   /// Load resource from external source
   Future<void> loadResource();
 
-  /// Check if the resource is empty
+  /// This can be true even if the resource is not loaded yet
+  /// Child classes should implement this method to check if the resource is empty
   bool empty();
+
+  /// Check if no data is available for the resource
+  bool noData(){
+    return _initialized && empty();
+  }
 
   /// Prevent multiple initializations
   bool _initialized = false;

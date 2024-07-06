@@ -13,6 +13,7 @@ class HomeTabBar extends StatelessWidget {
     var homePageState = Provider.of<HomePageState>(context);
 
     return AnimatedBottomNavigationBar.builder(
+      height: HomePageState.tabBarHeight,
       activeIndex: homePageState.currentIndex,
       gapLocation: GapLocation.center,
       notchSmoothness: NotchSmoothness.verySmoothEdge,

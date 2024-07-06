@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mosaico/features/home/presentation/pages/home_page.dart';
+import 'package:mosaico/features/slideshows/presentation/states/slideshow_state.dart';
 import 'package:mosaico/features/widgets/presentation/states/installed_widgets_state.dart';
 import 'package:mosaico_flutter_core/core/configuration/app_color_scheme.dart';
 import 'package:mosaico_flutter_core/core/exceptions/exception_handler.dart';
@@ -20,10 +21,12 @@ void main() {
         state: loadingState,
         // Also the toasts are needed in the whole app
         child: ToastificationWrapper(
-          child: ChangeNotifierProvider(
-            // Installed widgets state is required also in other routes
-            // Like in the store page when a new widget is installed
-            create: (context) => InstalledWidgetsState(),
+          child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (context) => MosaicoDeviceState()),
+              ChangeNotifierProvider(create: (context) => InstalledWidgetsState()),
+              ChangeNotifierProvider(create: (context) => SlideshowState()),
+            ],
             child: const App(),
           ),
         ),
@@ -46,10 +49,7 @@ class App extends StatelessWidget {
         colorScheme: AppColorScheme.getDefaultColorScheme(),
       ),
       home: Builder(
-        builder: (context) => ChangeNotifierProvider(
-          create: (context) => MosaicoDeviceState(),
-          child: const HomePage(),
-        ),
+        builder: (context) => const HomePage(),
       ),
     );
   }

@@ -7,9 +7,7 @@ import '../../../../core/configuration/constants.dart';
 import '../states/home_page_state.dart';
 import '../widgets/notch/device_notch.dart';
 
-
 class HomePage extends StatelessWidget {
-
   const HomePage({super.key});
 
   @override
@@ -19,23 +17,28 @@ class HomePage extends StatelessWidget {
       child: Consumer<HomePageState>(
         builder: (context, state, child) {
           return Scaffold(
-            body: SlidingUpPanel(
-              slideDirection: SlideDirection.DOWN,
-              minHeight: Constants.notchHeight,
-              parallaxEnabled: true,
-              parallaxOffset: 1,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(HomePageState.edgeRadius),
-                bottomRight: Radius.circular(HomePageState.edgeRadius),
+            body: Container(
+              child: SlidingUpPanel(
+                slideDirection: SlideDirection.DOWN,
+                minHeight: HomePageState.notchHeight,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(HomePageState.edgeRadius),
+                  bottomRight: Radius.circular(HomePageState.edgeRadius),
+                ),
+                panel: const Center(
+                  child: DeviceStatusNotch(),
+                ),
+                body: Container(
+                  padding: const EdgeInsets.only(
+                    top: HomePageState.notchHeight,
+                    bottom: HomePageState.tabBarHeight + 35,
+                  ),
+                    child: state.getActivePage().page
+                ),
               ),
-              panel: const Center(
-                child: DeviceStatusNotch(),
-              ),
-              body: Container(
-                  margin: EdgeInsets.only(top: Constants.notchHeight - 40),
-                  child: state.getActivePage().page),
             ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
             floatingActionButton: FloatingActionButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),

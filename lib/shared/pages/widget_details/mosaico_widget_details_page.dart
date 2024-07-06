@@ -11,8 +11,8 @@ import 'package:provider/provider.dart';
 import '../../widgets/loadable_page.dart';
 
 class MosaicoWidgetDetailsPage extends StatelessWidget {
-
   static const double spacing = 16;
+
   const MosaicoWidgetDetailsPage({Key? key}) : super(key: key);
 
   @override
@@ -25,7 +25,8 @@ class MosaicoWidgetDetailsPage extends StatelessWidget {
     var detailsState = MosaicoWidgetDetailsState(selectedWidget.id);
 
     return LoadablePage<MosaicoWidgetDetailsState>(
-      heading: Row(
+      appBar: AppBar(
+          title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -37,7 +38,7 @@ class MosaicoWidgetDetailsPage extends StatelessWidget {
           const SizedBox(width: 12),
           Text(selectedWidget.name),
         ],
-      ),
+      )),
       state: detailsState,
       child: Consumer<MosaicoWidgetDetailsState>(
         builder: (context, state, _) {
@@ -45,7 +46,6 @@ class MosaicoWidgetDetailsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 // Image carousel with no padding
                 const SizedBox(height: spacing),
                 MosaicoWidgetImagesCarousel(images: state.storeWidget.images),
@@ -54,7 +54,8 @@ class MosaicoWidgetDetailsPage extends StatelessWidget {
                   padding: const EdgeInsets.all(spacing),
                   child: Column(
                     children: [
-                      MosaicoWidgetDescription(description: state.storeWidget.description),
+                      MosaicoWidgetDescription(
+                          description: state.storeWidget.description),
                       const SizedBox(height: spacing),
                       MosaicoWidgetInfo(),
                     ],

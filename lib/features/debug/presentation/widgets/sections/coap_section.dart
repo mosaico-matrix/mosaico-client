@@ -4,8 +4,10 @@ import 'package:mosaico_flutter_core/core/utils/toaster.dart';
 import 'package:mosaico_flutter_core/features/config_generator/data/models/config_output.dart';
 import 'package:mosaico_flutter_core/features/config_generator/presentation/pages/config_form_page.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
-import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widget_configurations_repository_impl.dart';
-import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_repository_impl.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widget_configurations_coap_repository.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_coap_repository.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_rest_repository.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_local_widgets_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_widget_configurations_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_widgets_repository.dart';
 import '../../pages/debug.dart';
@@ -14,8 +16,8 @@ class CoapSection extends StatelessWidget {
 
   CoapSection({super.key});
 
-  MosaicoWidgetsRepository WidgetsService = MosaicoWidgetsRepositoryImpl();
-  MosaicoWidgetConfigurationsRepository WidgetConfigurationsService = MosaicoWidgetConfigurationsRepositoryImpl();
+  MosaicoLocalWidgetsRepository WidgetsService = MosaicoWidgetsCoapRepository();
+  MosaicoWidgetConfigurationsRepository WidgetConfigurationsService = MosaicoWidgetConfigurationsCoapRepository();
 
   Future<MosaicoWidget> getFirstWidget() async {
     var widgets = await WidgetsService.getInstalledWidgets();

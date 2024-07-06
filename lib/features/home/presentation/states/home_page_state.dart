@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mosaico/features/slideshows/presentation/pages/slideshows_page.dart';
 import 'package:mosaico/features/store/presentation/pages/store_page.dart';
 import 'package:mosaico/features/widgets/presentation/pages/installed_widgets_page.dart';
 import '../../data/models/tab_page.dart';
@@ -6,6 +7,8 @@ import '../../data/models/tab_page.dart';
 class HomePageState extends ChangeNotifier {
 
   static const double edgeRadius = 40;
+  static const double notchHeight = 150;
+  static const double tabBarHeight = 60;
 
   /*
   * Bottom Navigation Bar
@@ -18,7 +21,7 @@ class HomePageState extends ChangeNotifier {
   List<TabPage> pages = [
     TabPage(
         page: InstalledWidgetsPage(), title: 'Widgets', icon: Icons.widgets),
-    TabPage(page: Text("AAA"), title: 'Slideshows', icon: Icons.animation),
+    TabPage(page: SlideshowsPage(), title: 'Slideshows', icon: Icons.animation),
   ];
 
   /// Change the current page

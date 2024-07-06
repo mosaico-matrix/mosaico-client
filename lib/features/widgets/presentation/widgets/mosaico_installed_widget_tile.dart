@@ -14,27 +14,29 @@ class MosaicoInstalledWidgetTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final installedWidgetsState = Provider.of<InstalledWidgetsState>(context, listen: false);
 
-    return MosaicoWidgetTile(
-        widget: widget,
-        slidableActions: [
-          Visibility(
-            visible: widget.metadata!.configurable,
-            child: SlidableAction(
-              onPressed: (context) => installedWidgetsState.showWidgetConfigurationsEditor(context, widget),
-              backgroundColor: const Color(0xFF4A90E2),
-              foregroundColor: Colors.white,
-              icon: Icons.construction,
+    return Container(
+      child: MosaicoWidgetTile(
+          widget: widget,
+          slidableActions: [
+            Visibility(
+              visible: widget.metadata!.configurable,
+              child: SlidableAction(
+                onPressed: (context) => installedWidgetsState.showWidgetConfigurationsEditor(context, widget),
+                backgroundColor: const Color(0xFF4A90E2),
+                foregroundColor: Colors.white,
+                icon: Icons.construction,
+              ),
             ),
-          ),
-          SlidableAction(
-            onPressed: (context) => installedWidgetsState.uninstallWidget(context, widget),
-            backgroundColor: const Color(0xFFFE4A49),
-            foregroundColor: Colors.white,
-            icon: Icons.delete,
-          ),
-        ],
-        trailing: IconButton(
-            onPressed: () => installedWidgetsState.previewWidget(context, widget),
-            icon: const Icon(Icons.play_arrow_outlined)));
+            SlidableAction(
+              onPressed: (context) => installedWidgetsState.uninstallWidget(context, widget),
+              backgroundColor: const Color(0xFFFE4A49),
+              foregroundColor: Colors.white,
+              icon: Icons.delete,
+            ),
+          ],
+          trailing: IconButton(
+              onPressed: () => installedWidgetsState.previewWidget(context, widget),
+              icon: const Icon(Icons.play_arrow_outlined))),
+    );
   }
 }
