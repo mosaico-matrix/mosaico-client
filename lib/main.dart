@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:mosaico/features/home/presentation/pages/home.dart';
+import 'package:mosaico/features/home/presentation/pages/home_page.dart';
+import 'package:mosaico/features/widgets/presentation/states/installed_widgets_state.dart';
 import 'package:mosaico_flutter_core/core/configuration/app_color_scheme.dart';
 import 'package:mosaico_flutter_core/core/exceptions/exception_handler.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/presentation/states/mosaico_device_state.dart';
@@ -13,8 +14,21 @@ import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/widge
 void main() {
   var loadingState = MosaicoLoadingState();
   runZonedGuarded(() {
-    runApp(MosaicoLoadingWrapper(
-        state: loadingState, child: const ToastificationWrapper(child: App())));
+    runApp(
+      // Loading is needed in the whole app
+      MosaicoLoadingWrapper(
+        state: loadingState,
+        // Also the toasts are needed in the whole app
+        child: ToastificationWrapper(
+          child: ChangeNotifierProvider(
+            // Installed widgets state is required also in other routes
+            // Like in the store page when a new widget is installed
+            create: (context) => InstalledWidgetsState(),
+            child: const App(),
+          ),
+        ),
+      ),
+    );
   }, (error, stackTrace) {
     handleException(error, stackTrace, loadingState);
   });
@@ -34,7 +48,7 @@ class App extends StatelessWidget {
       home: Builder(
         builder: (context) => ChangeNotifierProvider(
           create: (context) => MosaicoDeviceState(),
-          child: const Home(),
+          child: const HomePage(),
         ),
       ),
     );

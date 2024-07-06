@@ -15,7 +15,7 @@ class MosaicoWidgetTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(2.0),
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5.0),
         child: GestureDetector(
           onTap: () {
             Navigator.pushNamed(context, Routes.widgetDetails, arguments: widget);
@@ -26,20 +26,32 @@ class MosaicoWidgetTile extends StatelessWidget {
                   children: slidableActions!,
                 ),
                 child: Card(
-                  child: ListTile(
-                    leading: CachedNetworkImage(
-                      imageUrl: widget.iconUrl,
-                      width: 50,
-                      height: 50,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color:  Color.fromRGBO(25, 25, 25, 1.0),
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.white,
+                          width: 3,
+                        ),
+                      ),
                     ),
-                    title: AutoSizeText(
-                        widget.name,
-                        style: const TextStyle(
-                          fontSize: 20,
-                            fontWeight: FontWeight.bold
-                        )),
-                    subtitle: Text(widget.tagline != '' ? widget.tagline : widget.author, style: const TextStyle(fontSize: 10)),
-                    trailing: trailing,
+                    child: ListTile(
+                      leading: CachedNetworkImage(
+                        imageUrl: widget.iconUrl,
+                        width: 50,
+                        height: 50,
+                      ),
+                      title: AutoSizeText(
+                          widget.name,
+                          style: const TextStyle(
+                            fontSize: 20,
+                              fontWeight: FontWeight.bold
+                          )),
+                      subtitle: Text(widget.tagline != '' ? widget.tagline : widget.author, style: const TextStyle(fontSize: 10)),
+                      trailing: trailing,
+                    ),
                   ),
                 )
             )

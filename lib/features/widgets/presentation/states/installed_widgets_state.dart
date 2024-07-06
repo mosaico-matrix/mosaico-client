@@ -13,7 +13,6 @@ import '../widgets/dialogs/widget_configuration_editor.dart';
 import '../widgets/dialogs/widget_configuration_picker.dart';
 
 class InstalledWidgetsState extends LoadableState {
-
   /// Repositories
   final MosaicoWidgetsRepository _widgetsRepository =
       MosaicoWidgetsRepositoryImpl();
@@ -22,6 +21,7 @@ class InstalledWidgetsState extends LoadableState {
 
   /// List of installed widgets
   List<MosaicoWidget>? _widgets;
+
   List<MosaicoWidget>? get widgets => _widgets;
 
   @override
@@ -80,8 +80,8 @@ class InstalledWidgetsState extends LoadableState {
   }
 
   /// Uninstall a widget and remove its files
-  Future<void> uninstallWidget(BuildContext context, MosaicoWidget widget) async {
-
+  Future<void> uninstallWidget(
+      BuildContext context, MosaicoWidget widget) async {
     // Show confirmation dialog
     final confirmed = await ConfirmationDialog.ask(
       context: context,
@@ -116,5 +116,18 @@ class InstalledWidgetsState extends LoadableState {
         return WidgetConfigurationEditor(widget: widget);
       },
     );
+  }
+
+  /// Used to refresh the list of installed widgets
+  /// This is used when a new widget is installed from the store
+  Future<void> refresh() async {
+    _widgets = await _widgetsRepository.getInstalledWidgets();
+    notifyListeners();
+  }
+
+  @override
+  /// Prevent this state from being disposed
+  void dispose() {
+    return;
   }
 }
