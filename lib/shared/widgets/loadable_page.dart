@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mosaico/features/store/presentation/states/store_state.dart';
-import 'package:mosaico/features/store/presentation/widgets/mosaico_store_widget_tile.dart';
 import 'package:mosaico/shared/states/loadable_state.dart';
 import 'package:mosaico_flutter_core/common/widgets/matrices/loading_matrix.dart';
 import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/states/mosaico_loading_state.dart';
@@ -13,7 +11,6 @@ import 'package:mosaico_flutter_core/common/widgets/empty_placeholder.dart';
 /// The state must extend [LoadableState]
 /// This also calls the init method of the state after the widget is built
 class LoadablePage<T extends LoadableState> extends StatelessWidget {
-
   final PreferredSizeWidget? appBar;
   final Widget? fab;
   final Widget child;
@@ -43,18 +40,28 @@ class LoadablePage<T extends LoadableState> extends StatelessWidget {
 
     return ChangeNotifierProvider<T>(
       create: (context) => state,
-      child: appBar == null ?
-      buildPageContent(loadingState) :
-      Scaffold(
-        appBar: appBar,
-        body: buildPageContent(loadingState),
-        floatingActionButton: fab,
-      ),
+
+      // This shitty workaround is needed since placing appbar without title breaks touch events in home page
+      child: appBar == null
+          ? Stack(
+
+          children: [
+            buildPageContent(loadingState),
+            if (fab != null) Positioned(
+              bottom: 16,
+              right: 16,
+              child: fab!,
+            ),
+      ])
+          : Scaffold(
+              appBar: appBar,
+              body: buildPageContent(loadingState),
+              floatingActionButton: fab,
+            ),
     );
   }
 
-  Widget buildPageContent(MosaicoLoadingState loadingState)
-  {
+  Widget buildPageContent(MosaicoLoadingState loadingState) {
     return ParallaxRain(
       numberOfDrops: 100,
       dropFallSpeed: 0.2,
@@ -68,14 +75,14 @@ class LoadablePage<T extends LoadableState> extends StatelessWidget {
       child: loadingState.isLoading
           ?
 
-      // Loading
-      Center(child: LoadingMatrix())
+          // Loading
+          Center(child: LoadingMatrix())
           : (state.noData()
-          ?
+              ?
 
-      // Empty
-      EmptyPlaceholder(hintText: noDataHintText)
-          : child),
+              // Empty
+              EmptyPlaceholder(hintText: noDataHintText)
+              : child),
     );
   }
 }

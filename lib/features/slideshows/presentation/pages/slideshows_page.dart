@@ -15,11 +15,12 @@ class SlideshowsPage extends StatelessWidget {
     final SlideshowsState slideshowsState = SlideshowsState();
 
     return LoadablePage<SlideshowsState>(
+      noDataHintText: "A slideshow is just a sequence of widgets, try to create one by clicking the button below",
       fab: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, Routes.slideshow);
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       state: slideshowsState,
       child: Consumer<SlideshowsState>(
@@ -27,7 +28,7 @@ class SlideshowsPage extends StatelessWidget {
           return ListView.builder(
             itemCount: slideshowsState.slideshows.length,
             itemBuilder: (context, index) {
-              return SlideshowTile();
+             // return SlideshowTile(slideshowsState.slideshows[index]);
             },
           );
         },

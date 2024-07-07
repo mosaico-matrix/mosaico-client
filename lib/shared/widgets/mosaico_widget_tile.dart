@@ -32,7 +32,9 @@ class MosaicoWidgetTile extends StatelessWidget {
                   fontSize: 20,
                   fontWeight: FontWeight.bold
               )),
-          subtitle: Text(widget.tagline != '' ? widget.tagline : widget.author, style: const TextStyle(fontSize: 10)),
+          subtitle: Text(
+              widget.tagline != '' ? widget.tagline : widget.author,
+              style: const TextStyle(fontSize: 10, color: Colors.white)),
           trailing: trailing
         ),
       ),

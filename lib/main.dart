@@ -25,7 +25,6 @@ void main() {
             providers: [
               ChangeNotifierProvider(create: (context) => MosaicoDeviceState()),
               ChangeNotifierProvider(create: (context) => InstalledWidgetsState()),
-              ChangeNotifierProvider(create: (context) => SlideshowState()),
             ],
             child: const App(),
           ),

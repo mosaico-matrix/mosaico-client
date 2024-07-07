@@ -30,12 +30,12 @@ class HomeTabBar extends StatelessWidget {
               Icon(
                 homePageState.pages[index].icon,
                 size: 24,
-                color: isActive ? Theme.of(context).colorScheme.onPrimary : Colors.grey,
+                color: isActive ? Theme.of(context).colorScheme.onSurface : Colors.grey,
               ),
               Text(
                 homePageState.pages[index].title,
                 style: TextStyle(
-                    color: isActive ? Theme.of(context).colorScheme.onPrimary : Colors.grey,
+                    color: isActive ? Theme.of(context).colorScheme.onSurface : Colors.grey,
                     fontWeight: isActive ? FontWeight.bold : FontWeight.normal),
               ),
             ],

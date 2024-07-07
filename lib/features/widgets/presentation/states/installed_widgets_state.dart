@@ -97,16 +97,6 @@ class InstalledWidgetsState extends LoadableState {
     notifyListeners();
   }
 
-  /// Return a list of widget configurations
-  Future<List<MosaicoWidgetConfiguration>> getWidgetConfigurations(
-      MosaicoWidget widget) async {
-    loadingState.showOverlayLoading();
-    final configurations = await _configurationsRepository
-        .getWidgetConfigurations(widgetId: widget.id);
-    loadingState.hideOverlayLoading();
-    return configurations;
-  }
-
   /// Open a dialog to show available widget configurations and allow the user to add new configurations
   Future<void> showWidgetConfigurationsEditor(
       BuildContext context, MosaicoWidget widget) async {
@@ -123,6 +113,16 @@ class InstalledWidgetsState extends LoadableState {
   Future<void> refresh() async {
     _widgets = await _widgetsRepository.getInstalledWidgets();
     notifyListeners();
+  }
+
+  /// Get a widget by its id
+  MosaicoWidget? getWidgetById(int id) {
+    for (var widget in _widgets) {
+      if (widget.id == id) {
+        return widget;
+      }
+    }
+    return null;
   }
 
   @override
