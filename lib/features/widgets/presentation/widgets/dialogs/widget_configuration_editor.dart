@@ -5,15 +5,13 @@ import 'package:mosaico_flutter_core/common/widgets/mosaico_button.dart';
 import 'package:mosaico_flutter_core/common/widgets/mosaico_text_button.dart';
 import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/states/mosaico_loading_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
-import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget_configuration.dart';
 import 'package:provider/provider.dart';
 
-import '../../states/installed_widgets_state.dart';
 
 class WidgetConfigurationEditor extends StatelessWidget {
   final MosaicoWidget widget;
 
-  WidgetConfigurationEditor({required this.widget});
+  const WidgetConfigurationEditor({super.key, required this.widget});
 
   @override
   Widget build(BuildContext context) {

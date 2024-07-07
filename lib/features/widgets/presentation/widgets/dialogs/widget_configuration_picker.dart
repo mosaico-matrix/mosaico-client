@@ -4,7 +4,7 @@ import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaic
 class WidgetConfigurationPicker extends StatelessWidget {
 
   final List<MosaicoWidgetConfiguration> configurations;
-  WidgetConfigurationPicker({required this.configurations});
+  const WidgetConfigurationPicker({super.key, required this.configurations});
 
   @override
   Widget build(BuildContext context) {

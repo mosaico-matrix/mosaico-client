@@ -66,7 +66,7 @@ class LoadablePage<T extends LoadableState> extends StatelessWidget {
       numberOfDrops: 100,
       dropFallSpeed: 0.2,
       dropHeight: 0.8,
-      dropColors: [
+      dropColors: const [
         Colors.red,
         Colors.green,
         Colors.blue,

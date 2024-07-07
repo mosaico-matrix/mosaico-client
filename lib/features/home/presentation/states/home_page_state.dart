@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mosaico/features/slideshows/presentation/pages/slideshows_page.dart';
-import 'package:mosaico/features/store/presentation/pages/store_page.dart';
 import 'package:mosaico/features/widgets/presentation/pages/installed_widgets_page.dart';
 import '../../data/models/tab_page.dart';
 
@@ -20,8 +19,8 @@ class HomePageState extends ChangeNotifier {
   /// List of pages
   List<TabPage> pages = [
     TabPage(
-        page: InstalledWidgetsPage(), title: 'Widgets', icon: Icons.widgets),
-    TabPage(page: SlideshowsPage(), title: 'Slideshows', icon: Icons.animation),
+        page: const InstalledWidgetsPage(), title: 'Widgets', icon: Icons.widgets),
+    TabPage(page: const SlideshowsPage(), title: 'Slideshows', icon: Icons.animation),
   ];
 
   /// Change the current page

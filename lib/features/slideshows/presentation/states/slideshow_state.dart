@@ -1,16 +1,19 @@
 import 'package:mosaico/shared/states/loadable_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mosaico_slideshow_item.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mosaico_slideshow.dart';
+import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/repositories/mosaico_slideshows_coap_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget_configuration.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widget_configurations_coap_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_widget_configurations_repository.dart';
+import 'package:mosaico_flutter_core/features/mosaico_slideshows/domain/repositories/mosaico_slideshows_repository.dart';
 
 class SlideshowState extends LoadableState {
   late MosaicoSlideshow _slideshow;
   late bool _newSlideshow;
   final MosaicoWidgetConfigurationsRepository _widgetConfigurationsRepository =
       MosaicoWidgetConfigurationsCoapRepository();
+  MosaicoSlideshowsRepository _slideshowsRepository = MosaicoSlideshowsCoapRepository();
 
   SlideshowState(MosaicoSlideshow? slideshow) {
     slideshow == null
@@ -49,6 +52,13 @@ class SlideshowState extends LoadableState {
     notifyListeners();
   }
 
+  /// Remove an item from the slideshow
+  void removeSlideshowItem(MosaicoSlideshowItem slideshowItem) {
+    _slideshow.items.remove(slideshowItem);
+    notifyListeners();
+  }
+
+
   /// Returns the number of items in the slideshow
   int getItemsCount() {
     return _slideshow.items.length;
@@ -65,7 +75,6 @@ class SlideshowState extends LoadableState {
   /// Updates the duration of an item in the slideshow
   void updateItemDuration(MosaicoSlideshowItem slideshowItem, String value) {
     slideshowItem.secondsDuration = int.parse(value);
-    notifyListeners();
   }
 
 
@@ -105,9 +114,16 @@ class SlideshowState extends LoadableState {
     return configurations;
   }
 
+  Future<void> saveSlideshow() async {
+    loadingState.showLoading();
+    _slideshow = await _slideshowsRepository.createOrUpdateSlideshow(_slideshow);
+    loadingState.hideLoading();
+  }
+
   @override
   bool empty() {
     return _slideshow.items.isEmpty;
   }
+
 
 }

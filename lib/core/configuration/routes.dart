@@ -4,7 +4,6 @@ import 'package:mosaico/shared/pages/widget_details/mosaico_widget_details_page.
 import '../../features/debug/presentation/pages/debug.dart';
 import '../../features/slideshows/presentation/pages/slideshow_page.dart';
 import '../../features/store/presentation/pages/store_page.dart';
-import '../../features/widgets/presentation/pages/installed_widgets_page.dart';
 
 class Routes {
 
@@ -16,9 +15,9 @@ class Routes {
   static Map<String, WidgetBuilder> getRoutes() {
     return <String, WidgetBuilder>{
       debug: (context) => const DebugPage(),
-      store: (context) => StorePage(),
+      store: (context) => const StorePage(),
       widgetDetails: (context) => const MosaicoWidgetDetailsPage(),
-      slideshow: (context) => SlideshowPage(),
+      slideshow: (context) => const SlideshowPage(),
     };
   }
 

@@ -15,14 +15,9 @@ class SlideshowsState extends LoadableState
   @override
   Future<void> loadResource() async {
     loadingState.showLoading();
-    //slideshows = await _mosaicoSlideshowsRepository.getSlideshows();
+    slideshows = await _mosaicoSlideshowsRepository.getSlideshows();
     loadingState.hideLoading();
     notifyListeners();
-  }
-
-
-  Future<void> createSlideshow(MosaicoSlideshow slideshow) async {
-
   }
 
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mosaico/features/slideshows/presentation/states/slideshows_state.dart';
-import 'package:mosaico/features/slideshows/presentation/widgets/slideshow_tile.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/configuration/routes.dart';
 import '../../../../shared/widgets/loadable_page.dart';
+import '../widgets/slideshow_tile.dart';
 
 class SlideshowsPage extends StatelessWidget {
 
@@ -28,7 +28,7 @@ class SlideshowsPage extends StatelessWidget {
           return ListView.builder(
             itemCount: slideshowsState.slideshows.length,
             itemBuilder: (context, index) {
-             // return SlideshowTile(slideshowsState.slideshows[index]);
+              return SlideshowTile(slideshow: slideshowsState.slideshows[index]);
             },
           );
         },

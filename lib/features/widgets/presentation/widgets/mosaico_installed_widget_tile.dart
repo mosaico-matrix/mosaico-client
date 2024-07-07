@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class MosaicoInstalledWidgetTile extends StatelessWidget {
   final MosaicoWidget widget;
 
-  MosaicoInstalledWidgetTile({required this.widget, super.key});
+  const MosaicoInstalledWidgetTile({required this.widget, super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -2,11 +2,9 @@ import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:mosaico/features/slideshows/presentation/states/slideshow_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mosaico_slideshow_item.dart';
-import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget_configuration.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../widgets/presentation/states/installed_widgets_state.dart';
 
 class SlideshowItemCardConfigSelect extends StatelessWidget {
 

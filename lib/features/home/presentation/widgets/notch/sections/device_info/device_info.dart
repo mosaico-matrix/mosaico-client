@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mosaico/features/home/presentation/widgets/notch/sections/device_info/device_info_key_value.dart';
 import 'package:mosaico/features/home/presentation/widgets/notch/sections/notch_section.dart';
-import 'package:mosaico_flutter_core/common/widgets/mosaico_text_button.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/presentation/states/mosaico_device_state.dart';
 import 'package:provider/provider.dart';
 

@@ -4,7 +4,6 @@ import 'package:mosaico/shared/pages/widget_details/widgets/mosaico_widget_descr
 import 'package:mosaico/shared/pages/widget_details/widgets/mosaico_widget_images_carousel.dart';
 import 'package:mosaico/shared/pages/widget_details/widgets/mosaico_widget_info.dart';
 import 'package:mosaico/shared/states/mosaico_widget_details_state.dart';
-import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/states/mosaico_loading_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +12,7 @@ import '../../widgets/loadable_page.dart';
 class MosaicoWidgetDetailsPage extends StatelessWidget {
   static const double spacing = 16;
 
-  const MosaicoWidgetDetailsPage({Key? key}) : super(key: key);
+  const MosaicoWidgetDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +56,7 @@ class MosaicoWidgetDetailsPage extends StatelessWidget {
                       MosaicoWidgetDescription(
                           description: state.storeWidget.description),
                       const SizedBox(height: spacing),
-                      MosaicoWidgetInfo(),
+                      const MosaicoWidgetInfo(),
                     ],
                   ),
                 ),

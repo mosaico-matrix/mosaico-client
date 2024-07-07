@@ -1,3 +1,5 @@
+import 'package:animated_expandable_fab/expandable_fab/action_button.dart';
+import 'package:animated_expandable_fab/expandable_fab/expandable_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:mosaico/features/slideshows/presentation/widgets/slideshow_editor.dart';
 import 'package:mosaico_flutter_core/common/widgets/renamable_app_bar.dart';
@@ -25,16 +27,35 @@ class SlideshowPage extends StatelessWidget {
             noDataHintText: "Try to add a new item with the button below",
             appBar: RenamableAppBar(
               promptText: "Enter slideshow name",
-              askOnLoad: true,
+              askOnLoad: editingSlideshow == null,
               initialTitle: slideshowState.getSlideshowName(),
               onTitleChanged: (String newName) {
                 slideshowState.setSlideshowName(newName);
               },
             ),
-            fab: FloatingActionButton(
-              onPressed: () => slideshowState.addSlideshowItem(),
-              child: const Icon(Icons.add),
-            ),
+            fab: ExpandableFab(
+                distance: 100,
+                openIcon: const Icon(Icons.menu),
+                closeBackgroundColor: Colors.white,
+                closeIcon: Icon(Icons.close, color: Theme.of(context).colorScheme.error),
+                children: [
+                  ActionButton(
+                    onPressed: () => slideshowState.addSlideshowItem(),
+                   icon: const Icon(Icons.add, color: Colors.white),
+                  ),
+                  ActionButton(
+                    onPressed: () => slideshowState.saveSlideshow(),
+                    icon: const Icon(Icons.save, color: Colors.white),
+                  ),
+                  ActionButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.play_arrow, color: Colors.white),
+                  ),
+                ],
+              ),
+
+
+
             state: slideshowState,
             child: const SlideshowEditor(),
           )

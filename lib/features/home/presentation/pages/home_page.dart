@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:mosaico/features/home/presentation/widgets/home_tab_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import '../../../../core/configuration/constants.dart';
 import '../states/home_page_state.dart';
 import '../widgets/notch/device_notch.dart';
 
@@ -30,7 +28,7 @@ class HomePage extends StatelessWidget {
                 ),
                 body: Container(
                   padding: const EdgeInsets.only(
-                    top: HomePageState.notchHeight,
+                    top: HomePageState.notchHeight + 10,
                     bottom: HomePageState.tabBarHeight + 35,
                   ),
                     child: state.getActivePage().page

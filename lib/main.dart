@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mosaico/features/home/presentation/pages/home_page.dart';
-import 'package:mosaico/features/slideshows/presentation/states/slideshow_state.dart';
 import 'package:mosaico/features/widgets/presentation/states/installed_widgets_state.dart';
 import 'package:mosaico_flutter_core/core/configuration/app_color_scheme.dart';
 import 'package:mosaico_flutter_core/core/exceptions/exception_handler.dart';

@@ -7,7 +7,7 @@ import '../widgets/mosaico_installed_widget_tile.dart';
 
 class InstalledWidgetsPage extends StatelessWidget {
 
-  InstalledWidgetsPage({super.key});
+  const InstalledWidgetsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
