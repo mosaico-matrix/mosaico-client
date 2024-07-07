@@ -14,10 +14,6 @@ class SlideshowEditor extends StatelessWidget {
     var slideshowState = Provider.of<SlideshowState>(context);
     var slideshowItems = slideshowState.getItems();
 
-    for (var i = 0; i < slideshowItems.length; i++) {
-      print('Item at position ${slideshowItems[i].position} has widgetId: ${slideshowItems[i].widgetId}');
-    }
-
     return DragAndDropLists(
       onItemReorder: (oldItemIndex, oldListIndex, newItemIndex, newListIndex) {
         slideshowState.updateItemPosition(oldItemIndex, newItemIndex);

@@ -114,9 +114,18 @@ class SlideshowState extends LoadableState {
     return configurations;
   }
 
+  /// Create or update a slideshow
   Future<void> saveSlideshow() async {
     loadingState.showLoading();
     _slideshow = await _slideshowsRepository.createOrUpdateSlideshow(_slideshow);
+    loadingState.hideLoading();
+    notifyListeners();
+  }
+
+  /// Activate slideshow on the matrix
+  Future<void> activateSlideshow() async {
+    loadingState.showLoading();
+    await _slideshowsRepository.setActiveSlideshow(_slideshow);
     loadingState.hideLoading();
   }
 

@@ -26,6 +26,7 @@ class SlideshowsPage extends StatelessWidget {
       child: Consumer<SlideshowsState>(
         builder: (context, slideshowsState, _) {
           return ListView.builder(
+            padding: const EdgeInsets.all(0),
             itemCount: slideshowsState.slideshows.length,
             itemBuilder: (context, index) {
               return SlideshowTile(slideshow: slideshowsState.slideshows[index]);

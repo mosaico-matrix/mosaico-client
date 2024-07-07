@@ -48,7 +48,7 @@ class SlideshowPage extends StatelessWidget {
                     icon: const Icon(Icons.save, color: Colors.white),
                   ),
                   ActionButton(
-                    onPressed: () {},
+                    onPressed: () => slideshowState.activateSlideshow(),
                     icon: const Icon(Icons.play_arrow, color: Colors.white),
                   ),
                 ],
