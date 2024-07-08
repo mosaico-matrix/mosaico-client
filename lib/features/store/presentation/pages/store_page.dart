@@ -2,16 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mosaico/features/store/presentation/states/store_state.dart';
 import 'package:mosaico/features/store/presentation/widgets/mosaico_store_widget_tile.dart';
 import 'package:mosaico/shared/widgets/loadable_page.dart';
-import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/states/mosaico_loading_state.dart';
-import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/widgets/mosaico_loading_indicator.dart';
 import 'package:provider/provider.dart';
-import 'package:mosaico_flutter_core/common/widgets/empty_placeholder.dart';
-
-import '../../../widgets/presentation/states/installed_widgets_state.dart';
 
 class StorePage extends StatelessWidget {
 
-  StorePage({super.key});
+  const StorePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +16,7 @@ class StorePage extends StatelessWidget {
     );
 
     return LoadablePage<StoreState>(
-      heading: Text('Store'),
+      appBar:AppBar(title:  const Text('Store')),
       state: storeState,
       child: Consumer<StoreState>(
         builder: (context, storeState, _) {

@@ -21,7 +21,7 @@ class DebugPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            DebugSection(
+            const DebugSection(
               title: 'BLE',
               content: BleSection(),
             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mosaico/features/store/presentation/states/store_state.dart';
 import 'package:mosaico/shared/widgets/mosaico_widget_tile.dart';
-import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/widgets/mosaico_loading_indicator_small.dart';
+import 'package:mosaico_flutter_core/common/widgets/matrices/loading_matrix.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +21,7 @@ class MosaicoStoreWidgetTile extends StatelessWidget {
 
     // Show loading indicator
     if (storeState.isInstalling(widget.storeId!)) {
-      return MosaicoLoadingIndicatorSmall();
+      return LoadingMatrix(ledHeight: 5, n: 4);
     }
 
     // Show checkmark

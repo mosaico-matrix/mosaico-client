@@ -1,5 +1,3 @@
-import 'package:mosaico/core/configuration/routes.dart';
-import '../../shared/widgets/carousel_menu_item.dart';
 
 class CarouselMenuItems {
   //static const List<CarouselMenuItem> widgetsMenuItems = [

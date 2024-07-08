@@ -20,10 +20,11 @@ void main() {
         state: loadingState,
         // Also the toasts are needed in the whole app
         child: ToastificationWrapper(
-          child: ChangeNotifierProvider(
-            // Installed widgets state is required also in other routes
-            // Like in the store page when a new widget is installed
-            create: (context) => InstalledWidgetsState(),
+          child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (context) => MosaicoDeviceState()),
+              ChangeNotifierProvider(create: (context) => InstalledWidgetsState()),
+            ],
             child: const App(),
           ),
         ),
@@ -46,10 +47,7 @@ class App extends StatelessWidget {
         colorScheme: AppColorScheme.getDefaultColorScheme(),
       ),
       home: Builder(
-        builder: (context) => ChangeNotifierProvider(
-          create: (context) => MosaicoDeviceState(),
-          child: const HomePage(),
-        ),
+        builder: (context) => const HomePage(),
       ),
     );
   }

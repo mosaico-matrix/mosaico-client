@@ -22,7 +22,7 @@ class CarouselMenuItem
               children: <Widget>[
                 ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                    backgroundColor: WidgetStateProperty.all(Colors.white),
                   ),
                   onPressed: () => Navigator.of(context).pushNamed(route),
                   child: const Text('Open', style: TextStyle(color: Colors.black)),

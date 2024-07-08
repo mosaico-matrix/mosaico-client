@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 class MosaicoWidgetImagesCarousel extends StatelessWidget {
   final List<String>? images;
 
-  const MosaicoWidgetImagesCarousel({Key? key, required this.images})
-      : super(key: key);
+  const MosaicoWidgetImagesCarousel({super.key, required this.images});
 
   @override
   Widget build(BuildContext context) {

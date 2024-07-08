@@ -5,11 +5,10 @@ import 'package:mosaico_flutter_core/features/config_generator/presentation/page
 import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/states/mosaico_loading_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget_configuration.dart';
-import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widget_configurations_repository_impl.dart';
-import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_repository_impl.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widget_configurations_coap_repository.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_coap_repository.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_local_widgets_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_widget_configurations_repository.dart';
-import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_widgets_repository.dart';
-import 'package:provider/provider.dart';
 
 class WidgetConfigurationEditorState extends ChangeNotifier {
   final MosaicoLoadingState loadingState;
@@ -17,10 +16,10 @@ class WidgetConfigurationEditorState extends ChangeNotifier {
   WidgetConfigurationEditorState(this.loadingState);
 
   /// Repositories
-  final MosaicoWidgetsRepository _widgetsRepository =
-      MosaicoWidgetsRepositoryImpl();
+  final MosaicoLocalWidgetsRepository _widgetsRepository =
+      MosaicoWidgetsCoapRepository();
   final MosaicoWidgetConfigurationsRepository _configurationsRepository =
-      MosaicoWidgetConfigurationsRepositoryImpl();
+      MosaicoWidgetConfigurationsCoapRepository();
 
   /// List of configurations
   List<MosaicoWidgetConfiguration>? _configurations;
