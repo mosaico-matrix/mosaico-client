@@ -5,6 +5,12 @@ class MosaicoConfigurationTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return ListTile(
+      title: Text('Configuration'),
+      trailing: IconButton(
+        icon: const Icon(Icons.delete),
+        onPressed: () => print('Delete configuration'),
+      ),
+    );
   }
 }

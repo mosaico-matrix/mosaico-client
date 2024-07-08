@@ -13,7 +13,8 @@ class SlideshowState extends LoadableState {
   late bool _newSlideshow;
   final MosaicoWidgetConfigurationsRepository _widgetConfigurationsRepository =
       MosaicoWidgetConfigurationsCoapRepository();
-  MosaicoSlideshowsRepository _slideshowsRepository = MosaicoSlideshowsCoapRepository();
+  MosaicoSlideshowsRepository _slideshowsRepository =
+      MosaicoSlideshowsCoapRepository();
 
   SlideshowState(MosaicoSlideshow? slideshow) {
     slideshow == null
@@ -58,7 +59,6 @@ class SlideshowState extends LoadableState {
     notifyListeners();
   }
 
-
   /// Returns the number of items in the slideshow
   int getItemsCount() {
     return _slideshow.items.length;
@@ -71,12 +71,10 @@ class SlideshowState extends LoadableState {
     notifyListeners();
   }
 
-
   /// Updates the duration of an item in the slideshow
   void updateItemDuration(MosaicoSlideshowItem slideshowItem, String value) {
     slideshowItem.secondsDuration = int.parse(value);
   }
-
 
   /// Disabled when did not select a widget
   bool shouldSelectConfiguration(MosaicoSlideshowItem slideshowItem) {
@@ -102,8 +100,8 @@ class SlideshowState extends LoadableState {
       MosaicoSlideshowItem slideshowItem) async {
     if (!shouldSelectConfiguration(slideshowItem)) return [];
 
-    return await _widgetConfigurationsRepository
-        .getWidgetConfigurations(widgetId: slideshowItem.widgetId);
+    return await _widgetConfigurationsRepository.getWidgetConfigurations(
+        widgetId: slideshowItem.widgetId);
   }
 
   /// Return a list of widget configurations
@@ -117,13 +115,19 @@ class SlideshowState extends LoadableState {
   /// Create or update a slideshow
   Future<void> saveSlideshow() async {
     loadingState.showLoading();
-    _slideshow = await _slideshowsRepository.createOrUpdateSlideshow(_slideshow);
+    _slideshow =
+        await _slideshowsRepository.createOrUpdateSlideshow(_slideshow);
+    _newSlideshow = false; // Now it's an existing slideshow ;)
     loadingState.hideLoading();
     notifyListeners();
   }
 
   /// Activate slideshow on the matrix
   Future<void> activateSlideshow() async {
+
+    // Save before activating
+    await saveSlideshow();
+
     loadingState.showLoading();
     await _slideshowsRepository.setActiveSlideshow(_slideshow);
     loadingState.hideLoading();
@@ -133,6 +137,4 @@ class SlideshowState extends LoadableState {
   bool empty() {
     return _slideshow.items.isEmpty;
   }
-
-
 }

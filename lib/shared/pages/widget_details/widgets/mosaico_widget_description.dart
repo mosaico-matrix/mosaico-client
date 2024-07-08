@@ -9,11 +9,22 @@ class MosaicoWidgetDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return Column(
       children: [
         const MosaicoHeading(text: 'Description'),
         const Divider(),
-        MarkdownBody(data: description),
+        MarkdownBody(data: description, styleSheet: MarkdownStyleSheet.fromTheme(
+
+          // Edit a bit the theme
+          Theme.of(context).copyWith(
+            textTheme: Theme.of(context).textTheme.apply(
+              bodyColor: Colors.white,
+              displayColor: Colors.white
+            ) )
+        )),
       ],
     );
   }

@@ -28,17 +28,17 @@ class WidgetConfigurationEditor extends StatelessWidget {
               title: const Text('Configurations'),
               actionsOverflowAlignment: OverflowBarAlignment.center,
               actions: [
-                // Add new configuration button
-                MosaicoButton(
-                    text: 'Add new configuration',
-                    onPressed: () =>
-                        state.addNewConfiguration(context, widget)),
                 MosaicoTextButton(
                   text: 'Close',
                   onPressed: () {
                     Navigator.pop(context);
                   },
                 ),
+                MosaicoButton(
+                    text: 'Add new configuration',
+                    onPressed: () =>
+                        state.addNewConfiguration(context, widget)),
+
               ],
 
               content: state.configurations.isEmpty

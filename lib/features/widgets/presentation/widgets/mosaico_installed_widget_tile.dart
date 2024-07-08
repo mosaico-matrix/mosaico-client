@@ -12,31 +12,44 @@ class MosaicoInstalledWidgetTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final installedWidgetsState = Provider.of<InstalledWidgetsState>(context, listen: false);
+    final installedWidgetsState =
+        Provider.of<InstalledWidgetsState>(context, listen: false);
 
     return Container(
       child: MosaicoWidgetTile(
-          widget: widget,
-          slidableActions: [
-            Visibility(
-              visible: widget.metadata!.configurable,
-              child: SlidableAction(
-                onPressed: (context) => installedWidgetsState.showWidgetConfigurationsEditor(context, widget),
-                backgroundColor: const Color(0xFF4A90E2),
-                foregroundColor: Colors.white,
-                icon: Icons.construction,
-              ),
+        widget: widget,
+        trailing: PopupMenuButton(itemBuilder: (BuildContext context) {
+          return [
+            PopupMenuItem(
+              child: ListTile(
+                  title: const Text('Edit configurations'),
+                  leading: const Icon(Icons.construction),
+                  onTap: () async {
+                    Navigator.of(context).pop();
+                    await installedWidgetsState.showWidgetConfigurationsEditor(
+                        context, widget);
+
+                  }),
             ),
-            SlidableAction(
-              onPressed: (context) => installedWidgetsState.uninstallWidget(context, widget),
-              backgroundColor: const Color(0xFFFE4A49),
-              foregroundColor: Colors.white,
-              icon: Icons.delete,
-            ),
-          ],
-          trailing: IconButton(
-              onPressed: () => installedWidgetsState.previewWidget(context, widget),
-              icon: const Icon(Icons.play_arrow_outlined))),
+            PopupMenuItem(
+                child: ListTile(
+                    title: const Text('Preview'),
+                    leading: const Icon(Icons.play_arrow),
+                    onTap: () async {
+                      Navigator.of(context).pop();
+                      await installedWidgetsState.previewWidget(context, widget);
+                    })),
+            PopupMenuItem(
+                child: ListTile(
+                    title: const Text('Delete'),
+                    leading: Icon(Icons.delete, color: Theme.of(context).colorScheme.error),
+                    onTap: () async {
+                      Navigator.of(context).pop();
+                      await installedWidgetsState.uninstallWidget(context, widget);
+                    }))
+          ];
+        }),
+      ),
     );
   }
 }

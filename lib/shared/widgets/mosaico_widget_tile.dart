@@ -9,8 +9,7 @@ class MosaicoWidgetTile extends StatelessWidget {
 
   final MosaicoWidget widget;
   final Widget? trailing;
-  final List<Widget>? slidableActions;
-  const MosaicoWidgetTile({super.key, required this.widget, this.trailing, this.slidableActions});
+  const MosaicoWidgetTile({super.key, required this.widget, this.trailing});
 
   @override
   Widget build(BuildContext context) {
