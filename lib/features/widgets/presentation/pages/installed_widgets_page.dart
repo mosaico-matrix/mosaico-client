@@ -11,6 +11,7 @@ class InstalledWidgetsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return LoadablePage<InstalledWidgetsState>(
       noDataHintText: 'Visit the store to discover new widgets!',
       state: Provider.of(context, listen: false),

@@ -17,7 +17,7 @@ class DeviceStatusNotch extends StatelessWidget {
     });
 
     return const Padding(
-      padding: EdgeInsets.only(bottom: 10, left: 30, right: 30),
+      padding: EdgeInsets.only(bottom: 10, left: 25, right: 25),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [

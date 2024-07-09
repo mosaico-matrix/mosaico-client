@@ -34,8 +34,8 @@ class LoadablePage<T extends LoadableState> extends StatelessWidget {
     state.setLoadingState(loadingState);
 
     // Call init after the widget is built
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      state.init();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await state.init(context);
     });
 
     return ChangeNotifierProvider<T>(

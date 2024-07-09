@@ -17,27 +17,25 @@ class HomePage extends StatelessWidget {
       child: Consumer<HomePageState>(
         builder: (context, state, child) {
           return Scaffold(
-            body: Container(
-              child: SlidingUpPanel(
-                slideDirection: SlideDirection.DOWN,
-                maxHeight: MediaQuery.of(context).size.height * 0.8,
-                minHeight: HomePageState.notchHeight,
-                parallaxEnabled: true,
-                parallaxOffset:1,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(HomePageState.edgeRadius),
-                  bottomRight: Radius.circular(HomePageState.edgeRadius),
+            body: SlidingUpPanel(
+              slideDirection: SlideDirection.DOWN,
+              maxHeight: MediaQuery.of(context).size.height * 0.8,
+              minHeight: HomePageState.notchHeight,
+              parallaxEnabled: true,
+              parallaxOffset:1,
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(HomePageState.edgeRadius),
+                bottomRight: Radius.circular(HomePageState.edgeRadius),
+              ),
+              panel: const Center(
+                child: DeviceStatusNotch(),
+              ),
+              body: Container(
+                padding: EdgeInsets.only(
+                  top: HomePageState.notchHeight + 10,
+                  bottom: HomePageState.tabBarHeight + (Platform.isIOS ? 35 : 0),
                 ),
-                panel: const Center(
-                  child: DeviceStatusNotch(),
-                ),
-                body: Container(
-                  padding: EdgeInsets.only(
-                    top: HomePageState.notchHeight + 10,
-                    bottom: HomePageState.tabBarHeight + (Platform.isIOS ? 35 : 0),
-                  ),
-                    child: state.getActivePage().page
-                ),
+                  child: state.getActivePage().page
               ),
             ),
             floatingActionButtonLocation:
