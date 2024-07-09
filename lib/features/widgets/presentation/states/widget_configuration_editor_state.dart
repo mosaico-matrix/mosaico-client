@@ -43,6 +43,7 @@ class WidgetConfigurationEditorState extends ChangeNotifier {
   /// Add a new configuration to the widget
   Future<void> addNewConfiguration(
       BuildContext context, MosaicoWidget widget) async {
+
     // Get configuration form
     loadingState.showOverlayLoading();
     var configForm = await _widgetsRepository.getWidgetConfigurationForm(
@@ -91,10 +92,46 @@ class WidgetConfigurationEditorState extends ChangeNotifier {
 
     loadingState.showOverlayLoading();
     await _configurationsRepository.deleteWidgetConfiguration(
-        configurationId: configuration.id);
+        configurationId: configuration.id!);
     loadingState.hideOverlayLoading();
 
     _configurations!.remove(configuration);
     notifyListeners();
+  }
+
+  /// Downloads the previous configuration and allows the user to edit it
+  Future<void> editConfiguration(BuildContext context, MosaicoWidgetConfiguration configuration, MosaicoWidget widget) async {
+
+    loadingState.showOverlayLoading();
+
+    // Get previous configuration package
+    var oldPackagePath = await _configurationsRepository.getWidgetConfigurationPackage(configurationId: configuration.id!);
+
+    // Get configuration form
+    var configForm = await _widgetsRepository.getWidgetConfigurationForm(widgetId: widget.id);
+    loadingState.hideOverlayLoading();
+
+
+    // Make user fill the configuration form
+    ConfigOutput? generatedConfig = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ConfigFormPage(configForm, oldConfigDirPath: oldPackagePath, initialConfigName: configuration.name),
+      ),
+    );
+
+    // User dismissed the configuration form
+    if (generatedConfig == null) {
+      return;
+    }
+
+    // Upload the configuration to the matrix
+    loadingState.showOverlayLoading();
+    var newConfig = await _configurationsRepository.uploadWidgetConfiguration(
+        widgetId: widget.id,
+        configurationName: generatedConfig.getConfigName(),
+        configurationArchivePath: generatedConfig.exportToArchive());
+    loadingState.hideOverlayLoading();
+
+
   }
 }

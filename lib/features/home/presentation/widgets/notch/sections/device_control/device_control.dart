@@ -13,16 +13,34 @@ class DeviceControl extends StatelessWidget {
     var deviceState = Provider.of<MosaicoDeviceState>(context);
 
     return NotchSection(
-        title: "Device Control",
+      title: "Device Control",
+      child: SingleChildScrollView(
         child: Column(
           children: [
             MosaicoButton(
               icon: Icons.stop,
-                onPressed: () async {
-              await deviceState.stopActiveWidget();
-            }, text: "Stop active widget"),
-
+              onPressed: () async {
+                await deviceState.stopActiveWidget();
+              },
+              text: "Stop active widget",
+            ),
+            MosaicoButton(
+              icon: Icons.wifi,
+              onPressed: () async {
+                await deviceState.sendNetworkCredentials(context);
+              },
+              text: "Send WiFi credentials",
+            ),
+            MosaicoButton(
+              icon: Icons.edit,
+              onPressed: () async {
+                await deviceState.setManualMatrixIp(context);
+              },
+              text: "Set manual matrix address",
+            ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }

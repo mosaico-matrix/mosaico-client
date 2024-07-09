@@ -11,25 +11,29 @@ class DeviceInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var deviceState = Provider.of<MosaicoDeviceState>(context);
-
-    return NotchSection(
-        title: "Device Info",
-        child: Column(
-          children: [
-            DeviceInfoKeyValue(
-                keyText: 'Widget:', valueText: deviceState.activeWidgetName),
-            DeviceInfoKeyValue(
-                keyText: 'Configuration:',
-                valueText: deviceState.activeWidgetConfigurationName),
-            GestureDetector(
-              onDoubleTap: () {
-                Navigator.pushNamed(context, Routes.debug);
-              },
-              child: const DeviceInfoKeyValue(
-                  keyText: 'Version:', valueText: 'idk'),
-            ),
-          ],
-        ));
+    return Consumer<MosaicoDeviceState>(
+        builder: (context, deviceState, _) {
+      return NotchSection(
+          title: "Device Info",
+          child: Column(
+            children: [
+              DeviceInfoKeyValue(
+                  keyText: 'Widget:', valueText: deviceState.activeWidgetName),
+              DeviceInfoKeyValue(
+                  keyText: 'Configuration:',
+                  valueText: deviceState.activeWidgetConfigurationName),
+              DeviceInfoKeyValue(
+                  keyText: 'Address:',
+                  valueText: deviceState.matrixIp),
+              GestureDetector(
+                onDoubleTap: () {
+                  Navigator.pushNamed(context, Routes.debug);
+                },
+                child: DeviceInfoKeyValue(
+                    keyText: 'Version:', valueText: deviceState.deviceVersion),
+              ),
+            ],
+          ));
+    });
   }
 }

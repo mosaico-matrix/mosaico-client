@@ -21,10 +21,12 @@ class DeviceStatusNotch extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          DeviceInfo(),
+          DeviceControl(),
+          SizedBox(height: 15),
           Divider(color: Colors.grey),
           SizedBox(height: 15),
-          DeviceControl(),
+          DeviceInfo(),
+          SizedBox(height: 15),
           Divider(color: Colors.grey),
           SizedBox(height: 50),
           DeviceStatus(),

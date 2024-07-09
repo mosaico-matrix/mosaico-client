@@ -82,7 +82,7 @@ class CoapSection extends StatelessWidget {
     var configs = await WidgetConfigurationsService.getWidgetConfigurations(widgetId: (await getFirstWidget()).id);
     for (var config in configs) {
       if (config.name == "TEST") {
-        await WidgetConfigurationsService.deleteWidgetConfiguration(configurationId: config.id);
+        await WidgetConfigurationsService.deleteWidgetConfiguration(configurationId: config.id!);
         return;
       }
     }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:mosaico/features/slideshows/presentation/pages/slideshows_page.dart';
 import 'package:mosaico/features/widgets/presentation/pages/installed_widgets_page.dart';
@@ -7,7 +9,7 @@ class HomePageState extends ChangeNotifier {
 
   static const double edgeRadius = 40;
   static const double notchHeight = 150;
-  static const double tabBarHeight = 60;
+  static double tabBarHeight = Platform.isAndroid ? 70 : 60;
 
   /*
   * Bottom Navigation Bar

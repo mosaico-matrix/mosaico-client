@@ -129,7 +129,7 @@ class SlideshowState extends LoadableState {
     await saveSlideshow();
 
     loadingState.showLoading();
-    await _slideshowsRepository.setActiveSlideshow(_slideshow);
+    await _slideshowsRepository.setActiveSlideshow(_slideshow.id!);
     loadingState.hideLoading();
   }
 

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:mosaico/features/home/presentation/widgets/home_tab_bar.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +20,10 @@ class HomePage extends StatelessWidget {
             body: Container(
               child: SlidingUpPanel(
                 slideDirection: SlideDirection.DOWN,
+                maxHeight: MediaQuery.of(context).size.height * 0.8,
                 minHeight: HomePageState.notchHeight,
+                parallaxEnabled: true,
+                parallaxOffset:1,
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(HomePageState.edgeRadius),
                   bottomRight: Radius.circular(HomePageState.edgeRadius),
@@ -27,9 +32,9 @@ class HomePage extends StatelessWidget {
                   child: DeviceStatusNotch(),
                 ),
                 body: Container(
-                  padding: const EdgeInsets.only(
+                  padding: EdgeInsets.only(
                     top: HomePageState.notchHeight + 10,
-                    bottom: HomePageState.tabBarHeight + 35,
+                    bottom: HomePageState.tabBarHeight + (Platform.isIOS ? 35 : 0),
                   ),
                     child: state.getActivePage().page
                 ),
