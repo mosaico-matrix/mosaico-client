@@ -40,6 +40,17 @@ class SlideshowTile extends StatelessWidget {
                                   })),
                           PopupMenuItem(
                               child: ListTile(
+                                  title: const Text('Edit'),
+                                  leading: const Icon(Icons.edit),
+                                  onTap: () async {
+                                    Navigator.of(context).pop();
+                                    await Navigator.pushNamed(
+                                        context, Routes.slideshow,
+                                        arguments: slideshow);
+                                  })),
+
+                          PopupMenuItem(
+                              child: ListTile(
                                   title: const Text('Delete'),
                                   leading: Icon(Icons.delete,
                                       color:

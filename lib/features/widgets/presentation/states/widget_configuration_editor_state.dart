@@ -126,12 +126,15 @@ class WidgetConfigurationEditorState extends ChangeNotifier {
 
     // Upload the configuration to the matrix
     loadingState.showOverlayLoading();
-    var newConfig = await _configurationsRepository.uploadWidgetConfiguration(
-        widgetId: widget.id,
+    var updatedConfig = await _configurationsRepository.updateWidgetConfiguration(
+        configurationId: configuration.id!,
         configurationName: generatedConfig.getConfigName(),
         configurationArchivePath: generatedConfig.exportToArchive());
     loadingState.hideOverlayLoading();
 
-
+    // Update the configuration in the list
+    var index = _configurations!.indexWhere((element) => element.id == configuration.id);
+    _configurations![index] = updatedConfig;
+    notifyListeners();
   }
 }

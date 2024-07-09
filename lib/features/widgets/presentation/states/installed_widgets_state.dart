@@ -123,6 +123,10 @@ class InstalledWidgetsState extends LoadableState {
     return null;
   }
 
+  // List<MosaicoWidgetConfiguration> getWidgetConfigurations(int widgetId) {
+  //   return [];
+  // }
+
   @override
   /// Prevent this state from being disposed
   void dispose() {

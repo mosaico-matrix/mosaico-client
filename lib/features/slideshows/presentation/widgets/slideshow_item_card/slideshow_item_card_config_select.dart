@@ -13,35 +13,40 @@ class SlideshowItemCardConfigSelect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     // Return null when dragging
     try {
+      // Wait for the configurations to be loaded before building the dropdown
       return FutureBuilder<List<MosaicoWidgetConfiguration>>(
         future: Provider.of<SlideshowState>(context).getWidgetConfigurations(
             slideshowItem.widgetId),
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-            return CustomDropdown<MosaicoWidgetConfiguration>.search(
-              hintText: 'Configuration',
-              items: snapshot.data,
-              excludeSelected: false,
-              onChanged: (configuration) {
-                
-              },
-              // initialItem: installedWidgetsState.getWidgetConfigurationById(slideshowItem.configurationId),
-              listItemBuilder: (context, configuration, _, __) =>
-                  Text(configuration.name),
-              headerBuilder: (context, configuration, _) =>
-                  Text(configuration.name),
-            );
+            return _buildConfigSelect(snapshot.data!, context);
           } else {
             return Container();
           }
         },
       );
     }
-    catch(e) {
+    catch (e) {
       return Container();
     }
+  }
+
+  Widget _buildConfigSelect(List<MosaicoWidgetConfiguration> configurations, BuildContext context) {
+    return CustomDropdown<MosaicoWidgetConfiguration>.search(
+      hintText: 'Configuration',
+      items: configurations,
+      excludeSelected: false,
+      onChanged: (configuration) {
+        var slideshowState = Provider.of<SlideshowState>(context, listen: false);
+        slideshowState.updateItemConfig(slideshowItem, configuration);
+      },
+      initialItem: configurations.where((element) => element.id == slideshowItem.configId).firstOrNull,
+      listItemBuilder: (context, configuration, _, __) =>
+          Text(configuration.name),
+      headerBuilder: (context, configuration, _) =>
+          Text(configuration.name),
+    );
   }
 }

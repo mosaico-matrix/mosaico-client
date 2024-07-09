@@ -1,4 +1,5 @@
 import 'package:mosaico/shared/states/loadable_state.dart';
+import 'package:mosaico_flutter_core/core/utils/toaster.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mosaico_slideshow_item.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mosaico_slideshow.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/repositories/mosaico_slideshows_coap_repository.dart';
@@ -95,6 +96,14 @@ class SlideshowState extends LoadableState {
     notifyListeners();
   }
 
+  void updateItemConfig(
+      MosaicoSlideshowItem slideshowItem, MosaicoWidgetConfiguration? configuration) {
+    if (configuration == null) {
+      return;
+    }
+    slideshowItem.configId = configuration.id;
+  }
+
   /// Get a list of all widget configurations for a widget
   Future<List<MosaicoWidgetConfiguration>> getConfigurations(
       MosaicoSlideshowItem slideshowItem) async {
@@ -114,6 +123,13 @@ class SlideshowState extends LoadableState {
 
   /// Create or update a slideshow
   Future<void> saveSlideshow() async {
+
+    /// Validate slideshow
+    if(_validSlideshow() == false)
+    {
+      return;
+    }
+
     loadingState.showLoading();
     _slideshow =
         await _slideshowsRepository.createOrUpdateSlideshow(_slideshow);
@@ -131,6 +147,26 @@ class SlideshowState extends LoadableState {
     loadingState.showLoading();
     await _slideshowsRepository.setActiveSlideshow(_slideshow.id!);
     loadingState.hideLoading();
+  }
+
+  bool _validSlideshow()
+  {
+    if(_slideshow.name.isEmpty)
+    {
+      Toaster.error("Slideshow name cannot be empty");
+      return false;
+    }
+    if(_slideshow.items.isEmpty || _slideshow.items.length < 2)
+    {
+      Toaster.error("Slideshow must have at least 2 items");
+      return false;
+    }
+    if(_slideshow.items.any((element) => element.widgetId == -1))
+    {
+      Toaster.error("All items must have a widget");
+      return false;
+    }
+    return true;
   }
 
   @override
