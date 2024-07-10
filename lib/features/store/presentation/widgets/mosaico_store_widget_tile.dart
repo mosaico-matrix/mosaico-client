@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 class MosaicoStoreWidgetTile extends StatelessWidget {
   final MosaicoWidget widget;
+
   const MosaicoStoreWidgetTile({required this.widget, super.key});
 
   @override
@@ -18,14 +19,18 @@ class MosaicoStoreWidgetTile extends StatelessWidget {
 
   /// Install widget button or checkmark
   Widget tileTrailing(StoreState storeState) {
-
     // Show loading indicator
     if (storeState.isInstalling(widget.storeId!)) {
       return LoadingMatrix(ledHeight: 5, n: 4);
     }
 
-    // Show checkmark
-    if (widget.installed) {
+    // We don't know if it is installed or not connected to matrix
+    if (widget.installed == null) {
+      return SizedBox(width: 24);
+    }
+
+    // Show checkmark if sure that is installed
+    if (widget.installed == true) {
       return const Icon(Icons.check);
     }
 
