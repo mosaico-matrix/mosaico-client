@@ -21,14 +21,15 @@ class MosaicoInstalledWidgetTile extends StatelessWidget {
         trailing: PopupMenuButton(itemBuilder: (BuildContext context) {
           return [
             PopupMenuItem(
+              enabled: widget.metadata!.configurable,
               child: ListTile(
                   title: const Text('Edit configurations'),
                   leading: const Icon(Icons.construction),
                   onTap: () async {
+                    if (!widget.metadata!.configurable) return;
                     Navigator.of(context).pop();
                     await installedWidgetsState.showWidgetConfigurationsEditor(
                         context, widget);
-
                   }),
             ),
             PopupMenuItem(
