@@ -77,13 +77,9 @@ class SlideshowState extends LoadableState {
     slideshowItem.secondsDuration = int.parse(value);
   }
 
-  /// Disabled when did not select a widget
+  /// When selected a widget that not requires configuration, it should be selected automatically
   bool shouldSelectConfiguration(MosaicoSlideshowItem slideshowItem) {
-    return true;
-    // Check if widget needs configuration
-    // var widget =
-    //
-    // return slideshowItem.widgetId != -1;
+    return slideshowItem.shouldSelectConfiguration;
   }
 
   /// Set a new widget for a slideshow item
@@ -93,6 +89,7 @@ class SlideshowState extends LoadableState {
       return;
     }
     slideshowItem.widgetId = widget.id;
+    slideshowItem.shouldSelectConfiguration = widget.metadata?.configurable == true;
     notifyListeners();
   }
 
@@ -161,11 +158,20 @@ class SlideshowState extends LoadableState {
       Toaster.error("Slideshow must have at least 2 items");
       return false;
     }
-    if(_slideshow.items.any((element) => element.widgetId == -1))
-    {
-      Toaster.error("All items must have a widget");
-      return false;
+
+    for (var item in _slideshow.items) {
+      if(item.widgetId == -1)
+      {
+        Toaster.error("All items must have a widget");
+        return false;
+      }
+      if(item.configId == null && shouldSelectConfiguration(item))
+      {
+        Toaster.error("You didn't select a configuration for a widget");
+        return false;
+      }
     }
+
     return true;
   }
 

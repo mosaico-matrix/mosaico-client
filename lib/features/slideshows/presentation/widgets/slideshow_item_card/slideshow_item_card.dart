@@ -20,6 +20,9 @@ class SlideshowItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    var slideshowState = Provider.of<SlideshowState>(context);
+
     return Consumer<InstalledWidgetsState>(
         builder: (context, installedWidgetsState, _) {
       return Stack(children: [
@@ -30,8 +33,15 @@ class SlideshowItemCard extends StatelessWidget {
                 const SizedBox(height: _spacing),
                 SlideshowItemCardWidgetSelect(slideshowItem: slideshowItem),
                 const SizedBox(height: _spacing),
-                SlideshowItemCardConfigSelect(slideshowItem: slideshowItem),
-                const SizedBox(height: _spacing),
+                Visibility(
+                  visible: slideshowState.shouldSelectConfiguration(slideshowItem),
+                    child: Column(
+                  children: [
+                    SlideshowItemCardConfigSelect(slideshowItem: slideshowItem),
+                    const SizedBox(height: _spacing),
+
+                  ],
+                )),
                 SlideshowItemCardDuration(slideshowItem: slideshowItem),
               ],
             ),
