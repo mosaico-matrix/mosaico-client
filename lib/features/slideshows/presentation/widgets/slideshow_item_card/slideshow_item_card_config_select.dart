@@ -18,7 +18,7 @@ class SlideshowItemCardConfigSelect extends StatelessWidget {
       return FutureBuilder<List<MosaicoWidgetConfiguration>>(
         future: Provider.of<SlideshowState>(context, listen: false).getWidgetConfigurations(slideshowItem.widgetId),
         builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          if (snapshot.hasData) {
             return _buildConfigSelect(snapshot.data!, context);
           } else {
             return Container();
@@ -34,6 +34,12 @@ class SlideshowItemCardConfigSelect extends StatelessWidget {
       List<MosaicoWidgetConfiguration> configurations, BuildContext context) {
     return CustomDropdown<MosaicoWidgetConfiguration>.search(
       hintText: 'Configuration',
+      noResultFoundBuilder: (context, search) => const Padding(
+        padding: EdgeInsets.all(12.0),
+        child: Text(
+            textAlign: TextAlign.center,
+            'No configurations found, please add a configuration for this widget before selecting it'),
+      ),
       items: configurations,
       excludeSelected: false,
       onChanged: (configuration) {

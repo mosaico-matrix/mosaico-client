@@ -12,6 +12,7 @@ import '../widgets/dialogs/widget_configuration_editor.dart';
 import '../widgets/dialogs/widget_configuration_picker.dart';
 
 class InstalledWidgetsState extends LoadableState {
+
   /// Repositories
   final MosaicoLocalWidgetsRepository _widgetsRepository =
       MosaicoWidgetsCoapRepository();
@@ -34,6 +35,17 @@ class InstalledWidgetsState extends LoadableState {
     _widgets = await _widgetsRepository.getInstalledWidgets();
     loadingState.hideLoading();
     notifyListeners();
+  }
+
+  /// Add a new widget to the list of installed widgets
+  void add(MosaicoWidget newWidget) {
+    _widgets.add(newWidget);
+    notifyListeners();
+  }
+
+  /// Get the list of installed widgets
+  List<MosaicoWidget> getInstalledWidgets() {
+    return _widgets;
   }
 
   /// Preview a widget on the matrix
@@ -104,13 +116,6 @@ class InstalledWidgetsState extends LoadableState {
         return WidgetConfigurationEditor(widget: widget);
       },
     );
-  }
-
-  /// Used to refresh the list of installed widgets
-  /// This is used when a new widget is installed from the store
-  Future<void> refresh() async {
-    _widgets = await _widgetsRepository.getInstalledWidgets();
-    notifyListeners();
   }
 
   /// Get a widget by its id

@@ -37,9 +37,13 @@ class MosaicoStoreWidgetTile extends StatelessWidget {
     // Show install button
     return IconButton(
       icon: const Icon(Icons.download),
-      onPressed: () {
-        storeState.installWidget(widget);
-      },
+      onPressed: storeState.isInstallingAnotherWidget(widget.storeId!)
+
+          // If we are installing another widget, disable the button
+          ? null
+          : () async {
+              await storeState.installWidget(widget);
+            },
     );
   }
 }

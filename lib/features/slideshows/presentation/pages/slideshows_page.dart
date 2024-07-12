@@ -12,17 +12,17 @@ class SlideshowsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final SlideshowsState slideshowsState = SlideshowsState();
-
     return LoadablePage<SlideshowsState>(
       noDataHintText: "A slideshow is just a sequence of widgets, try to create one by clicking the button below",
       fab: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, Routes.slideshow);
+          Navigator.pushNamed(context, Routes.slideshow).then(
+            (value) => Provider.of<SlideshowsState>(context, listen: false).render(),
+          );
         },
         child: const Icon(Icons.add),
       ),
-      state: slideshowsState,
+      state: Provider.of(context, listen: false),
       child: Consumer<SlideshowsState>(
         builder: (context, slideshowsState, _) {
           return ListView.builder(

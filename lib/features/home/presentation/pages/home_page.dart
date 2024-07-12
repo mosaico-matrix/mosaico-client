@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:mosaico/features/home/presentation/widgets/home_tab_bar.dart';
+import 'package:mosaico/features/widgets/presentation/states/installed_widgets_state.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../states/home_page_state.dart';
@@ -45,7 +46,10 @@ class HomePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50),
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/store');
+                Navigator.pushNamed(context, '/store').then((value) {
+                  Provider.of<InstalledWidgetsState>(context, listen: false)
+                      .render();
+                });
               },
               child: const Icon(Icons.shopping_bag),
             ),

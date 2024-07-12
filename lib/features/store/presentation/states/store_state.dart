@@ -37,11 +37,10 @@ class StoreState extends LoadableState {
     loadingState.hideLoading();
     notifyListeners();
 
-
     // Try to get installed widgets
     List<MosaicoWidget> installedWidgets = [];
     try {
-      installedWidgets = await _localWidgetsRepository.getInstalledWidgets();
+      installedWidgets = installedWidgetsState.getInstalledWidgets();
       // Set installed status
       _widgets = _widgets?.map((widget) {
         widget.installed = installedWidgets
@@ -57,26 +56,23 @@ class StoreState extends LoadableState {
 
   /// Install a widget
   int? _installingId;
-
   bool isInstalling(int storeId) => _installingId == storeId;
-
-  void installWidget(MosaicoWidget widget) async {
+  bool isInstallingAnotherWidget(int storeId) => _installingId != null && _installingId != storeId;
+  Future<void> installWidget(MosaicoWidget widget) async {
     _installingId = widget.storeId!;
     notifyListeners();
 
     try {
-      await _localWidgetsRepository.installWidget(storeId: widget.storeId!);
+      var newWidget = await _localWidgetsRepository.installWidget(storeId: widget.storeId!);
       widget.installed = true;
+      _installingId = null;
+      installedWidgetsState.add(newWidget);
+      notifyListeners();
     } catch (e) {
       _installingId = null;
       notifyListeners();
       rethrow;
     }
-
-    _installingId = null;
-    notifyListeners();
-
-    // Refresh also installed widgets
-    installedWidgetsState.refresh();
   }
+
 }

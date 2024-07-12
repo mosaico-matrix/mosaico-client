@@ -44,11 +44,11 @@ class SlideshowPage extends StatelessWidget {
                    icon: const Icon(Icons.add, color: Colors.white),
                   ),
                   ActionButton(
-                    onPressed: () => slideshowState.saveSlideshow(),
+                    onPressed: () => slideshowState.saveSlideshow(context),
                     icon: const Icon(Icons.save, color: Colors.white),
                   ),
                   ActionButton(
-                    onPressed: () => slideshowState.activateSlideshow(),
+                    onPressed: () => slideshowState.activateSlideshow(context),
                     icon: const Icon(Icons.play_arrow, color: Colors.white),
                   ),
                 ],

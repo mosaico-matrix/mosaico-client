@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:mosaico/features/slideshows/presentation/states/slideshows_state.dart';
 import 'package:mosaico/shared/states/loadable_state.dart';
 import 'package:mosaico_flutter_core/core/utils/toaster.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mosaico_slideshow_item.dart';
@@ -8,6 +10,7 @@ import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaic
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widget_configurations_coap_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/domain/repositories/mosaico_widget_configurations_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/domain/repositories/mosaico_slideshows_repository.dart';
+import 'package:provider/provider.dart';
 
 class SlideshowState extends LoadableState {
   late MosaicoSlideshow _slideshow;
@@ -89,12 +92,13 @@ class SlideshowState extends LoadableState {
       return;
     }
     slideshowItem.widgetId = widget.id;
-    slideshowItem.shouldSelectConfiguration = widget.metadata?.configurable == true;
+    slideshowItem.shouldSelectConfiguration =
+        widget.metadata?.configurable == true;
     notifyListeners();
   }
 
-  void updateItemConfig(
-      MosaicoSlideshowItem slideshowItem, MosaicoWidgetConfiguration? configuration) {
+  void updateItemConfig(MosaicoSlideshowItem slideshowItem,
+      MosaicoWidgetConfiguration? configuration) {
     if (configuration == null) {
       return;
     }
@@ -119,55 +123,59 @@ class SlideshowState extends LoadableState {
   }
 
   /// Create or update a slideshow
-  Future<void> saveSlideshow() async {
-
-    /// Validate slideshow
-    if(_validSlideshow() == false)
-    {
+  Future<void> saveSlideshow(BuildContext context) async {
+    // Validate slideshow
+    if (_validSlideshow() == false) {
       return;
     }
 
+    // Install slideshow
     loadingState.showLoading();
     _slideshow =
         await _slideshowsRepository.createOrUpdateSlideshow(_slideshow);
-    _newSlideshow = false; // Now it's an existing slideshow ;)
+
+    // Add slideshow to list in homepage
+    if (_newSlideshow) {
+      Provider.of<SlideshowsState>(context, listen: false)
+          .addSlideshow(_slideshow);
+      _newSlideshow = false; // Now it's an existing slideshow ;)
+    }
     loadingState.hideLoading();
     notifyListeners();
   }
 
   /// Activate slideshow on the matrix
-  Future<void> activateSlideshow() async {
-
+  Future<void> activateSlideshow(BuildContext context) async {
     // Save before activating
-    await saveSlideshow();
+    await saveSlideshow(context);
 
     loadingState.showLoading();
     await _slideshowsRepository.setActiveSlideshow(_slideshow.id!);
     loadingState.hideLoading();
   }
 
-  bool _validSlideshow()
-  {
-    if(_slideshow.name.isEmpty)
-    {
+  bool _validSlideshow() {
+    if (_slideshow.name.isEmpty) {
       Toaster.error("Slideshow name cannot be empty");
       return false;
     }
-    if(_slideshow.items.isEmpty || _slideshow.items.length < 2)
-    {
+    if (_slideshow.items.isEmpty || _slideshow.items.length < 2) {
       Toaster.error("Slideshow must have at least 2 items");
       return false;
     }
 
     for (var item in _slideshow.items) {
-      if(item.widgetId == -1)
-      {
+      if (item.widgetId == -1) {
         Toaster.error("All items must have a widget");
         return false;
       }
-      if(item.configId == null && shouldSelectConfiguration(item))
-      {
+      if (item.configId == null && shouldSelectConfiguration(item)) {
         Toaster.error("You didn't select a configuration for a widget");
+        return false;
+      }
+
+      if (item.secondsDuration < 1) {
+        Toaster.error("Duration must be greater than 0");
         return false;
       }
     }

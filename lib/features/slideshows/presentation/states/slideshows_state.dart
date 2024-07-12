@@ -22,12 +22,12 @@ class SlideshowsState extends LoadableState
     notifyListeners();
   }
 
-
-  @override
-  bool empty() {
-    return slideshows.isEmpty;
+  /// Add a new slideshow created from the new slideshow page
+  void addSlideshow(MosaicoSlideshow slideshow)
+  {
+    slideshows.add(slideshow);
+    notifyListeners();
   }
-
   
   Future<void> playSlideshow(BuildContext context, MosaicoSlideshow slideshow)  async
   {
@@ -53,5 +53,17 @@ class SlideshowsState extends LoadableState
     notifyListeners();
   }
 
+
+  @override
+  bool empty() {
+    return slideshows.isEmpty;
+  }
+
+
+  @override
+  /// This state should not be disposed
+  void dispose() {
+    return;
+  }
 
 }

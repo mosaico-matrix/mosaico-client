@@ -47,4 +47,12 @@ abstract class LoadableState extends ChangeNotifier {
   void setLoadingState(MosaicoLoadingState loadingState) {
     this.loadingState = loadingState;
   }
+
+  /// This just triggers a UI refresh
+  void render()
+  {
+    loadingState.showLoading();
+    notifyListeners();
+    loadingState.hideLoading();
+  }
 }
