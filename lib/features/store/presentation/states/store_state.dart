@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mosaico/features/widgets/presentation/states/installed_widgets_state.dart';
 import 'package:mosaico/shared/states/loadable_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
@@ -29,7 +30,7 @@ class StoreState extends LoadableState {
 
   /// Initialize and load widgets
   @override
-  Future<void> loadResource() async {
+  Future<void> loadResource(BuildContext context) async {
     loadingState.showLoading();
 
     // Fetch widgets and installed widgets

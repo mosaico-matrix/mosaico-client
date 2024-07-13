@@ -30,7 +30,7 @@ class InstalledWidgetsState extends LoadableState {
 
   /// Initialize and load widgets from the matrix
   @override
-  Future<void> loadResource() async {
+  Future<void> loadResource(BuildContext context) async {
     loadingState.showLoading();
     _widgets = await _widgetsRepository.getInstalledWidgets();
     loadingState.hideLoading();

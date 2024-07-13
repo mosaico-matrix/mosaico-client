@@ -11,19 +11,18 @@ class MosaicoWidgetDescription extends StatelessWidget {
   Widget build(BuildContext context) {
 
 
-
     return Column(
       children: [
         const MosaicoHeading(text: 'Description'),
         const Divider(),
-        MarkdownBody(data: description, styleSheet: MarkdownStyleSheet.fromTheme(
-
-          // Edit a bit the theme
-          Theme.of(context).copyWith(
-            textTheme: Theme.of(context).textTheme.apply(
-              bodyColor: Colors.white,
-              displayColor: Colors.white
-            ) )
+        MarkdownBody(data: description, styleSheet: MarkdownStyleSheet(
+          p: TextStyle(color: Colors.white),
+          blockquote: TextStyle(color: Theme.of(context).colorScheme.secondary),
+          blockquotePadding: const EdgeInsets.all(8),
+          blockquoteDecoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(4),
+          ),
         )),
       ],
     );

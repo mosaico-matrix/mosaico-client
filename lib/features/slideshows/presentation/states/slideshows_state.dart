@@ -15,7 +15,7 @@ class SlideshowsState extends LoadableState
   List<MosaicoSlideshow> slideshows = [];
 
   @override
-  Future<void> loadResource() async {
+  Future<void> loadResource(BuildContext context) async {
     loadingState.showLoading();
     slideshows = await _slideshowsRepository.getSlideshows();
     loadingState.hideLoading();

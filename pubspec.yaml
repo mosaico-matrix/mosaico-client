@@ -63,6 +63,8 @@ dependencies:
   drag_and_drop_lists: ^0.4.1
   gradient_borders: ^1.0.1
   animated_expandable_fab: ^0.0.3
+  flutter_linkify: ^6.0.0
+  url_launcher: ^6.3.0
 
 
 dev_dependencies:

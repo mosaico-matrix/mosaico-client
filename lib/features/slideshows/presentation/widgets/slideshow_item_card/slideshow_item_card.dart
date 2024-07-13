@@ -21,7 +21,13 @@ class SlideshowItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    var slideshowState = Provider.of<SlideshowState>(context);
+    // Try to get the slideshow state, if it fails, it means that we are dragging this widget
+    SlideshowState? slideshowState;
+    try {
+      slideshowState = Provider.of<SlideshowState>(context);
+    } catch (e) {
+      print(e);
+    }
 
     return Consumer<InstalledWidgetsState>(
         builder: (context, installedWidgetsState, _) {
@@ -34,7 +40,7 @@ class SlideshowItemCard extends StatelessWidget {
                 SlideshowItemCardWidgetSelect(slideshowItem: slideshowItem),
                 const SizedBox(height: _spacing),
                 Visibility(
-                  visible: slideshowState.shouldSelectConfiguration(slideshowItem),
+                  visible: slideshowState?.shouldSelectConfiguration(slideshowItem) == true,
                     child: Column(
                   children: [
                     SlideshowItemCardConfigSelect(slideshowItem: slideshowItem),

@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 abstract class LoadableState extends ChangeNotifier {
 
   /// Load resource from external source
-  Future<void> loadResource();
+  Future<void> loadResource(BuildContext context);
 
   /// This can be true even if the resource is not loaded yet
   /// Child classes should implement this method to check if the resource is empty
@@ -39,7 +39,7 @@ abstract class LoadableState extends ChangeNotifier {
 
     if (_initialized) return;
     _initialized = true;
-    loadResource();
+    loadResource(context);
   }
 
   /// Loading state

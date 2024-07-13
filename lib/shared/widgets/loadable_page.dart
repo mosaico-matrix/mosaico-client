@@ -62,27 +62,30 @@ class LoadablePage<T extends LoadableState> extends StatelessWidget {
   }
 
   Widget buildPageContent(MosaicoLoadingState loadingState) {
-    return ParallaxRain(
-      numberOfDrops: 100,
-      dropFallSpeed: 0.2,
-      dropHeight: 0.8,
-      dropColors: const [
-        Colors.red,
-        Colors.green,
-        Colors.blue,
-        Colors.yellow,
-      ],
-      child: loadingState.isLoading
-          ?
+    return SizedBox(
+      height: double.infinity,
+      child: ParallaxRain(
+        numberOfDrops: 100,
+        dropFallSpeed: 0.2,
+        dropHeight: 0.8,
+        dropColors: const [
+          Colors.red,
+          Colors.green,
+          Colors.blue,
+          Colors.yellow,
+        ],
+        child: loadingState.isLoading
+            ?
 
-          // Loading
-          Center(child: LoadingMatrix())
-          : (state.noData()
-              ?
+            // Loading
+            Center(child: LoadingMatrix())
+            : (state.noData()
+                ?
 
-              // Empty
-              EmptyPlaceholder(hintText: noDataHintText)
-              : child),
+                // Empty
+                EmptyPlaceholder(hintText: noDataHintText)
+                : child),
+      ),
     );
   }
 }

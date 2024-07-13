@@ -56,7 +56,7 @@ class MosaicoWidgetDetailsPage extends StatelessWidget {
                       MosaicoWidgetDescription(
                           description: state.storeWidget.description),
                       const SizedBox(height: spacing),
-                      const MosaicoWidgetInfo(),
+                      MosaicoWidgetInfo(mosaicoWidget: state.storeWidget),
                     ],
                   ),
                 ),

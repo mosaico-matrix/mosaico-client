@@ -44,6 +44,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       routes: Routes.getRoutes(),
       theme: ThemeData(
         fontFamily: 'Dotted',
