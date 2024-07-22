@@ -16,40 +16,46 @@ class MosaicoInstalledWidgetTile extends StatelessWidget {
         Provider.of<InstalledWidgetsState>(context, listen: false);
 
     return Container(
-      child: MosaicoWidgetTile(
-        widget: widget,
-        trailing: PopupMenuButton(itemBuilder: (BuildContext context) {
-          return [
-            PopupMenuItem(
-              enabled: widget.metadata!.configurable,
-              child: ListTile(
-                  title: const Text('Edit configurations'),
-                  leading: const Icon(Icons.construction),
-                  onTap: () async {
-                    if (!widget.metadata!.configurable) return;
-                    Navigator.of(context).pop();
-                    await installedWidgetsState.showWidgetConfigurationsEditor(
-                        context, widget);
-                  }),
-            ),
-            PopupMenuItem(
+      child: GestureDetector(
+        onTap: () async {
+          await installedWidgetsState.previewWidget(context, widget);
+        },
+        child: MosaicoWidgetTile(
+          widget: widget,
+          trailing: PopupMenuButton(
+              itemBuilder: (BuildContext context) {
+            return [
+              PopupMenuItem(
+                enabled: widget.metadata!.configurable,
                 child: ListTile(
-                    title: const Text('Preview'),
-                    leading: const Icon(Icons.play_arrow),
+                    title: const Text('Edit configurations'),
+                    leading: const Icon(Icons.construction),
                     onTap: () async {
+                      if (!widget.metadata!.configurable) return;
                       Navigator.of(context).pop();
-                      await installedWidgetsState.previewWidget(context, widget);
-                    })),
-            PopupMenuItem(
-                child: ListTile(
-                    title: const Text('Delete'),
-                    leading: Icon(Icons.delete, color: Theme.of(context).colorScheme.error),
-                    onTap: () async {
-                      Navigator.of(context).pop();
-                      await installedWidgetsState.uninstallWidget(context, widget);
-                    }))
-          ];
-        }),
+                      await installedWidgetsState.showWidgetConfigurationsEditor(
+                          context, widget);
+                    }),
+              ),
+              PopupMenuItem(
+                  child: ListTile(
+                      title: const Text('Preview'),
+                      leading: const Icon(Icons.play_arrow),
+                      onTap: () async {
+                        Navigator.of(context).pop();
+                        await installedWidgetsState.previewWidget(context, widget);
+                      })),
+              PopupMenuItem(
+                  child: ListTile(
+                      title: const Text('Delete'),
+                      leading: Icon(Icons.delete, color: Theme.of(context).colorScheme.error),
+                      onTap: () async {
+                        Navigator.of(context).pop();
+                        await installedWidgetsState.uninstallWidget(context, widget);
+                      }))
+            ];
+          }),
+        ),
       ),
     );
   }

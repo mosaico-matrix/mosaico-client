@@ -5,6 +5,8 @@ import 'package:mosaico_flutter_core/common/widgets/matrices/loading_matrix.dart
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../core/configuration/routes.dart';
+
 class MosaicoStoreWidgetTile extends StatelessWidget {
   final MosaicoWidget widget;
 
@@ -13,8 +15,13 @@ class MosaicoStoreWidgetTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var widgetTileState = Provider.of<StoreState>(context);
-    return MosaicoWidgetTile(
-        widget: widget, trailing: tileTrailing(widgetTileState));
+    return GestureDetector(
+        onTap: () {
+      Navigator.pushNamed(context, Routes.widgetDetails, arguments: widget);
+    },
+      child: MosaicoWidgetTile(
+          widget: widget, trailing: tileTrailing(widgetTileState)),
+    );
   }
 
   /// Install widget button or checkmark

@@ -13,11 +13,7 @@ class MosaicoWidgetTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, Routes.widgetDetails, arguments: widget);
-      },
-      child: MosaicoTile(
+    return  MosaicoTile(
         child: ListTile(
           leading: CachedNetworkImage(
             imageUrl: widget.iconUrl,
@@ -35,7 +31,7 @@ class MosaicoWidgetTile extends StatelessWidget {
               style: const TextStyle(fontSize: 10, color: Colors.white)),
           trailing: trailing
         ),
-      ),
     );
+
   }
 }
