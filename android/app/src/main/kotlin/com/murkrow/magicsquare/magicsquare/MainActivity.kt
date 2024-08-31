@@ -1,4 +1,4 @@
-package com.murkrow.magicsquare.magicsquare
+package com.murkrow.mosaico
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.murkrow.magicsquare" "\0"
-            VALUE "FileDescription", "magicsquare" "\0"
+            VALUE "CompanyName", "com.murkrow.mosaico" "\0"
+            VALUE "FileDescription", "moosaico" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "magicsquare" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.murkrow.magicsquare. All rights reserved." "\0"
-            VALUE "OriginalFilename", "magicsquare.exe" "\0"
-            VALUE "ProductName", "magicsquare" "\0"
+            VALUE "InternalName", "moosaico" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 com.murkrow.mosaico. All rights reserved." "\0"
+            VALUE "OriginalFilename", "moosaico.exe" "\0"
+            VALUE "ProductName", "moosaico" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
