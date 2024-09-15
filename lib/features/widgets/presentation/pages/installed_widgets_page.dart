@@ -16,7 +16,7 @@ class InstalledWidgetsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<MatrixDeviceBloc, MatrixDeviceState>(
       listener: (context, state) {
-        if (state is MatrixDeviceConnectedState) {
+        if (state is MatrixDeviceConnectedState && state.newConnection) {
           context
               .read<MosaicoInstalledWidgetsBloc>()
               .add(LoadInstalledWidgetsEvent());

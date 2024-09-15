@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mosaico/features/slideshows/presentation/pages/slideshows_page.dart';
 import 'package:mosaico/features/widgets/presentation/pages/installed_widgets_page.dart';
-import '../../data/models/tab_page.dart';
 
 class HomePageState extends ChangeNotifier {
 
@@ -35,4 +34,13 @@ class HomePageState extends ChangeNotifier {
   TabPage getActivePage() {
     return pages[_currentIndex];
   }
+}
+
+class TabPage
+{
+  final Widget page;
+  final String title;
+  final IconData icon;
+
+  TabPage({required this.page, required this.title, required this.icon});
 }

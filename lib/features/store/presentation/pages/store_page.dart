@@ -15,18 +15,18 @@ class StorePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Store')),
       body: BlocProvider(
-        create: (context) =>
-            MosaicoStoreBloc(widgetsRestRepository: context.read())
-              ..add(LoadMosaicoStoreEvent()),
+        create: (context) => MosaicoStoreBloc(
+            widgetsRestRepository: context.read(),
+            widgetsCoapRepository: context.read())
+          ..add(LoadMosaicoStoreEvent()),
         child: Builder(builder: (context) {
           return BlocBuilder<MosaicoStoreBloc, MosaicoStoreState>(
             builder: (context, state) {
-
               if (state is MosaicoStoreLoadedState) {
                 return ListView.builder(
-                  itemCount: state.widgets.length,
+                  itemCount: state.storeWidgets.length,
                   itemBuilder: (context, index) {
-                    return MosaicoStoreWidgetTile(widget: state.widgets[index]);
+                    return MosaicoStoreWidgetTile(widget: state.storeWidgets[index]);
                   },
                 );
               }
@@ -44,7 +44,7 @@ class StorePage extends StatelessWidget {
               }
 
               // Loading
-                return Center(child: Center(child: LoadingMatrix()));
+              return Center(child: Center(child: LoadingMatrix()));
             },
           );
         }),
