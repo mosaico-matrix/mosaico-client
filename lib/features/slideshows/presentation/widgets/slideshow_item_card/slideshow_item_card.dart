@@ -6,7 +6,6 @@ import 'package:mosaico/features/slideshows/presentation/widgets/slideshow_item_
 import 'package:mosaico/features/slideshows/presentation/widgets/slideshow_item_card/slideshow_item_card_duration.dart';
 import 'package:mosaico/features/slideshows/presentation/widgets/slideshow_item_card/slideshow_item_card_heading.dart';
 import 'package:mosaico/features/slideshows/presentation/widgets/slideshow_item_card/slideshow_item_card_widget_select.dart';
-import 'package:mosaico/features/widgets/presentation/states/installed_widgets_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mosaico_slideshow_item.dart';
 import 'package:provider/provider.dart';
 
@@ -29,45 +28,48 @@ class SlideshowItemCard extends StatelessWidget {
       print(e);
     }
 
-    return Consumer<InstalledWidgetsState>(
-        builder: (context, installedWidgetsState, _) {
-      return Stack(children: [
-        _buildCard(
-            Column(
-              children: [
-                SlideshowItemCardHeading(position: slideshowItem.position),
-                const SizedBox(height: _spacing),
-                SlideshowItemCardWidgetSelect(slideshowItem: slideshowItem),
-                const SizedBox(height: _spacing),
-                Visibility(
-                  visible: slideshowState?.shouldSelectConfiguration(slideshowItem) == true,
-                    child: Column(
-                  children: [
-                    SlideshowItemCardConfigSelect(slideshowItem: slideshowItem),
-                    const SizedBox(height: _spacing),
 
-                  ],
-                )),
-                SlideshowItemCardDuration(slideshowItem: slideshowItem),
-              ],
-            ),
-            context),
-        Positioned(
-          right: 0,
-          top: 0,
-          child: IconButton(
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(Colors.white),
-              ),
-              onPressed: () {
-                Provider.of<SlideshowState>(context, listen: false)
-                    .removeSlideshowItem(slideshowItem);
-              },
-              icon: Icon(Icons.delete),
-              color: Theme.of(context).colorScheme.error),
-        ),
-      ]);
-    });
+    return Text("");
+
+    // return Consumer<InstalledWidgetsState>(
+    //     builder: (context, installedWidgetsState, _) {
+    //   return Stack(children: [
+    //     _buildCard(
+    //         Column(
+    //           children: [
+    //             SlideshowItemCardHeading(position: slideshowItem.position),
+    //             const SizedBox(height: _spacing),
+    //             SlideshowItemCardWidgetSelect(slideshowItem: slideshowItem),
+    //             const SizedBox(height: _spacing),
+    //             Visibility(
+    //               visible: slideshowState?.shouldSelectConfiguration(slideshowItem) == true,
+    //                 child: Column(
+    //               children: [
+    //                 SlideshowItemCardConfigSelect(slideshowItem: slideshowItem),
+    //                 const SizedBox(height: _spacing),
+    //
+    //               ],
+    //             )),
+    //             SlideshowItemCardDuration(slideshowItem: slideshowItem),
+    //           ],
+    //         ),
+    //         context),
+    //     Positioned(
+    //       right: 0,
+    //       top: 0,
+    //       child: IconButton(
+    //           style: ButtonStyle(
+    //             backgroundColor: WidgetStateProperty.all(Colors.white),
+    //           ),
+    //           onPressed: () {
+    //             Provider.of<SlideshowState>(context, listen: false)
+    //                 .removeSlideshowItem(slideshowItem);
+    //           },
+    //           icon: Icon(Icons.delete),
+    //           color: Theme.of(context).colorScheme.error),
+    //     ),
+    //   ]);
+    // });
   }
 
   Widget _buildCard(Widget child, BuildContext context) {

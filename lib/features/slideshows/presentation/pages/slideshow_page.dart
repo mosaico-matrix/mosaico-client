@@ -15,52 +15,53 @@ class SlideshowPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    return Container();
     // This is the edit item in the case of editing a slideshow
-    var editingSlideshow = ModalRoute.of(context)!.settings.arguments as MosaicoSlideshow?;
+    //var editingSlideshow = ModalRoute.of(context)!.settings.arguments as MosaicoSlideshow?;
 
-    return ChangeNotifierProvider(
-      create: (context) =>
-          SlideshowState(editingSlideshow),
-      child: Consumer<SlideshowState>(
-        builder: (context, slideshowState, _) => Scaffold(
-          body: LoadablePage<SlideshowState>(
-            noDataHintText: "Try to add a new item with the button below",
-            appBar: RenamableAppBar(
-              promptText: "Enter slideshow name",
-              askOnLoad: editingSlideshow == null,
-              initialTitle: slideshowState.getSlideshowName(),
-              onTitleChanged: (String newName) {
-                slideshowState.setSlideshowName(newName);
-              },
-            ),
-            fab: ExpandableFab(
-                distance: 100,
-                openIcon: const Icon(Icons.menu),
-                closeBackgroundColor: Colors.white,
-                closeIcon: Icon(Icons.close, color: Theme.of(context).colorScheme.error),
-                children: [
-                  ActionButton(
-                    onPressed: () => slideshowState.addSlideshowItem(),
-                   icon: const Icon(Icons.add, color: Colors.white),
-                  ),
-                  ActionButton(
-                    onPressed: () => slideshowState.saveSlideshow(context),
-                    icon: const Icon(Icons.save, color: Colors.white),
-                  ),
-                  ActionButton(
-                    onPressed: () => slideshowState.activateSlideshow(context),
-                    icon: const Icon(Icons.play_arrow, color: Colors.white),
-                  ),
-                ],
-              ),
-
-
-
-            state: slideshowState,
-            child: const SlideshowEditor(),
-          )
-        ),
-      ),
-    );
+    // return ChangeNotifierProvider(
+    //   create: (context) =>
+    //       SlideshowState(editingSlideshow),
+    //   child: Consumer<SlideshowState>(
+    //     builder: (context, slideshowState, _) => Scaffold(
+    //       body: LoadablePage<SlideshowState>(
+    //         noDataHintText: "Try to add a new item with the button below",
+    //         appBar: RenamableAppBar(
+    //           promptText: "Enter slideshow name",
+    //           askOnLoad: editingSlideshow == null,
+    //           initialTitle: slideshowState.getSlideshowName(),
+    //           onTitleChanged: (String newName) {
+    //             slideshowState.setSlideshowName(newName);
+    //           },
+    //         ),
+    //         fab: ExpandableFab(
+    //             distance: 100,
+    //             openIcon: const Icon(Icons.menu),
+    //             closeBackgroundColor: Colors.white,
+    //             closeIcon: Icon(Icons.close, color: Theme.of(context).colorScheme.error),
+    //             children: [
+    //               ActionButton(
+    //                 onPressed: () => slideshowState.addSlideshowItem(),
+    //                icon: const Icon(Icons.add, color: Colors.white),
+    //               ),
+    //               ActionButton(
+    //                 onPressed: () => slideshowState.saveSlideshow(context),
+    //                 icon: const Icon(Icons.save, color: Colors.white),
+    //               ),
+    //               ActionButton(
+    //                 onPressed: () => slideshowState.activateSlideshow(context),
+    //                 icon: const Icon(Icons.play_arrow, color: Colors.white),
+    //               ),
+    //             ],
+    //           ),
+    //
+    //
+    //
+    //         state: slideshowState,
+    //         child: const SlideshowEditor(),
+    //       )
+    //     ),
+    //   ),
+    // );
   }
 }

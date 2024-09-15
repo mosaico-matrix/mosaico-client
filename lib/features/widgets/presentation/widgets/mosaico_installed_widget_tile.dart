@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:mosaico/features/widgets/presentation/widgets/dialogs/widget_configuration_editor.dart';
-import 'package:mosaico/features/widgets/presentation/widgets/dialogs/widget_configuration_picker.dart';
+import 'package:mosaico/features/configurations/presentation/dialogs/widget_configurations_dialog.dart';
 import 'package:mosaico_flutter_core/core/utils/toaster.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_event.dart';
@@ -12,7 +11,6 @@ import 'package:mosaico_flutter_core/features/mosaico_widgets/bloc/mosaico_insta
 import 'package:mosaico_flutter_core/features/mosaico_widgets/bloc/mosaico_installed_widgets_event.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
 import 'package:mosaico/shared/widgets/mosaico_widget_tile.dart';
-import 'package:mosaico/features/widgets/presentation/states/installed_widgets_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget_configuration.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widget_configurations_coap_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_coap_repository.dart';
@@ -36,12 +34,12 @@ class MosaicoInstalledWidgetTile extends StatelessWidget {
                 PopupMenuItem(
                   enabled: widget.metadata!.configurable,
                   child: ListTile(
-                      title: const Text('Edit configurations'),
+                      title: const Text('Configurations'),
                       leading: const Icon(Icons.construction),
                       onTap: () async {
                         if (!widget.metadata!.configurable) return;
                         Navigator.of(context).pop();
-                        await showWidgetConfigurationsEditor(context, widget);
+                        await showWidgetConfigurationsDialog(context);
                       }),
                 ),
               PopupMenuItem(
@@ -68,47 +66,22 @@ class MosaicoInstalledWidgetTile extends StatelessWidget {
   }
 
   Future<void> previewWidget(BuildContext context) async {
-
     // Get repositories
     var widgetsRepository = context.read<MosaicoWidgetsCoapRepository>();
-    var configurationsRepository = context.read<MosaicoWidgetConfigurationsCoapRepository>();
-
-    // Show loading
-    var loadingState = context.read<MosaicoLoadingState>();
-    loadingState.showOverlayLoading();
 
     // Directly preview the widget if it is not configurable
     if (!widget.metadata!.configurable) {
-      await widgetsRepository.previewWidget(widgetId: widget.id);
-      loadingState.hideOverlayLoading();
+      context.read<MosaicoLoadingState>().showOverlayLoading();
+      await widgetsRepository.previewWidget(widgetId: widget.id).then((_) {
+        updateActiveWidget(context);
+      }).whenComplete(() {
+        context.read<MosaicoLoadingState>().hideOverlayLoading();
+      });
       return;
     }
 
-    // Get widget configurations
-    var configurations = await configurationsRepository
-        .getWidgetConfigurations(widgetId: widget.id);
-    if (configurations.isEmpty) {
-      // No configurations, need to add
-      loadingState.hideOverlayLoading();
-      Toaster.warning("You need to add configurations to preview this widget");
-      await showWidgetConfigurationsEditor(context, widget);
-      return;
-    }
-
-    // Get selected configuration from user
-    loadingState.hideOverlayLoading();
-    final selectedConfiguration = await showDialog<MosaicoWidgetConfiguration?>(
-      context: context,
-      builder: (BuildContext context) {
-        return WidgetConfigurationPicker(configurations: configurations);
-      },
-    );
-
-    // Preview the widget with the selected configuration
-    if (selectedConfiguration != null) {
-      await widgetsRepository.previewWidget(
-          widgetId: widget.id, configurationId: selectedConfiguration.id);
-    }
+    // Widget is configurable, let user choose
+    showWidgetConfigurationsDialog(context);
   }
 
   Future<void> deleteWidget(BuildContext context) async {
@@ -134,13 +107,51 @@ class MosaicoInstalledWidgetTile extends StatelessWidget {
     });
   }
 
-  Future<void> showWidgetConfigurationsEditor(
-      BuildContext context, MosaicoWidget widget) async {
-    await showDialog<MosaicoWidgetConfiguration?>(
+  Future<void> showWidgetConfigurationsDialog(BuildContext context) async {
+    // Choose configuration or edit configs
+    var selectedConfiguration = await showDialog<MosaicoWidgetConfiguration?>(
       context: context,
       builder: (BuildContext context) {
-        return WidgetConfigurationEditor(widget: widget);
+        return WidgetConfigurationsDialog(widget: widget);
       },
     );
+
+    // Return if no configuration was selected
+    if (selectedConfiguration == null) {
+      return;
+    }
+
+    // Show loading
+    var loadingState = context.read<MosaicoLoadingState>();
+    loadingState.showOverlayLoading();
+
+    // Get repositories
+    var widgetsRepository = context.read<MosaicoWidgetsCoapRepository>();
+    var configurationsRepository =
+        context.read<MosaicoWidgetConfigurationsCoapRepository>();
+
+    // Preview widget
+    await widgetsRepository
+        .previewWidget(
+            widgetId: widget.id, configurationId: selectedConfiguration.id)
+        .then((_) {
+      updateActiveWidget(context, configuration: selectedConfiguration);
+    }).whenComplete(() {
+      loadingState.hideOverlayLoading();
+    });
+  }
+
+  void updateActiveWidget(BuildContext context,
+      {MosaicoWidgetConfiguration? configuration}) {
+    // Get matrix state
+    var matrixBloc = context.read<MatrixDeviceBloc>();
+    var matrixState = matrixBloc.state;
+    if (matrixState is! MatrixDeviceConnectedState) {
+      return;
+    }
+
+    // Send update
+    matrixBloc.add(UpdateMatrixDeviceStateEvent(matrixState.copyWith(
+        activeWidget: widget, activeWidgetConfiguration: configuration)));
   }
 }

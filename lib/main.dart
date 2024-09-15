@@ -1,14 +1,11 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaico/features/home/presentation/pages/home_page.dart';
-import 'package:mosaico/features/widgets/presentation/states/installed_widgets_state.dart';
 import 'package:mosaico_flutter_core/core/configuration/app_color_scheme.dart';
-import 'package:mosaico_flutter_core/core/exceptions/exception_handler.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_event.dart';
-import 'package:mosaico_flutter_core/features/matrix_control/presentation/states/mosaico_device_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/widgets/mosaico_loading_wrapper.dart';
+import 'package:mosaico_flutter_core/features/mosaico_store/bloc/mosaico_store_bloc.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/bloc/mosaico_installed_widgets_bloc.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widget_configurations_coap_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_coap_repository.dart';
@@ -41,7 +38,12 @@ void main() async {
             BlocProvider<MatrixDeviceBloc>(
                 create: (context) => MatrixDeviceBloc(
                       widgetsRepository: context.read(),
+                      configurationsRepository: context.read(),
                     )..add(ConnectToMatrixEvent())),
+            BlocProvider(
+                create: (context) => MosaicoStoreBloc(
+                    widgetsRestRepository: context.read(),
+                    widgetsCoapRepository: context.read()))
           ],
           child: ToastificationWrapper(
               child: MosaicoLoadingWrapper(child: const App()))),

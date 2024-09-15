@@ -75,10 +75,11 @@ class DeviceControl extends StatelessWidget {
     var address =
         await TextInputDialog.show(context, "Enter the matrix address");
 
+    if (address == null) return;
+
     // Show loading
     context.read<MosaicoLoadingState>().showOverlayLoading();
 
-    if (address == null) return;
 
     // Check if matrix is reachable at address
     CoapService.pingMatrix(address).then((reachable) {

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mosaico/features/slideshows/presentation/states/slideshows_state.dart';
-import 'package:mosaico/features/widgets/presentation/states/installed_widgets_state.dart';
 import 'package:mosaico/shared/states/loadable_state.dart';
 import 'package:mosaico_flutter_core/core/utils/toaster.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mosaico_slideshow_item.dart';
@@ -35,26 +34,26 @@ class SlideshowState extends LoadableState {
     }
 
 
-    // Get installed widgets state
-    final widgetsState = Provider.of<InstalledWidgetsState>(context, listen: false);
-    for (var item in _slideshow.items) {
-      // Get widget
-      final widget = widgetsState.getWidgetById(item.widgetId);
-      if (widget == null) {
-        continue;
-      }
-
-      // Get widget configurations
-      final configurations = await getWidgetConfigurations(widget.id);
-      if (configurations.isEmpty) {
-        continue;
-      }
-
-      // Set configuration
-      item.shouldSelectConfiguration = widget.metadata?.configurable == true;
-    }
-
-    notifyListeners();
+    // // Get installed widgets state
+    // final widgetsState = Provider.of<InstalledWidgetsState>(context, listen: false);
+    // for (var item in _slideshow.items) {
+    //   // Get widget
+    //   final widget = widgetsState.getWidgetById(item.widgetId);
+    //   if (widget == null) {
+    //     continue;
+    //   }
+    //
+    //   // Get widget configurations
+    //   final configurations = await getWidgetConfigurations(widget.id);
+    //   if (configurations.isEmpty) {
+    //     continue;
+    //   }
+    //
+    //   // Set configuration
+    //   item.shouldSelectConfiguration = widget.metadata?.configurable == true;
+    // }
+    //
+    // notifyListeners();
   }
 
   /*

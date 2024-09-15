@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:mosaico/shared/pages/widget_details/widgets/mosaico_widget_description.dart';
 import 'package:mosaico/shared/pages/widget_details/widgets/mosaico_widget_images_carousel.dart';
 import 'package:mosaico/shared/pages/widget_details/widgets/mosaico_widget_info.dart';
-import 'package:mosaico/shared/states/mosaico_widget_details_state.dart';
+import 'package:mosaico_flutter_core/common/widgets/empty_placeholder.dart';
+import 'package:mosaico_flutter_core/common/widgets/matrices/loading_matrix.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_rest_repository.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/loadable_page.dart';
@@ -20,50 +22,57 @@ class MosaicoWidgetDetailsPage extends StatelessWidget {
     final selectedWidget =
         ModalRoute.of(context)!.settings.arguments as MosaicoWidget;
 
-    // Create new details state
-    var detailsState = MosaicoWidgetDetailsState(selectedWidget.id);
+    return Scaffold(
+        appBar: AppBar(
+            title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CachedNetworkImage(
+              imageUrl: selectedWidget.iconUrl,
+              width: 32,
+              height: 32,
+            ),
+            const SizedBox(width: 12),
+            Text(selectedWidget.name),
+          ],
+        )),
+        body: FutureBuilder(
+            future: context
+                .read<MosaicoWidgetsRestRepository>()
+                .getWidgetDetails(storeId: selectedWidget.id),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return _buildWidgetDetails(snapshot.data!);
+              } else if (snapshot.hasError) {
+                return EmptyPlaceholder(
+                    hintText:
+                        "Could not fetch widget from store: ${snapshot.error.toString()}");
+              }
+              return Center(child: LoadingMatrix());
+            }));
+  }
 
-    return LoadablePage<MosaicoWidgetDetailsState>(
-      appBar: AppBar(
-          title: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
+  Widget _buildWidgetDetails(MosaicoWidget widget) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CachedNetworkImage(
-            imageUrl: selectedWidget.iconUrl,
-            width: 32,
-            height: 32,
-          ),
-          const SizedBox(width: 12),
-          Text(selectedWidget.name),
-        ],
-      )),
-      state: detailsState,
-      child: Consumer<MosaicoWidgetDetailsState>(
-        builder: (context, state, _) {
-          return SingleChildScrollView(
+          // Image carousel with no padding
+          const SizedBox(height: spacing),
+          MosaicoWidgetImagesCarousel(images: widget.images),
+          const SizedBox(height: spacing),
+          Padding(
+            padding: const EdgeInsets.all(spacing),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Image carousel with no padding
+                MosaicoWidgetDescription(description: widget.description),
                 const SizedBox(height: spacing),
-                MosaicoWidgetImagesCarousel(images: state.storeWidget.images),
-                const SizedBox(height: spacing),
-                Padding(
-                  padding: const EdgeInsets.all(spacing),
-                  child: Column(
-                    children: [
-                      MosaicoWidgetDescription(
-                          description: state.storeWidget.description),
-                      const SizedBox(height: spacing),
-                      MosaicoWidgetInfo(mosaicoWidget: state.storeWidget),
-                    ],
-                  ),
-                ),
+                MosaicoWidgetInfo(mosaicoWidget: widget),
               ],
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }

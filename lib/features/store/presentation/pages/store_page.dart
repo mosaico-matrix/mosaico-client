@@ -12,43 +12,40 @@ class StorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<MosaicoStoreBloc>().add(LoadMosaicoStoreEvent());
     return Scaffold(
       appBar: AppBar(title: const Text('Store')),
-      body: BlocProvider(
-        create: (context) => MosaicoStoreBloc(
-            widgetsRestRepository: context.read(),
-            widgetsCoapRepository: context.read())
-          ..add(LoadMosaicoStoreEvent()),
-        child: Builder(builder: (context) {
-          return BlocBuilder<MosaicoStoreBloc, MosaicoStoreState>(
-            builder: (context, state) {
-              if (state is MosaicoStoreLoadedState) {
-                return ListView.builder(
-                  itemCount: state.storeWidgets.length,
-                  itemBuilder: (context, index) {
-                    return MosaicoStoreWidgetTile(widget: state.storeWidgets[index]);
-                  },
-                );
-              }
+      body: Builder(builder: (context) {
+        return BlocBuilder<MosaicoStoreBloc, MosaicoStoreState>(
+          builder: (context, state) {
 
-              // Error
-              if (state is MosaicoStoreErrorState) {
-                return EmptyPlaceholder(
-                  hintText: state.message,
-                  onRetry: () {
-                    context
-                        .read<MosaicoStoreBloc>()
-                        .add(LoadMosaicoStoreEvent());
-                  },
-                );
-              }
+            // Widgets ready
+            if (state is MosaicoStoreLoadedState) {
+              return ListView.builder(
+                itemCount: state.storeWidgets.length,
+                itemBuilder: (context, index) {
+                  return MosaicoStoreWidgetTile(widget: state.storeWidgets[index]);
+                },
+              );
+            }
 
-              // Loading
-              return Center(child: Center(child: LoadingMatrix()));
-            },
-          );
-        }),
-      ),
+            // Error
+            if (state is MosaicoStoreErrorState) {
+              return EmptyPlaceholder(
+                hintText: state.message,
+                onRetry: () {
+                  context
+                      .read<MosaicoStoreBloc>()
+                      .add(LoadMosaicoStoreEvent());
+                },
+              );
+            }
+
+            // Loading
+            return Center(child: Center(child: LoadingMatrix()));
+          },
+        );
+      }),
     );
   }
 }
