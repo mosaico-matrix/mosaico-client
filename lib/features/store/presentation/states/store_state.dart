@@ -13,9 +13,9 @@ class StoreState extends LoadableState {
   StoreState({required this.installedWidgetsState});
 
   /// Widget repository
-  final MosaicoWidgetsRepository _widgetsRepository =
+  final MosaicoWidgetsRestRepository _widgetsRepository =
       MosaicoWidgetsRestRepository();
-  final MosaicoLocalWidgetsRepository _localWidgetsRepository =
+  final MosaicoWidgetsCoapRepository _localWidgetsRepository =
       MosaicoWidgetsCoapRepository();
 
   /// List of widgets

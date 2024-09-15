@@ -14,8 +14,8 @@ class CoapSection extends StatelessWidget {
 
   CoapSection({super.key});
 
-  MosaicoLocalWidgetsRepository WidgetsService = MosaicoWidgetsCoapRepository();
-  MosaicoWidgetConfigurationsRepository WidgetConfigurationsService = MosaicoWidgetConfigurationsCoapRepository();
+  MosaicoWidgetsCoapRepository WidgetsService = MosaicoWidgetsCoapRepository();
+  MosaicoWidgetConfigurationsCoapRepository WidgetConfigurationsService = MosaicoWidgetConfigurationsCoapRepository();
 
   Future<MosaicoWidget> getFirstWidget() async {
     var widgets = await WidgetsService.getInstalledWidgets();

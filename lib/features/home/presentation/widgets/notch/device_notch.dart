@@ -12,23 +12,19 @@ class DeviceStatusNotch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<MosaicoDeviceState>(context, listen: false).connect();
-    });
-
     return const Padding(
       padding: EdgeInsets.only(bottom: 10, left: 25, right: 25),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          DeviceControl(),
-          SizedBox(height: 15),
-          Divider(color: Colors.grey),
-          SizedBox(height: 15),
-          DeviceInfo(),
-          SizedBox(height: 15),
-          Divider(color: Colors.grey),
-          SizedBox(height: 50),
+          // DeviceControl(),
+          // SizedBox(height: 15),
+          // Divider(color: Colors.grey),
+          // SizedBox(height: 15),
+          // DeviceInfo(),
+          // SizedBox(height: 15),
+          // Divider(color: Colors.grey),
+          // SizedBox(height: 50),
           DeviceStatus(),
           SizedBox(height: 10),
           PullBar()

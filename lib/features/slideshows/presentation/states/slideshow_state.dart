@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 class SlideshowState extends LoadableState {
   late MosaicoSlideshow _slideshow;
   late bool _newSlideshow;
-  final MosaicoWidgetConfigurationsRepository _widgetConfigurationsRepository =
+  final MosaicoWidgetConfigurationsCoapRepository _widgetConfigurationsRepository =
       MosaicoWidgetConfigurationsCoapRepository();
   MosaicoSlideshowsRepository _slideshowsRepository =
       MosaicoSlideshowsCoapRepository();

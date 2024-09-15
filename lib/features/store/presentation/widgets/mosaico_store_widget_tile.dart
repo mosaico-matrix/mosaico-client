@@ -14,13 +14,15 @@ class MosaicoStoreWidgetTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var widgetTileState = Provider.of<StoreState>(context);
+   // var widgetTileState = Provider.of<StoreState>(context);
     return GestureDetector(
         onTap: () {
       Navigator.pushNamed(context, Routes.widgetDetails, arguments: widget);
     },
       child: MosaicoWidgetTile(
-          widget: widget, trailing: tileTrailing(widgetTileState)),
+          widget: widget,
+          //trailing: tileTrailing(widgetTileState)
+      ),
     );
   }
 

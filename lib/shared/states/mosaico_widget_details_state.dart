@@ -13,7 +13,7 @@ class MosaicoWidgetDetailsState extends LoadableState {
   MosaicoWidgetDetailsState(this._storeId);
 
   /// Repositories
-  final MosaicoWidgetsRepository _widgetsRepository =
+  final MosaicoWidgetsRestRepository _widgetsRepository =
       MosaicoWidgetsRestRepository();
 
   @override

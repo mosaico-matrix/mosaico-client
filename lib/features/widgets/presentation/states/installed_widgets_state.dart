@@ -14,9 +14,9 @@ import '../widgets/dialogs/widget_configuration_picker.dart';
 class InstalledWidgetsState extends LoadableState {
 
   /// Repositories
-  final MosaicoLocalWidgetsRepository _widgetsRepository =
+  final MosaicoWidgetsCoapRepository _widgetsRepository =
       MosaicoWidgetsCoapRepository();
-  final MosaicoWidgetConfigurationsRepository _configurationsRepository =
+  final MosaicoWidgetConfigurationsCoapRepository _configurationsRepository =
       MosaicoWidgetConfigurationsCoapRepository();
 
   /// List of installed widgets

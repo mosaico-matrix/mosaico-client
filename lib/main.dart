@@ -1,41 +1,44 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaico/features/home/presentation/pages/home_page.dart';
 import 'package:mosaico/features/widgets/presentation/states/installed_widgets_state.dart';
 import 'package:mosaico_flutter_core/core/configuration/app_color_scheme.dart';
 import 'package:mosaico_flutter_core/core/exceptions/exception_handler.dart';
+import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
+import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_event.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/presentation/states/mosaico_device_state.dart';
-import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/states/mosaico_loading_state.dart';
-import 'package:provider/provider.dart';
-import 'package:toastification/toastification.dart';
-import 'core/configuration/routes.dart';
 import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/widgets/mosaico_loading_wrapper.dart';
-
-import 'features/slideshows/presentation/states/slideshows_state.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/bloc/mosaico_installed_widgets_bloc.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_coap_repository.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_rest_repository.dart';
+import 'package:provider/provider.dart';
+import 'core/configuration/routes.dart';
 
 void main() async {
-  var loadingState = MosaicoLoadingState();
-  runZonedGuarded(() {
-    runApp(
-      // Loading is needed in the whole app
-      MosaicoLoadingWrapper(
-        state: loadingState,
-        // Also the toasts are needed in the whole app
-        child: ToastificationWrapper(
-          child: MultiProvider(
-            providers: [
-              ChangeNotifierProvider(create: (context) => MosaicoDeviceState()),
-              ChangeNotifierProvider(create: (context) => InstalledWidgetsState()),
-              ChangeNotifierProvider(create: (context) => SlideshowsState()),
-            ],
-            child: const App(),
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<MosaicoWidgetsCoapRepository>(
+          create: (context) => MosaicoWidgetsCoapRepository(),
+        ),
+        RepositoryProvider<MosaicoWidgetsRestRepository>(
+          create: (context) => MosaicoWidgetsRestRepository(),
+        ),
+      ],
+      child: MultiBlocProvider(providers: [
+        BlocProvider<MosaicoInstalledWidgetsBloc>(
+          create: (context) => MosaicoInstalledWidgetsBloc(
+            repository: context.read(),
           ),
         ),
-      ),
-    );
-  }, (error, stackTrace) {
-    handleException(error, stackTrace, loadingState);
-  });
+        BlocProvider<MatrixDeviceBloc>(
+            create: (context) => MatrixDeviceBloc(
+                  widgetsRepository: context.read(),
+                )..add(ConnectToMatrixEvent())),
+      ], child: MosaicoLoadingWrapper(child: const App())),
+    ),
+  );
 }
 
 class App extends StatelessWidget {
