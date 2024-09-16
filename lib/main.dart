@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaico/features/home/presentation/pages/home_page.dart';
+import 'package:mosaico/features/slideshows/bloc/slideshows_bloc.dart';
 import 'package:mosaico_flutter_core/core/configuration/app_color_scheme.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_event.dart';
 import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/widgets/mosaico_loading_wrapper.dart';
+import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/repositories/mosaico_slideshows_coap_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_store/bloc/mosaico_store_bloc.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/bloc/mosaico_installed_widgets_bloc.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widget_configurations_coap_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_coap_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_rest_repository.dart';
 import 'package:provider/provider.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:toastification/toastification.dart';
-import 'core/configuration/routes.dart';
 
 void main() async {
   runApp(
@@ -26,6 +28,9 @@ void main() async {
         ),
         RepositoryProvider<MosaicoWidgetConfigurationsCoapRepository>(
           create: (context) => MosaicoWidgetConfigurationsCoapRepository(),
+        ),
+        RepositoryProvider<MosaicoSlideshowsCoapRepository>(
+          create: (context) => MosaicoSlideshowsCoapRepository(),
         ),
       ],
       child: MultiBlocProvider(
@@ -43,10 +48,15 @@ void main() async {
             BlocProvider(
                 create: (context) => MosaicoStoreBloc(
                     widgetsRestRepository: context.read(),
-                    widgetsCoapRepository: context.read()))
+                    widgetsCoapRepository: context.read())),
+            BlocProvider(
+                create: (context) =>
+                    SlideshowsBloc(repository: context.read())),
           ],
-          child: ToastificationWrapper(
-              child: MosaicoLoadingWrapper(child: const App()))),
+          child: ShowCaseWidget(
+            builder: (context) => ToastificationWrapper(
+                child: MosaicoLoadingWrapper(child: const App())),
+          )),
     ),
   );
 }
@@ -58,7 +68,6 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      routes: Routes.getRoutes(),
       theme: ThemeData(
         fontFamily: 'Dotted',
         colorScheme: AppColorScheme.getDefaultColorScheme(),

@@ -5,8 +5,6 @@ import 'package:mosaico_flutter_core/common/widgets/mosaico_heading.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mosaico_slideshow.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/configuration/routes.dart';
-
 class SlideshowTile extends StatelessWidget {
   final MosaicoSlideshow slideshow;
 

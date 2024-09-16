@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mosaico/features/store/presentation/pages/store_detail_page.dart';
 import 'package:mosaico/features/store/presentation/states/store_state.dart';
 import 'package:mosaico/shared/widgets/mosaico_widget_tile.dart';
 import 'package:mosaico_flutter_core/common/widgets/matrices/loading_matrix.dart';
@@ -10,8 +11,6 @@ import 'package:mosaico_flutter_core/features/mosaico_store/bloc/mosaico_store_s
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/configuration/routes.dart';
-
 class MosaicoStoreWidgetTile extends StatelessWidget {
   final MosaicoWidget widget;
 
@@ -21,7 +20,12 @@ class MosaicoStoreWidgetTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, Routes.widgetDetails, arguments: widget);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => StoreDetailPage(
+                      widget: widget,
+                    )));
       },
       child: MosaicoWidgetTile(
         widget: widget,
@@ -49,19 +53,20 @@ class MosaicoStoreWidgetTile extends StatelessWidget {
 
     // Store is ready
     if (storeState is MosaicoStoreLoadedState) {
-
       // We are installing this very widget
       if (storeState.installingWidgetId == widget.storeId) {
         return LoadingMatrix(ledHeight: 5, n: 4);
       }
 
       // This widget is already installed
-      if (storeState.installedWidgets.where((w) => w.storeId == widget.storeId).isNotEmpty) {
+      if (storeState.installedWidgets
+          .where((w) => w.storeId == widget.storeId)
+          .isNotEmpty) {
         return const Icon(Icons.check);
       }
 
       // We are installing another widget, don't show install button
-      if(storeState.installingWidgetId != null) {
+      if (storeState.installingWidgetId != null) {
         return const SizedBox.shrink();
       }
 
@@ -79,6 +84,5 @@ class MosaicoStoreWidgetTile extends StatelessWidget {
     }
 
     return const SizedBox.shrink();
-
   }
 }

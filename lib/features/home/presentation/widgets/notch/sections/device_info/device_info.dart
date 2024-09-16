@@ -6,9 +6,6 @@ import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_state.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/presentation/states/mosaico_device_state.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../../../core/configuration/routes.dart';
-
 class DeviceInfo extends StatelessWidget {
   const DeviceInfo({super.key});
 
