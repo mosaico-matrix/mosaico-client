@@ -18,6 +18,7 @@ class SlideshowEditorItemCardDuration extends StatelessWidget {
         children: [
           Expanded(
             child: TextField(
+
               controller: TextEditingController(text: initialDuration?.toString()),
               cursorColor: Theme.of(context).colorScheme.onPrimary,
               keyboardType: TextInputType.number,

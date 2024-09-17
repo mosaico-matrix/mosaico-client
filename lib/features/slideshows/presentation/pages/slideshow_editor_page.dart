@@ -34,6 +34,9 @@ class _SlideshowEditorPageState extends State<SlideshowEditorPage> {
     slideshow = widget.slideshow ?? MosaicoSlideshow();
     if(slideshow.items.isEmpty) {
       addSlideshowItem();
+      WidgetsBinding.instance.addPostFrameCallback(
+            (_) => ShowCaseWidget.of(context).startShowCase([_fabKey]),
+      );
     }
   }
 
@@ -59,6 +62,7 @@ class _SlideshowEditorPageState extends State<SlideshowEditorPage> {
         .createOrUpdateSlideshow(slideshow)
         .whenComplete(() => context.hideLoading())
         .then((value) {
+          slideshow.id = value.id;
       context.read<MosaicoSlideshowsBloc>().add(LoadSlideshowsEvent());
     }).catchError((error) {
       Toaster.error("Failed to save slideshow");
@@ -82,53 +86,59 @@ class _SlideshowEditorPageState extends State<SlideshowEditorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        floatingActionButton: _buildFab(context),
-        appBar: RenamableAppBar(
-          promptText: "Enter slideshow name",
-          askOnLoad: false,
-          initialTitle: slideshow.name,
-          onTitleChanged: (String newName) {
-            slideshow.name = newName;
-          },
-        ),
-        body: PixelRain(
-          child: ReorderableListView.builder(
-            itemCount: slideshow.items.length,
-            onReorder: (oldIndex, newIndex) {
-              setState(() {
-                if (newIndex > oldIndex) {
-                  newIndex -= 1;
-                }
-                final item = slideshow.items.removeAt(oldIndex);
-                slideshow.items.insert(newIndex, item);
-              });
-            },
-            itemBuilder: (context, index) {
-              return SlideshowEditorItemCard(
-                key: ValueKey(slideshow.items[index]),
-                // Assign a unique key
-                slideshowItem: slideshow.items[index],
-                position: index,
-                onDelete: () {
-                  setState(() {
-                    slideshow.items.removeAt(index);
-                  });
-                },
-                onWidgetSelected: (widgetId) {
-                  slideshow.items[index].widgetId = widgetId;
-                  slideshow.items[index].configId = null;
-                },
-                onConfigSelected: (configId) {
-                  slideshow.items[index].configId = configId;
-                },
-                onDurationChanged: (seconds) {
-                  slideshow.items[index].secondsDuration = seconds;
-                },
-              );
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+          floatingActionButton: _buildFab(context),
+          appBar: RenamableAppBar(
+            promptText: "Enter slideshow name",
+            askOnLoad: false,
+            initialTitle: slideshow.name,
+            onTitleChanged: (String newName) {
+              slideshow.name = newName;
             },
           ),
-        ));
+          body: PixelRain(
+            child: ReorderableListView.builder(
+              itemCount: slideshow.items.length,
+              onReorder: (oldIndex, newIndex) {
+                setState(() {
+                  if (newIndex > oldIndex) {
+                    newIndex -= 1;
+                  }
+                  final item = slideshow.items.removeAt(oldIndex);
+                  item.position = newIndex;
+                  slideshow.items.insert(newIndex, item);
+                });
+              },
+              itemBuilder: (context, index) {
+                return SlideshowEditorItemCard(
+                  key: ValueKey(slideshow.items[index]),
+                  // Assign a unique key
+                  slideshowItem: slideshow.items[index],
+                  position: index,
+                  onDelete: () {
+                    setState(() {
+                      slideshow.items.removeAt(index);
+                    });
+                  },
+                  onWidgetSelected: (widgetId) {
+                    slideshow.items[index].widgetId = widgetId;
+                    slideshow.items[index].configId = null;
+                  },
+                  onConfigSelected: (configId) {
+                    slideshow.items[index].configId = configId;
+                  },
+                  onDurationChanged: (seconds) {
+                    slideshow.items[index].secondsDuration = seconds;
+                  },
+                );
+              },
+            ),
+          )),
+    );
   }
 
   Widget _buildFab(BuildContext context) {

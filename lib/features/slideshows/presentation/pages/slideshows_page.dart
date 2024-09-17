@@ -7,6 +7,8 @@ import 'package:mosaico/features/widgets/bloc/mosaico_installed_widgets_bloc.dar
 import 'package:mosaico/features/widgets/bloc/mosaico_installed_widgets_state.dart';
 import 'package:mosaico_flutter_core/common/widgets/empty_placeholder.dart';
 import 'package:mosaico_flutter_core/common/widgets/matrices/loading_matrix.dart';
+import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
+import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_state.dart';
 import 'package:provider/provider.dart';
 import '../widgets/slideshow_tile.dart';
 
@@ -15,9 +17,14 @@ class SlideshowsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     // Only if never loaded before, load slideshows
     if (context.read<MosaicoSlideshowsBloc>().state is SlideshowsInitialState) {
-      context.read<MosaicoSlideshowsBloc>().add(LoadSlideshowsEvent());
+
+      // Check before if matrix is connected
+      if (context.read<MatrixDeviceBloc>().state is MatrixDeviceConnectedState) {
+        context.read<MosaicoSlideshowsBloc>().add(LoadSlideshowsEvent());
+      }
     }
 
     return BlocListener<MosaicoInstalledWidgetsBloc,
@@ -32,6 +39,7 @@ class SlideshowsPage extends StatelessWidget {
       },
       child: BlocBuilder<MosaicoSlideshowsBloc, MosaicoSlideshowsState>(
           builder: (context, state) {
+
         // Loading
         if (state is SlideshowsLoadingState) {
           return Center(child: LoadingMatrix());
@@ -67,7 +75,8 @@ class SlideshowsPage extends StatelessWidget {
           );
         }
 
-        return Container();
+        return const EmptyPlaceholder(
+            hintText: "Connect to matrix to load and create slideshows");
       }),
     );
   }

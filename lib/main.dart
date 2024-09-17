@@ -75,7 +75,7 @@ class App extends StatelessWidget {
           colorScheme: AppColorScheme.getDefaultColorScheme(),
         ),
         home: Builder(
-          builder: (context) => const HomeTabPage(),
+          builder: (context) => HomeTabPage(),
         ),
       ),
       listener: (context, state) {

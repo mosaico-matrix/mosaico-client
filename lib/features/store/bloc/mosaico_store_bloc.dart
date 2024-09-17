@@ -16,6 +16,7 @@ class MosaicoStoreBloc extends Bloc<MosaicoStoreEvent, MosaicoStoreState> {
       required this.widgetsCoapRepository})
       : super(MosaicoStoreInitialState()) {
     on<LoadMosaicoStoreEvent>(_onLoadMosaicoStoreEvent);
+    on<SoftLoadMosaicoStoreEvent>(_onSoftLoadMosaicoStoreEvent);
     on<InstallMosaicoWidgetEvent>(_onInstallMosaicoWidgetEvent);
   }
 
@@ -27,6 +28,18 @@ class MosaicoStoreBloc extends Bloc<MosaicoStoreEvent, MosaicoStoreState> {
       var installedWidgets = await widgetsCoapRepository.getInstalledWidgets();
       emit(MosaicoStoreLoadedState(
           storeWidgets: storeWidgets, installedWidgets: installedWidgets));
+    } catch (e) {
+      emit(MosaicoStoreErrorState(message: "Error loading store widgets"));
+    }
+  }
+
+  Future<void> _onSoftLoadMosaicoStoreEvent(
+      SoftLoadMosaicoStoreEvent event, Emitter<MosaicoStoreState> emit) async {
+    emit(MosaicoStoreLoadingState());
+    try {
+      var storeWidgets = await widgetsRestRepository.getStoreWidgets();
+      emit(MosaicoStoreLoadedState(
+          storeWidgets: storeWidgets, installedWidgets: const [], softLoaded: true));
     } catch (e) {
       emit(MosaicoStoreErrorState(message: "Error loading store widgets"));
     }

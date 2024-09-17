@@ -7,6 +7,8 @@ import 'package:mosaico/features/slideshows/presentation/pages/slideshows_page.d
 import 'package:mosaico/features/store/presentation/pages/store_page.dart';
 import 'package:mosaico/features/widgets/presentation/pages/installed_widgets_page.dart';
 import 'package:mosaico_flutter_core/core/utils/toaster.dart';
+import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
+import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_coap_repository.dart';
 
 class HomePageState extends ChangeNotifier {
@@ -66,6 +68,13 @@ class HomePageState extends ChangeNotifier {
             borderRadius: BorderRadius.circular(50),
           ),
           onPressed: () {
+
+            // Check if connected to the matrix
+            if(context.read<MatrixDeviceBloc>().state is! MatrixDeviceConnectedState) {
+              Toaster.warning('Connect to a matrix to create a slideshow');
+              return;
+            }
+
             // Check if installed at least one widget
             context
                 .read<MosaicoWidgetsCoapRepository>()

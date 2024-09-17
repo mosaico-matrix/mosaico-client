@@ -17,8 +17,8 @@ class MosaicoStoreLoadedState extends MosaicoStoreState {
   final int? installingWidgetId;
   final List<MosaicoWidget> storeWidgets;
   final List<MosaicoWidget> installedWidgets;
-
-  MosaicoStoreLoadedState({required this.storeWidgets, required this.installedWidgets, this.installingWidgetId});
+  final bool softLoaded;  // If we are browsing the store without being connected to the matrix
+  MosaicoStoreLoadedState({required this.storeWidgets, required this.installedWidgets, this.installingWidgetId, this.softLoaded = false});
 
   @override
   List<Object> get props => [storeWidgets, installingWidgetId ?? 0];

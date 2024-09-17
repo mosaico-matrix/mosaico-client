@@ -5,6 +5,7 @@ import 'package:mosaico/features/home/presentation/widgets/notch/sections/notch_
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_state.dart';
 import 'package:provider/provider.dart';
+
 class DeviceInfo extends StatelessWidget {
   const DeviceInfo({super.key});
 
@@ -12,32 +13,34 @@ class DeviceInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MatrixDeviceBloc, MatrixDeviceState>(
         builder: (context, state) {
-      if (state is MatrixDeviceConnectedState) {
-        return NotchSection(
-            title: "Device Info",
-            child: Column(
-              children: [
-                DeviceInfoKeyValue(
-                    keyText: 'Widget:',
-                    valueText: state.activeWidget?.name ?? 'N/A'),
-                DeviceInfoKeyValue(
-                    keyText: 'Configuration:',
-                    valueText: state.activeWidgetConfiguration?.name ?? 'N/A'),
-                DeviceInfoKeyValue(
-                    keyText: 'Address:', valueText: state.address),
-                // GestureDetector(
-                //   onDoubleTap: () {
-                //     Navigator.pushNamed(context, Routes.debug);
-                //   },
-                //   child: DeviceInfoKeyValue(
-                //       keyText: 'Version:',
-                //       valueText: deviceState.deviceVersion),
-
-              ],
-            ));
-      }
-
-      return const SizedBox();
+      return NotchSection(
+          title: "Device Info",
+          child: Column(
+            children: [
+              DeviceInfoKeyValue(
+                  keyText: 'Widget:',
+                  valueText: state is MatrixDeviceConnectedState
+                      ? state.activeWidget?.name ?? 'N/A'
+                      : 'N/A'),
+              DeviceInfoKeyValue(
+                  keyText: 'Configuration:',
+                  valueText: state is MatrixDeviceConnectedState
+                      ? state.activeWidgetConfiguration?.name ?? 'N/A'
+                      : 'N/A'),
+              DeviceInfoKeyValue(
+                  keyText: 'Address:',
+                  valueText: state is MatrixDeviceConnectedState
+                      ? state.address
+                      : 'N/A'),
+              // GestureDetector(
+              //   onDoubleTap: () {
+              //     Navigator.pushNamed(context, Routes.debug);
+              //   },
+              //   child: DeviceInfoKeyValue(
+              //       keyText: 'Version:',
+              //       valueText: deviceState.deviceVersion),
+            ],
+          ));
     });
   }
 }

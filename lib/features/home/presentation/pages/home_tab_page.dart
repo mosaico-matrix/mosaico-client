@@ -3,15 +3,30 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:mosaico/shared/widgets/pixel_rain.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../states/home_page_state.dart';
 import '../widgets/notch/device_notch.dart';
 
 class HomeTabPage extends StatelessWidget {
-  const HomeTabPage({super.key});
+  final GlobalKey _panelShowcaseKey = GlobalKey();
+
+  HomeTabPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) async {
+
+        var prefs = await SharedPreferences.getInstance();
+        var isFirstTime = prefs.getBool('first_time_panel') ?? true;
+        if (isFirstTime) {
+          ShowCaseWidget.of(context).startShowCase([_panelShowcaseKey]);
+          prefs.setBool('first_time_panel', false);
+        }
+      },
+    );
     return ChangeNotifierProvider(
       create: (context) => HomePageState(),
       child: Consumer<HomePageState>(
@@ -27,8 +42,12 @@ class HomeTabPage extends StatelessWidget {
                 bottomLeft: Radius.circular(HomePageState.edgeRadius),
                 bottomRight: Radius.circular(HomePageState.edgeRadius),
               ),
-              panel: const Center(
-                child: DeviceStatusNotch(),
+              panel:  Center(
+                child: Showcase(
+                    key: _panelShowcaseKey,
+                    scaleAnimationDuration: const Duration(milliseconds: 200),
+                    description: 'Pull me down to control the matrix  ^_^',
+                    child: DeviceStatusNotch()),
               ),
               body: Container(
                   padding: EdgeInsets.only(
@@ -49,8 +68,7 @@ class HomeTabPage extends StatelessWidget {
     );
   }
 
-  Widget _buildTabBar(HomePageState homePageState, BuildContext context)
-  {
+  Widget _buildTabBar(HomePageState homePageState, BuildContext context) {
     return AnimatedBottomNavigationBar.builder(
       height: HomePageState.tabBarHeight,
       activeIndex: homePageState.currentIndex,
@@ -69,12 +87,16 @@ class HomeTabPage extends StatelessWidget {
               Icon(
                 homePageState.pages[index].icon,
                 size: 24,
-                color: isActive ? Theme.of(context).colorScheme.onSurface : Colors.grey,
+                color: isActive
+                    ? Theme.of(context).colorScheme.onSurface
+                    : Colors.grey,
               ),
               Text(
                 homePageState.pages[index].title,
                 style: TextStyle(
-                    color: isActive ? Theme.of(context).colorScheme.onSurface : Colors.grey,
+                    color: isActive
+                        ? Theme.of(context).colorScheme.onSurface
+                        : Colors.grey,
                     fontWeight: isActive ? FontWeight.bold : FontWeight.normal),
               ),
             ],

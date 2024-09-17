@@ -9,11 +9,19 @@ class LoadMosaicoStoreEvent extends MosaicoStoreEvent {
   List<Object> get props => [];
 }
 
+// This is the same as LoadMosaicoStoreEvent but when we are not connected to the matrix,
+// Just browsing the store widgets
+class SoftLoadMosaicoStoreEvent extends MosaicoStoreEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class InstallMosaicoWidgetEvent extends MosaicoStoreEvent {
   final int storeId;
   final MosaicoStoreLoadedState previousState;
 
-  InstallMosaicoWidgetEvent({required this.storeId, required this.previousState});
+  InstallMosaicoWidgetEvent(
+      {required this.storeId, required this.previousState});
 
   @override
   List<Object> get props => [storeId, previousState];
