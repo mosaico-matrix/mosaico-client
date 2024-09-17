@@ -5,8 +5,7 @@ import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mos
 
 class MosaicoSlideshowCubit extends Cubit<MosaicoSlideshow> {
 
-
-  MosaicoSlideshowCubit() : super(MosaicoSlideshow());
+  MosaicoSlideshowCubit(MosaicoSlideshow slideshow) : super(slideshow);
 
   void updateSlideshowName(String newName) {
     state.name = newName;
@@ -19,9 +18,8 @@ class MosaicoSlideshowCubit extends Cubit<MosaicoSlideshow> {
   }
 
   void removeSlideshowItem(MosaicoSlideshowItem slideshowItem) {
-    final newItems = List<MosaicoSlideshowItem>.from(state.items)
-      ..remove(slideshowItem);
-    emit(state.copyWith(items: newItems));
+
   }
+
 
 }

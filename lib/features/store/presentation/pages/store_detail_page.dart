@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mosaico/features/store/presentation/widgets/mosaico_widget_description.dart';
 import 'package:mosaico/features/store/presentation/widgets/mosaico_widget_images_carousel.dart';
 import 'package:mosaico/features/store/presentation/widgets/mosaico_widget_info.dart';
+import 'package:mosaico/shared/widgets/pixel_rain.dart';
 import 'package:mosaico_flutter_core/common/widgets/empty_placeholder.dart';
 import 'package:mosaico_flutter_core/common/widgets/matrices/loading_matrix.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
@@ -32,20 +33,22 @@ class StoreDetailPage extends StatelessWidget {
             Text(widget.name),
           ],
         )),
-        body: FutureBuilder(
-            future: context
-                .read<MosaicoWidgetsRestRepository>()
-                .getWidgetDetails(storeId: widget.id),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return _buildWidgetDetails(snapshot.data!);
-              } else if (snapshot.hasError) {
-                return EmptyPlaceholder(
-                    hintText:
-                        "Could not fetch widget from store: ${snapshot.error.toString()}");
-              }
-              return Center(child: LoadingMatrix());
-            }));
+        body: PixelRain(
+          child: FutureBuilder(
+              future: context
+                  .read<MosaicoWidgetsRestRepository>()
+                  .getWidgetDetails(storeId: widget.id),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return _buildWidgetDetails(snapshot.data!);
+                } else if (snapshot.hasError) {
+                  return EmptyPlaceholder(
+                      hintText:
+                          "Could not fetch widget from store: ${snapshot.error.toString()}");
+                }
+                return Center(child: LoadingMatrix());
+              }),
+        ));
   }
 
   Widget _buildWidgetDetails(MosaicoWidget widget) {

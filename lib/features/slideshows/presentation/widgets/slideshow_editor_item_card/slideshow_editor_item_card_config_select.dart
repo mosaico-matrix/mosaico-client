@@ -13,33 +13,44 @@ class SlideshowEditorItemCardConfigSelect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MosaicoSlideshowItemCubit, MosaicoSlideshowItem>(
-        builder: (context, state) {
-      // No slideshow selected
-      if (state.widgetId == -1) {
-        return const SizedBox();
-      }
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: BlocBuilder<MosaicoSlideshowItemCubit, MosaicoSlideshowItem>(
+          builder: (context, state) {
+        // No widget selected
+        if (state.widgetId == -1) {
+          return const SizedBox();
+        }
 
-      return FutureBuilder(
-        future: context
-            .read<MosaicoWidgetConfigurationsCoapRepository>()
-            .getWidgetConfigurations(widgetId: state.widgetId),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData &&
-              snapshot.data!.isNotEmpty) {
-            return Column(
-              children: [
-                const SizedBox(height: 10.0), // Spacing at top
-                _buildConfigSelect(context, snapshot.data!),
-              ],
-            );
-          } else {
+        return FutureBuilder(
+          future: context
+              .read<MosaicoWidgetConfigurationsCoapRepository>()
+              .getWidgetConfigurations(widgetId: state.widgetId),
+          builder: (context, snapshot) {
+
+            // We have configurations!
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData &&
+                snapshot.data!.isNotEmpty) {
+              return _buildConfigSelect(context, snapshot.data!);
+            }
+
+            // We had a configuration but we are waiting for the data
+            if(state.configId != null) {
+              // Return empty list
+              return CustomDropdown<MosaicoWidgetConfiguration>.search(
+                hintText: 'Configuration',
+                items: [],
+                onChanged: (widget) {},
+              );
+            }
+
+            // We have no configurations
             return const SizedBox();
-          }
-        },
-      );
-    });
+          },
+        );
+      }),
+    );
   }
 
   Widget _buildConfigSelect(

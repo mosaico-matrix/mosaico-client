@@ -35,8 +35,6 @@ class SlideshowEditorItemCard extends StatelessWidget {
                 ),
                 context: context),
             _buildDeleteButton(context),
-            // _buildUpButton(context),
-            // _buildDownButton(context),
           ]),
     );
   }

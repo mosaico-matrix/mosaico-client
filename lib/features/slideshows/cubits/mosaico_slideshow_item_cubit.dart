@@ -18,16 +18,16 @@ class MosaicoSlideshowItemCubit extends Cubit<MosaicoSlideshowItem> {
       : super(initialState);
 
   void setWidget(MosaicoWidget? widget) {
-    emit(updateSlideshowItem(state.copyWith(widgetId: widget?.id)));
+    emit(updateSlideshowItem(state.copyWith(widgetId: widget?.id, configId: null)));
   }
 
   void setConfig(MosaicoWidgetConfiguration? config) {
-    emit(updateSlideshowItem(state.copyWith(configId: config?.id)));
+    updateSlideshowItem(state.copyWith(configId: config?.id));
   }
 
   void setDuration(int secondsDuration) {
     // No need to emit here
-    updateSlideshowItem(state.copyWith(secondsDuration: secondsDuration));
+    updateSlideshowItem(state.copyWith(secondsDuration: secondsDuration, configId: state.configId));
   }
 
   MosaicoSlideshowItem updateSlideshowItem(MosaicoSlideshowItem newItem) {
@@ -39,6 +39,4 @@ class MosaicoSlideshowItemCubit extends Cubit<MosaicoSlideshowItem> {
     }
     return newItem;
   }
-
-
 }

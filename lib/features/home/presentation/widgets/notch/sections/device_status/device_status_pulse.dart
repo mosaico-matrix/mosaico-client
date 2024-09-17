@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_state.dart';
-import 'package:mosaico_flutter_core/features/matrix_control/presentation/states/mosaico_device_state.dart';
-import 'package:provider/provider.dart';
 
 class DeviceStatusPulse extends StatelessWidget {
   const DeviceStatusPulse({super.key});

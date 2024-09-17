@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaico/features/slideshows/cubits/mosaico_slideshow_cubit.dart';
 import 'package:mosaico/features/slideshows/cubits/mosaico_slideshow_item_cubit.dart';
-import 'package:mosaico/features/slideshows/presentation/states/slideshow_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mosaico_slideshow_item.dart';
-import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/repositories/mosaico_slideshows_coap_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_coap_repository.dart';
 import 'package:provider/provider.dart';
@@ -40,10 +38,7 @@ class SlideshowEditorItemCardWidgetSelect extends StatelessWidget {
               return CustomDropdown<MosaicoWidget>.search(
                 hintText: 'Widget',
                 items: [],
-                excludeSelected: false,
                 onChanged: (widget) {},
-                listItemBuilder: (context, widget, _, __) => Text(widget.name),
-                headerBuilder: (context, widget, _) => Text(widget.name),
               );
             }
           },

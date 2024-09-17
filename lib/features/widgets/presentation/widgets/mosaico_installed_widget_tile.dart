@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mosaico/features/configurations/presentation/dialogs/widget_configurations_dialog.dart';
+import 'package:mosaico/features/widgets/bloc/mosaico_installed_widgets_bloc.dart';
+import 'package:mosaico/features/widgets/bloc/mosaico_installed_widgets_event.dart';
+import 'package:mosaico_flutter_core/common/widgets/dialogs/confirmation_dialog.dart';
 import 'package:mosaico_flutter_core/core/utils/toaster.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_event.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_state.dart';
-import 'package:mosaico_flutter_core/features/matrix_control/presentation/states/mosaico_device_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/states/mosaico_loading_state.dart';
-import 'package:mosaico_flutter_core/features/mosaico_widgets/bloc/mosaico_installed_widgets_bloc.dart';
-import 'package:mosaico_flutter_core/features/mosaico_widgets/bloc/mosaico_installed_widgets_event.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
 import 'package:mosaico/shared/widgets/mosaico_widget_tile.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget_configuration.dart';
@@ -85,8 +84,19 @@ class MosaicoInstalledWidgetTile extends StatelessWidget {
   }
 
   Future<void> deleteWidget(BuildContext context) async {
+
     // Hide the dialog
     Navigator.of(context).pop();
+
+    // Ask confirmation
+    var confirm = await ConfirmationDialog.ask(context: context,
+        title: "Delete widget",
+        message: "Are you sure you want to delete this widget?");
+
+    // Return if not confirmed
+    if (!confirm) {
+      return;
+    }
 
     // Show loading
     context.read<MosaicoLoadingState>().showOverlayLoading();

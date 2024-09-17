@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mosaico/features/home/presentation/widgets/notch/sections/device_control/device_control.dart';
 import 'package:mosaico/features/home/presentation/widgets/notch/sections/device_info/device_info.dart';
 import 'package:mosaico/features/home/presentation/widgets/notch/sections/device_status/device_status.dart';
-import 'package:mosaico_flutter_core/features/matrix_control/presentation/states/mosaico_device_state.dart';
 import 'package:provider/provider.dart';
 
 class DeviceStatusNotch extends StatelessWidget {

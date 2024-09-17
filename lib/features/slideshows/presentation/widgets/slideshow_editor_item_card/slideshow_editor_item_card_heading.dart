@@ -12,11 +12,9 @@ class SlideshowEditorItemCardHeading extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MosaicoSlideshowItemCubit, MosaicoSlideshowItem>(
       builder: (context, state) {
-        return Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Text(
-                style: const TextStyle(fontSize: 20),
-                "Widget ${state.position}"));
+        return Text(
+            style: const TextStyle(fontSize: 20),
+            "Widget ${state.position+1}");
       },
     );
   }
