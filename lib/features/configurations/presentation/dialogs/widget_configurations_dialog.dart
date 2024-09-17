@@ -30,53 +30,52 @@ class WidgetConfigurationsDialog extends StatelessWidget {
     return BlocProvider(
       create: (context) => WidgetConfigurationsBloc(context.read())
         ..add(LoadWidgetConfigurationsEvent(widgetId: widget.id)),
-      child: Builder(
-        builder: (context) {
-          return AlertDialog(
-              title: const Text('Configurations'),
-              insetPadding: EdgeInsets.zero,
-              actionsOverflowAlignment: OverflowBarAlignment.center,
-              actions: [
-                MosaicoTextButton(
-                  text: 'Close',
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                MosaicoButton(
-                    text: 'Add new configuration',
-                    onPressed: () => addNewConfiguration(context)),
-              ],
-              content: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: BlocBuilder<WidgetConfigurationsBloc,
-                    WidgetConfigurationsState>(builder: (context, state) {
-                  // Loading
-                  if (state is WidgetConfigurationsLoadingState) {
-                    return LoadingMatrix();
-                  }
+      child: Builder(builder: (context) {
+        return AlertDialog(
+            title: const Text('Configurations'),
+            insetPadding: EdgeInsets.zero,
+            actionsOverflowAlignment: OverflowBarAlignment.center,
+            actions: [
+              MosaicoTextButton(
+                text: 'Close',
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              MosaicoButton(
+                  text: 'Add new configuration',
+                  onPressed: () => addNewConfiguration(context)),
+            ],
+            content: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: BlocBuilder<WidgetConfigurationsBloc,
+                  WidgetConfigurationsState>(builder: (context, state) {
+                // Loading
+                if (state is WidgetConfigurationsLoadingState) {
+                  return LoadingMatrix();
+                }
 
-                  // Loaded
-                  if (state is WidgetConfigurationsLoadedState) {
-                    return _buildConfigurationTiles(context, state.configurations);
-                  }
+                // Loaded
+                if (state is WidgetConfigurationsLoadedState) {
+                  return _buildConfigurationTiles(
+                      context, state.configurations);
+                }
 
-                  // Error
-                  if (state is WidgetConfigurationsErrorState) {
-                    return EmptyPlaceholder(
-                      hintText: "Could not load configurations",
-                      onRetry: () {
-                        context.read<WidgetConfigurationsBloc>().add(
-                            LoadWidgetConfigurationsEvent(widgetId: widget.id));
-                      },
-                    );
-                  }
+                // Error
+                if (state is WidgetConfigurationsErrorState) {
+                  return EmptyPlaceholder(
+                    hintText: "Could not load configurations",
+                    onRetry: () {
+                      context.read<WidgetConfigurationsBloc>().add(
+                          LoadWidgetConfigurationsEvent(widgetId: widget.id));
+                    },
+                  );
+                }
 
-                  return const EmptyPlaceholder();
-                }),
-              ));
-        }
-      ),
+                return const EmptyPlaceholder();
+              }),
+            ));
+      }),
     );
   }
 
@@ -94,11 +93,11 @@ class WidgetConfigurationsDialog extends StatelessWidget {
               configuration: configuration,
               trailing: PopupMenuButton(
                 itemBuilder: (context) => [
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     child: ListTile(
-                      title: Text('Edit'),
-                      leading: Icon(Icons.edit),
-                      //  onTap: () =>  editConfiguration(context, configuration)
+                      title: const Text('Edit'),
+                      leading: const Icon(Icons.edit),
+                      onTap: () => editConfiguration(context, configuration),
                     ),
                   ),
                   PopupMenuItem(
@@ -142,26 +141,102 @@ class WidgetConfigurationsDialog extends StatelessWidget {
         .whenComplete(() => context.hideLoading());
   }
 
-  Future<void> addNewConfiguration(BuildContext context) async {
-    // Get configuration form
+  Future<void> _loadAndSubmitConfiguration(
+      BuildContext context, {
+        required Future<Map<String, dynamic>> formLoader,
+        required Future<void> Function(String, String) configUploader,
+        String? oldConfigDirPath,
+        String? oldConfigName,
+      }) async {
     context.showLoading();
-    context
-        .read<MosaicoWidgetsCoapRepository>()
-        .getWidgetConfigurationForm(widgetId: widget.id)
-        .then((configForm) => _onConfigFormLoaded(context, configForm))
+
+    // Get configuration form
+    formLoader
+        .then((configForm) => _onConfigFormLoaded(
+        context,
+        configForm,
+        configUploader: configUploader,
+        oldConfigDirPath: oldConfigDirPath,
+        oldConfigName: oldConfigName))
         .onError((_, __) => Toaster.error('Could not load configuration form'))
         .whenComplete(() => context.hideLoading());
   }
 
-  // Called when downloaded configuration form and waiting for user to fill it
+  Future<void> editConfiguration(
+      BuildContext context, MosaicoWidgetConfiguration configuration) async {
+
+    // Close the popup menu
+    Navigator.of(context).pop();
+
+    final formLoader = context
+        .read<MosaicoWidgetsCoapRepository>()
+        .getWidgetConfigurationForm(widgetId: widget.id);
+
+    configUploader(String configName, String configArchivePath) {
+      return context
+          .read<MosaicoWidgetConfigurationsCoapRepository>()
+          .updateWidgetConfiguration(
+        configurationId: configuration.id!,
+        configurationName: configName,
+        configurationArchivePath: configArchivePath,
+      );
+    }
+
+    // Get previous configuration package
+    final oldPackagePath = await context
+        .read<MosaicoWidgetConfigurationsCoapRepository>()
+        .getWidgetConfigurationPackage(configurationId: configuration.id!);
+
+    // Load and submit the configuration
+    await _loadAndSubmitConfiguration(
+      context,
+      formLoader: formLoader,
+      configUploader: configUploader,
+      oldConfigDirPath: oldPackagePath,
+      oldConfigName: configuration.name,
+    );
+  }
+
+  Future<void> addNewConfiguration(BuildContext context) async {
+    final formLoader = context
+        .read<MosaicoWidgetsCoapRepository>()
+        .getWidgetConfigurationForm(widgetId: widget.id);
+
+    configUploader(String configName, String configArchivePath) {
+      return context
+          .read<MosaicoWidgetConfigurationsCoapRepository>()
+          .uploadWidgetConfiguration(
+        widgetId: widget.id,
+        configurationName: configName,
+        configurationArchivePath: configArchivePath,
+      );
+    }
+
+    // Load and submit the new configuration
+    await _loadAndSubmitConfiguration(
+      context,
+      formLoader: formLoader,
+      configUploader: configUploader,
+    );
+  }
+
   void _onConfigFormLoaded(
-      BuildContext context, Map<String, dynamic> configForm) async {
+      BuildContext context,
+      Map<String, dynamic> configForm, {
+        required Future<void> Function(String, String) configUploader,
+        String? oldConfigDirPath,
+        String? oldConfigName,
+      }) async {
     context.hideLoading();
 
     // Make user fill the configuration form
     ConfigOutput? generatedConfig = await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ConfigFormPage(configForm),
+        builder: (context) => ConfigFormPage(
+            configForm,
+            oldConfigDirPath: oldConfigDirPath,
+            initialConfigName: oldConfigName
+        ),
       ),
     );
 
@@ -170,62 +245,17 @@ class WidgetConfigurationsDialog extends StatelessWidget {
       return;
     }
 
-    // Upload the configuration to the matrix
+    // Upload the configuration using the provided uploader
     context.showLoading();
-    context
-        .read<MosaicoWidgetConfigurationsCoapRepository>()
-        .uploadWidgetConfiguration(
-            widgetId: widget.id,
-            configurationName: generatedConfig.getConfigName(),
-            configurationArchivePath: generatedConfig.exportToArchive())
+    configUploader(
+      generatedConfig.getConfigName(),
+      generatedConfig.exportToArchive(),
+    )
         .then((_) => context
-            .read<WidgetConfigurationsBloc>()
-            .add(LoadWidgetConfigurationsEvent(widgetId: widget.id)))
+        .read<WidgetConfigurationsBloc>()
+        .add(LoadWidgetConfigurationsEvent(widgetId: widget.id)))
         .onError((_, __) => Toaster.error('Could not upload configuration'))
         .whenComplete(() => context.hideLoading());
   }
 
-// /// Downloads the previous configuration and allows the user to edit it
-// Future<void> editConfiguration(BuildContext context,
-//     MosaicoWidgetConfiguration configuration, MosaicoWidget widget) async {
-//   loadingState.showOverlayLoading();
-//
-//   // Get previous configuration package
-//   var oldPackagePath = await _configurationsRepository
-//       .getWidgetConfigurationPackage(configurationId: configuration.id!);
-//
-//   // Get configuration form
-//   var configForm = await _widgetsRepository.getWidgetConfigurationForm(
-//       widgetId: widget.id);
-//   loadingState.hideOverlayLoading();
-//
-//   // Make user fill the configuration form
-//   ConfigOutput? generatedConfig = await Navigator.of(context).push(
-//     MaterialPageRoute(
-//       builder: (context) => ConfigFormPage(configForm,
-//           oldConfigDirPath: oldPackagePath,
-//           initialConfigName: configuration.name),
-//     ),
-//   );
-//
-//   // User dismissed the configuration form
-//   if (generatedConfig == null) {
-//     return;
-//   }
-//
-//   // Upload the configuration to the matrix
-//   loadingState.showOverlayLoading();
-//   var updatedConfig =
-//       await _configurationsRepository.updateWidgetConfiguration(
-//           configurationId: configuration.id!,
-//           configurationName: generatedConfig.getConfigName(),
-//           configurationArchivePath: generatedConfig.exportToArchive());
-//   loadingState.hideOverlayLoading();
-//
-//   // Update the configuration in the list
-//   var index = _configurations!
-//       .indexWhere((element) => element.id == configuration.id);
-//   _configurations![index] = updatedConfig;
-//   notifyListeners();
-// }
 }
