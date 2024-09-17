@@ -6,16 +6,12 @@ import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mos
 import 'package:provider/provider.dart';
 
 class SlideshowEditorItemCardHeading extends StatelessWidget {
-  const SlideshowEditorItemCardHeading({super.key});
+  final int position;
+  const SlideshowEditorItemCardHeading({super.key, required this.position});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MosaicoSlideshowItemCubit, MosaicoSlideshowItem>(
-      builder: (context, state) {
-        return Text(
-            style: const TextStyle(fontSize: 20),
-            "Widget ${state.position+1}");
-      },
-    );
+    return Text(
+        style: const TextStyle(fontSize: 20), "Widget ${position + 1}");
   }
 }

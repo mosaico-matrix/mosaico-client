@@ -10,6 +10,8 @@ import 'package:mosaico_flutter_core/core/extensions/build_context_extensions.da
 import 'package:mosaico_flutter_core/core/utils/toaster.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mosaico_slideshow.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/repositories/mosaico_slideshows_coap_repository.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
+import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_coap_repository.dart';
 import 'package:provider/provider.dart';
 
 class SlideshowTile extends StatelessWidget {
@@ -41,37 +43,41 @@ class SlideshowTile extends StatelessWidget {
   }
 
   Widget _buildSlideshowItems(BuildContext context) {
-    return Container();
-    // return ListView.builder(
-    //     padding: const EdgeInsets.symmetric(vertical: 10),
-    //     shrinkWrap: true,
-    //     itemCount: slideshow.items.length,
-    //     itemBuilder: (context, index) {
-    //       var widget = installedWidgetsState
-    //           .getWidgetById(slideshow.items[index].widgetId);
-    //       var widgetDuration = slideshow.items[index].secondsDuration;
-    //       return widget != null
-    //           ? Row(
-    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //         children: [
-    //           Row(
-    //             children: [
-    //               const Icon(Icons.widgets),
-    //               const SizedBox(width: 5),
-    //               Text(widget.name),
-    //             ],
-    //           ),
-    //           Row(
-    //             children: [
-    //               Text(widgetDuration.toString() + "s"),
-    //               const SizedBox(width: 5),
-    //               const Icon(Icons.timer),
-    //             ],
-    //           ),
-    //         ],
-    //       )
-    //           : Container();
-    //     });
+    return ListView.builder(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        shrinkWrap: true,
+        itemCount: slideshow.items.length,
+        itemBuilder: (context, index) {
+          var widget = context
+              .read<MosaicoWidgetsCoapRepository>()
+              .getByIdFromCache(slideshow.items[index].widgetId);
+          var widgetDuration = slideshow.items[index].secondsDuration;
+          return widget != null
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.widgets),
+                        const SizedBox(width: 5),
+                        Text(widget.name),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text("${widgetDuration}s"),
+                        const SizedBox(width: 5),
+                        const Icon(Icons.timer),
+                      ],
+                    ),
+                  ],
+                )
+              : const Row(children: [
+                  Icon(Icons.error),
+                  SizedBox(width: 5),
+                  Text("This widget has been uninstalled!"),
+                ]);
+        });
   }
 
   Widget _buildSlideshowActions(BuildContext context) {
@@ -129,7 +135,9 @@ class SlideshowTile extends StatelessWidget {
                       .catchError((error) {
                     Toaster.error("Error deleting slideshow");
                   }).then((value) {
-                    context.read<MosaicoSlideshowsBloc>().add(LoadSlideshowsEvent());
+                    context
+                        .read<MosaicoSlideshowsBloc>()
+                        .add(LoadSlideshowsEvent());
                   });
                 })),
       ];

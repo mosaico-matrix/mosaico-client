@@ -9,50 +9,41 @@ import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/
 import 'package:provider/provider.dart';
 
 class SlideshowEditorItemCardWidgetSelect extends StatelessWidget {
-  const SlideshowEditorItemCardWidgetSelect({super.key});
+  final int? initialWidgetId;
+  final Function(MosaicoWidget) setWidget;
+
+  const SlideshowEditorItemCardWidgetSelect(
+      {super.key, required this.setWidget, this.initialWidgetId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MosaicoSlideshowItemCubit, MosaicoSlideshowItem>(
-        builder: (context, state) {
+    try {
       return Padding(
         padding: const EdgeInsets.only(top: 10.0),
-        child: FutureBuilder(
-          future: context
+        child: CustomDropdown<MosaicoWidget>.search(
+          hintText: 'Widget',
+          items: context
               .read<MosaicoWidgetsCoapRepository>()
-              .getInstalledWidgets(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return CustomDropdown<MosaicoWidget>.search(
-                hintText: 'Widget',
-                items: snapshot.data!,
-                excludeSelected: false,
-                onChanged: (widget) {
-                  context.read<MosaicoSlideshowItemCubit>().setWidget(widget);
-                },
-                listItemBuilder: (context, widget, _, __) => Text(widget.name),
-                headerBuilder: (context, widget, _) => Text(widget.name),
-              );
-            } else {
-              // Empty list
-              return CustomDropdown<MosaicoWidget>.search(
-                hintText: 'Widget',
-                items: [],
-                onChanged: (widget) {},
-              );
-            }
+              .getInstalledWidgetsFromCache(),
+          excludeSelected: false,
+          initialItem: initialWidgetId != null
+              ? context
+                  .read<MosaicoWidgetsCoapRepository>()
+                  .getInstalledWidgetsFromCache()
+                  .firstWhere((element) => element.id == initialWidgetId)
+              : null,
+          onChanged: (widget) {
+            if (widget == null) return;
+            setWidget(widget);
           },
+          listItemBuilder: (context, widget, _, __) => Text(widget.name),
+          headerBuilder: (context, widget, _) => Text(widget.name),
         ),
       );
-    });
-  }
-
-  MosaicoWidget? getWidgetById(List<MosaicoWidget> widgets, int id) {
-    for (var widget in widgets) {
-      if (widget.id == id) {
-        return widget;
-      }
+    } catch (e) {
+      return const Text('The widget that was previously selected is not currently installed.',
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.red));
     }
-    return null;
   }
 }

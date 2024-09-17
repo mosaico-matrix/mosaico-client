@@ -7,6 +7,7 @@ import 'package:mosaico/features/widgets/bloc/mosaico_installed_widgets_bloc.dar
 import 'package:mosaico_flutter_core/core/configuration/app_color_scheme.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_event.dart';
+import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/widgets/mosaico_loading_wrapper.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/repositories/mosaico_slideshows_coap_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widget_configurations_coap_repository.dart';
@@ -66,15 +67,33 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'Dotted',
-        colorScheme: AppColorScheme.getDefaultColorScheme(),
+    return BlocListener<MatrixDeviceBloc, MatrixDeviceState>(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'Dotted',
+          colorScheme: AppColorScheme.getDefaultColorScheme(),
+        ),
+        home: Builder(
+          builder: (context) => const HomeTabPage(),
+        ),
       ),
-      home: Builder(
-        builder: (context) => const HomeTabPage(),
-      ),
+      listener: (context, state) {
+        if (state is MatrixDeviceConnectedState) {
+          if (_isPingScheduled) return;
+
+          _isPingScheduled = true;
+          Future.delayed(const Duration(seconds: 8), () {
+            context
+                .read<MatrixDeviceBloc>()
+                .add(PingMatrixAndRefreshActiveWidgetEvent(state));
+            _isPingScheduled = false; // Reset the flag after ping is done
+          });
+        }
+      },
     );
   }
 }
+
+// A variable to track if a ping is already scheduled
+bool _isPingScheduled = false;

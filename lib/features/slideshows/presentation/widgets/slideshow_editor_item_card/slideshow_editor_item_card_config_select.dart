@@ -9,74 +9,58 @@ import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/
 import 'package:provider/provider.dart';
 
 class SlideshowEditorItemCardConfigSelect extends StatelessWidget {
-  const SlideshowEditorItemCardConfigSelect({super.key});
+
+
+  final List<MosaicoWidgetConfiguration>? configurations;
+  final int? initialConfigId;
+  final Function(MosaicoWidgetConfiguration?) setConfig;
+
+  const SlideshowEditorItemCardConfigSelect(
+      {super.key, required this.setConfig, required this.configurations, required this.initialConfigId});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10.0),
-      child: BlocBuilder<MosaicoSlideshowItemCubit, MosaicoSlideshowItem>(
-          builder: (context, state) {
-        // No widget selected
-        if (state.widgetId == -1) {
-          return const SizedBox();
-        }
+    if (configurations == null) return const SizedBox();
 
-        return FutureBuilder(
-          future: context
-              .read<MosaicoWidgetConfigurationsCoapRepository>()
-              .getWidgetConfigurations(widgetId: state.widgetId),
-          builder: (context, snapshot) {
-
-            // We have configurations!
-            if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData &&
-                snapshot.data!.isNotEmpty) {
-              return _buildConfigSelect(context, snapshot.data!);
-            }
-
-            // We had a configuration but we are waiting for the data
-            if(state.configId != null) {
-              // Return empty list
-              return CustomDropdown<MosaicoWidgetConfiguration>.search(
-                hintText: 'Configuration',
-                items: [],
-                onChanged: (widget) {},
-              );
-            }
-
-            // We have no configurations
-            return const SizedBox();
+    try {
+      return Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: CustomDropdown<MosaicoWidgetConfiguration>.search(
+          hintText: 'Configuration',
+          noResultFoundBuilder: (context, search) =>
+          const Padding(
+            padding: EdgeInsets.all(12.0),
+            child: Text(
+              textAlign: TextAlign.center,
+              'No configurations found, please add a configuration for this widget before selecting it',
+            ),
+          ),
+          items: configurations,
+          excludeSelected: false,
+          onChanged: (configuration) {
+            if (configuration == null) return;
+            setConfig(configuration);
           },
-        );
-      }),
-    );
-  }
+          initialItem: (initialConfigId != null && configurations != null)
+              ? configurations!.firstWhere((element) =>
+          element.id == initialConfigId)
+              : null,
+          listItemBuilder: (context, configuration, _, __) =>
+              Text(configuration.name),
+          headerBuilder: (context, configuration, _) =>
+              Text(configuration.name),
+        ),
+      );
+    }
+    catch (e) {
 
-  Widget _buildConfigSelect(
-      BuildContext context, List<MosaicoWidgetConfiguration> configurations) {
-    return CustomDropdown<MosaicoWidgetConfiguration>.search(
-      hintText: 'Configuration',
-      noResultFoundBuilder: (context, search) => const Padding(
-        padding: EdgeInsets.all(12.0),
-        child: Text(
-            textAlign: TextAlign.center,
-            'No configurations found, please add a configuration for this widget before selecting it'),
-      ),
-      items: configurations,
-      excludeSelected: false,
-      onChanged: (configuration) {
-        if (configuration == null) return;
-        context.read<MosaicoSlideshowItemCubit>().setConfig(configuration);
-      },
-      initialItem: configurations
-          .where((element) =>
-              element.id ==
-              context.read<MosaicoSlideshowItemCubit>().state.configId)
-          .firstOrNull,
-      listItemBuilder: (context, configuration, _, __) =>
-          Text(configuration.name),
-      headerBuilder: (context, configuration, _) => Text(configuration.name),
-    );
+      setConfig(null);
+
+      return const Text(
+        'The configuration that was previously selected is not currently available.',
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.red),
+      );
+    }
   }
 }

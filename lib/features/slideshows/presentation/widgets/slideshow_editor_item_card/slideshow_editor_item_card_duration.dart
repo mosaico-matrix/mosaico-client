@@ -5,13 +5,12 @@ import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mos
 import 'package:provider/provider.dart';
 
 class SlideshowEditorItemCardDuration extends StatelessWidget {
-  //final TextEditingController _controller = TextEditingController();
-  const SlideshowEditorItemCardDuration({super.key});
+  final Function(int) onDurationChanged;
+  final int? initialDuration;
+  const SlideshowEditorItemCardDuration({super.key, required this.onDurationChanged, this.initialDuration});
 
   @override
   Widget build(BuildContext context) {
-
-    //_controller.text = context.read<MosaicoSlideshowItemCubit>().state.secondsDuration.toString();
 
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
@@ -19,9 +18,9 @@ class SlideshowEditorItemCardDuration extends StatelessWidget {
         children: [
           Expanded(
             child: TextField(
+              controller: TextEditingController(text: initialDuration?.toString()),
               cursorColor: Theme.of(context).colorScheme.onPrimary,
               keyboardType: TextInputType.number,
-             // controller: _controller,
               decoration: const InputDecoration(
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
@@ -30,9 +29,7 @@ class SlideshowEditorItemCardDuration extends StatelessWidget {
                 filled: true,
                 hintText: 'Seconds',
               ),
-              onChanged: (value) {
-                context.read<MosaicoSlideshowItemCubit>().setDuration(int.parse(value));
-              },
+              onChanged: (value) => value != '' ? onDurationChanged(int.parse(value)) : null,
             ),
           ),
         ],
