@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mosaico/features/configurations/presentation/dialogs/widget_configurations_dialog.dart';
 import 'package:mosaico/features/slideshows/presentation/pages/slideshow_editor_page.dart';
 import 'package:mosaico/features/slideshows/presentation/pages/slideshows_page.dart';
 import 'package:mosaico/features/store/presentation/pages/store_page.dart';
 import 'package:mosaico/features/widgets/presentation/pages/installed_widgets_page.dart';
+import 'package:mosaico_flutter_core/core/extensions/build_context_extensions.dart';
 import 'package:mosaico_flutter_core/core/utils/toaster.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_state.dart';
@@ -69,11 +71,7 @@ class HomePageState extends ChangeNotifier {
           ),
           onPressed: () {
 
-            // Check if connected to the matrix
-            if(context.read<MatrixDeviceBloc>().state is! MatrixDeviceConnectedState) {
-              Toaster.warning('Connect to a matrix to create a slideshow');
-              return;
-            }
+            context.ensureMatrixConnected();
 
             // Check if installed at least one widget
             context

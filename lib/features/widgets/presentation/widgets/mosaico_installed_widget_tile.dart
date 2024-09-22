@@ -3,6 +3,7 @@ import 'package:mosaico/features/configurations/presentation/dialogs/widget_conf
 import 'package:mosaico/features/widgets/bloc/mosaico_installed_widgets_bloc.dart';
 import 'package:mosaico/features/widgets/bloc/mosaico_installed_widgets_event.dart';
 import 'package:mosaico_flutter_core/common/widgets/dialogs/confirmation_dialog.dart';
+import 'package:mosaico_flutter_core/core/extensions/build_context_extensions.dart';
 import 'package:mosaico_flutter_core/core/utils/toaster.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_event.dart';
@@ -65,6 +66,10 @@ class MosaicoInstalledWidgetTile extends StatelessWidget {
   }
 
   Future<void> previewWidget(BuildContext context) async {
+
+    context.ensureMatrixConnected();
+
+
     // Get repositories
     var widgetsRepository = context.read<MosaicoWidgetsCoapRepository>();
 
