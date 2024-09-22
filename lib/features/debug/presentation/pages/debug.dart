@@ -4,7 +4,6 @@ import 'package:mosaico_flutter_core/core/utils/toaster.dart';
 import '../widgets/sections/ble_section.dart';
 import '../widgets/sections/coap_section.dart';
 
-
 void dumpData(data) {
   Toaster.info(data.toString());
 }
@@ -15,33 +14,52 @@ class DebugPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Debug'),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            const DebugSection(
-              title: 'BLE',
-              content: BleSection(),
-            ),
-            DebugSection(
-              title: 'COAP',
-              content: CoapSection(),
-            ),
-          ],
+        appBar: AppBar(
+          title: const Text('Debug'),
         ),
-      ),
-    );
+        body: Column(children: [
+          ElevatedButton(
+            onPressed: () => Toaster.success("Success"),
+            child: Text("Success"),
+          ),
+          ElevatedButton(
+            onPressed: () => Toaster.warning("Warning"),
+            child: Text("Warning"),
+          ),
+          ElevatedButton(
+            onPressed: () => Toaster.error("Error"),
+            child: Text("Error"),
+          ),
+          ElevatedButton(
+            onPressed: () => Toaster.info("Info"),
+            child: Text("Info"),
+          )
+        ])
+
+        // SingleChildScrollView(
+        //   child: Column(
+        //     children: <Widget>[
+        //       const DebugSection(
+        //         title: 'BLE',
+        //         content: BleSection(),
+        //       ),
+        //       DebugSection(
+        //         title: 'COAP',
+        //         content: CoapSection(),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        );
   }
 }
-
 
 class DebugSubSection extends StatelessWidget {
   final String title;
   final List<Widget> children;
 
-  const DebugSubSection({super.key, required this.title, required this.children});
+  const DebugSubSection(
+      {super.key, required this.title, required this.children});
 
   @override
   Widget build(BuildContext context) {

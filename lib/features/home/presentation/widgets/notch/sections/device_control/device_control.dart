@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mosaico_flutter_core/common/widgets/dialogs/text_input_dialog.dart';
 import 'package:mosaico_flutter_core/common/widgets/mosaico_button.dart';
 import 'package:mosaico_flutter_core/core/networking/services/coap/coap_service.dart';
-import 'package:mosaico_flutter_core/core/utils/context_toaster.dart';
 import 'package:mosaico_flutter_core/core/utils/toaster.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_event.dart';

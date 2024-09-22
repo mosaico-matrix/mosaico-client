@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mosaico/features/debug/presentation/pages/debug.dart';
 import 'package:mosaico/features/home/presentation/pages/home_tab_page.dart';
 import 'package:mosaico/features/slideshows/bloc/mosaico_slideshows_bloc.dart';
 import 'package:mosaico/features/store/bloc/mosaico_store_bloc.dart';
