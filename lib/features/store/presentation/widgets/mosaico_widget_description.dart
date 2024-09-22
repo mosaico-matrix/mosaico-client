@@ -16,7 +16,7 @@ class MosaicoWidgetDescription extends StatelessWidget {
         const MosaicoHeading(text: 'Description'),
         const Divider(),
         MarkdownBody(data: description, styleSheet: MarkdownStyleSheet(
-          p: TextStyle(color: Colors.white),
+          p: const TextStyle(color: Colors.white),
           blockquote: TextStyle(color: Theme.of(context).colorScheme.secondary),
           blockquotePadding: const EdgeInsets.all(8),
           blockquoteDecoration: BoxDecoration(

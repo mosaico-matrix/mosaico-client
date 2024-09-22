@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mosaico_flutter_core/common/widgets/dialogs/text_input_dialog.dart';
 import 'package:mosaico_flutter_core/common/widgets/mosaico_button.dart';
 import 'package:mosaico_flutter_core/core/networking/services/coap/coap_service.dart';
+import 'package:mosaico_flutter_core/core/utils/context_toaster.dart';
 import 'package:mosaico_flutter_core/core/utils/toaster.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_event.dart';
@@ -23,11 +24,11 @@ class DeviceControl extends StatelessWidget {
         child: Column(
           children: [
             MosaicoButton(
-              icon: Icons.stop,
+              icon: Icons.stop_circle_outlined,
               onPressed: () async {
-                _stopActiveWidget(context);
+                _stopPlayback(context);
               },
-              text: "Stop active widget",
+              text: "Stop playback",
             ),
             // MosaicoButton(
             //   icon: Icons.wifi,
@@ -49,7 +50,7 @@ class DeviceControl extends StatelessWidget {
     );
   }
 
-  void _stopActiveWidget(BuildContext context) {
+  void _stopPlayback(BuildContext context) {
     var deviceState = context.read<MatrixDeviceBloc>().state;
     if (deviceState is! MatrixDeviceConnectedState) {
       Toaster.error("You are not connected to a matrix device");
@@ -65,7 +66,7 @@ class DeviceControl extends StatelessWidget {
           deviceState.copyWith(
               activeWidget: null, activeWidgetConfiguration: null)));
     }).catchError((error) {
-      Toaster.error("Failed to stop active widget");
+      Toaster.error("Could not stop playback");
     });
   }
 

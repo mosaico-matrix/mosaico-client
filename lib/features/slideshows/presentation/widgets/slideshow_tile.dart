@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mosaico/features/configurations/presentation/dialogs/widget_configurations_dialog.dart';
 import 'package:mosaico/features/slideshows/bloc/mosaico_slideshows_bloc.dart';
 import 'package:mosaico/features/slideshows/bloc/mosaico_slideshows_event.dart';
 import 'package:mosaico/features/slideshows/presentation/pages/slideshow_editor_page.dart';
@@ -10,7 +9,6 @@ import 'package:mosaico_flutter_core/core/extensions/build_context_extensions.da
 import 'package:mosaico_flutter_core/core/utils/toaster.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mosaico_slideshow.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/repositories/mosaico_slideshows_coap_repository.dart';
-import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_coap_repository.dart';
 import 'package:provider/provider.dart';
 

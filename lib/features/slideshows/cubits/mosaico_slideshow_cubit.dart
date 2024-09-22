@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mosaico_slideshow.dart';
 import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/models/mosaico_slideshow_item.dart';
 
 class MosaicoSlideshowCubit extends Cubit<MosaicoSlideshow> {
 
-  MosaicoSlideshowCubit(MosaicoSlideshow slideshow) : super(slideshow);
+  MosaicoSlideshowCubit(super.slideshow);
 
   void updateSlideshowName(String newName) {
     state.name = newName;

@@ -5,7 +5,6 @@ import 'package:mosaico/features/store/bloc/mosaico_store_state.dart';
 import 'package:mosaico/features/widgets/bloc/mosaico_installed_widgets_bloc.dart';
 import 'package:mosaico/features/widgets/bloc/mosaico_installed_widgets_event.dart';
 import 'package:mosaico/features/widgets/bloc/mosaico_installed_widgets_state.dart';
-import 'package:mosaico/shared/widgets/pixel_rain.dart';
 import 'package:mosaico_flutter_core/common/widgets/empty_placeholder.dart';
 import 'package:mosaico_flutter_core/common/widgets/matrices/loading_matrix.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';

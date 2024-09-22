@@ -13,12 +13,10 @@ import 'package:mosaico_flutter_core/core/extensions/build_context_extensions.da
 import 'package:mosaico_flutter_core/core/utils/toaster.dart';
 import 'package:mosaico_flutter_core/features/config_generator/data/models/config_output.dart';
 import 'package:mosaico_flutter_core/features/config_generator/presentation/pages/config_form_page.dart';
-import 'package:mosaico_flutter_core/features/mosaico_loading/presentation/states/mosaico_loading_state.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget_configuration.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widget_configurations_coap_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_coap_repository.dart';
-import 'package:provider/provider.dart';
 
 class WidgetConfigurationsDialog extends StatelessWidget {
   final MosaicoWidget widget;

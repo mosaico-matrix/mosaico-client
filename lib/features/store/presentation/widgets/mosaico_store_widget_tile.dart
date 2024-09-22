@@ -46,7 +46,7 @@ class MosaicoStoreWidgetTile extends StatelessWidget {
       return const Tooltip(
         triggerMode: TooltipTriggerMode.tap,
         message: 'You need to connect to a matrix to install widgets',
-        showDuration: const Duration(seconds: 5),
+        showDuration: Duration(seconds: 5),
         child: Icon(Icons.warning),
       );
     }

@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaico/features/home/presentation/pages/home_tab_page.dart';
@@ -13,9 +14,7 @@ import 'package:mosaico_flutter_core/features/mosaico_slideshows/data/repositori
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widget_configurations_coap_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_coap_repository.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/repositories/mosaico_widgets_rest_repository.dart';
-import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
-import 'package:toastification/toastification.dart';
 
 void main() async {
   runApp(
@@ -55,8 +54,7 @@ void main() async {
                     MosaicoSlideshowsBloc(repository: context.read())),
           ],
           child: ShowCaseWidget(
-            builder: (context) => ToastificationWrapper(
-                child: MosaicoLoadingWrapper(child: const App())),
+            builder: (context) => MosaicoLoadingWrapper(child: const App()),
           )),
     ),
   );
@@ -70,6 +68,8 @@ class App extends StatelessWidget {
     return BlocListener<MatrixDeviceBloc, MatrixDeviceState>(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        builder: BotToastInit(),
+        navigatorObservers: [BotToastNavigatorObserver()],
         theme: ThemeData(
           fontFamily: 'Dotted',
           colorScheme: AppColorScheme.getDefaultColorScheme(),

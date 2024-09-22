@@ -4,7 +4,6 @@ import 'package:mosaico/features/home/presentation/widgets/notch/sections/device
 import 'package:mosaico/features/home/presentation/widgets/notch/sections/notch_section.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_state.dart';
-import 'package:provider/provider.dart';
 
 class DeviceInfo extends StatelessWidget {
   const DeviceInfo({super.key});

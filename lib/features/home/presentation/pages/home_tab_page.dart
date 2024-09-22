@@ -47,7 +47,7 @@ class HomeTabPage extends StatelessWidget {
                     key: _panelShowcaseKey,
                     scaleAnimationDuration: const Duration(milliseconds: 200),
                     description: 'Pull me down to control the matrix  ^_^',
-                    child: DeviceStatusNotch()),
+                    child: const DeviceStatusNotch()),
               ),
               body: Container(
                   padding: EdgeInsets.only(

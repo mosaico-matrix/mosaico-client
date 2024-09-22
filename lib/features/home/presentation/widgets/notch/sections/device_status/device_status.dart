@@ -5,7 +5,6 @@ import 'package:mosaico_flutter_core/common/widgets/matrices/loading_matrix.dart
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_event.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_state.dart';
-import 'package:provider/provider.dart';
 import 'device_status_label.dart';
 import 'device_status_pulse.dart';
 

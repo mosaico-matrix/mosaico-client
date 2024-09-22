@@ -60,7 +60,7 @@ class HomePageState extends ChangeNotifier {
             context,
             MaterialPageRoute(builder: (context) => const StorePage()),
           ),
-          child: Icon(Icons.shopping_bag),
+          child: const Icon(Icons.shopping_bag),
         );
       case 'Slideshows':
         return FloatingActionButton(
@@ -87,14 +87,14 @@ class HomePageState extends ChangeNotifier {
               }
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SlideshowEditorPage()),
+                MaterialPageRoute(builder: (context) => const SlideshowEditorPage()),
               );
             }).catchError((error) {
               Toaster.error(
                   'Load installed widgets before creating a slideshow');
             });
           },
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         );
     }
 

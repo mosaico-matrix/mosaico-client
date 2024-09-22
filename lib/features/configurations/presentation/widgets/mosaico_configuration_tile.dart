@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mosaico/shared/widgets/mosaico_tile.dart';
-import 'package:mosaico/shared/widgets/mosaico_widget_tile.dart';
 import 'package:mosaico_flutter_core/features/mosaico_widgets/data/models/mosaico_widget_configuration.dart';
 
 class MosaicoConfigurationTile extends StatelessWidget {

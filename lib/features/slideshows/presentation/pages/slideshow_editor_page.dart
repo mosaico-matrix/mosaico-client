@@ -1,5 +1,4 @@
 import 'package:animated_expandable_fab/animated_expandable_fab.dart';
-import 'package:animated_expandable_fab/expandable_fab/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaico/features/slideshows/bloc/mosaico_slideshows_bloc.dart';
@@ -18,7 +17,7 @@ import 'package:showcaseview/showcaseview.dart';
 class SlideshowEditorPage extends StatefulWidget {
   final MosaicoSlideshow? slideshow;
 
-  const SlideshowEditorPage({Key? key, this.slideshow}) : super(key: key);
+  const SlideshowEditorPage({super.key, this.slideshow});
 
   @override
   _SlideshowEditorPageState createState() => _SlideshowEditorPageState();

@@ -9,7 +9,6 @@ import 'package:mosaico_flutter_core/common/widgets/empty_placeholder.dart';
 import 'package:mosaico_flutter_core/common/widgets/matrices/loading_matrix.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_state.dart';
-import 'package:provider/provider.dart';
 import '../widgets/slideshow_tile.dart';
 
 class SlideshowsPage extends StatelessWidget {
