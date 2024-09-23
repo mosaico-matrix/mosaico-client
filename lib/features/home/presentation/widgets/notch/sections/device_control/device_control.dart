@@ -51,8 +51,6 @@ class DeviceControl extends StatelessWidget {
   }
 
   void _stopPlayback(BuildContext context) {
-    Toaster.info("asjfoahsgoiashga aoh oiahs oahioshioghsoiahighaogiahioghaoisioasg");
-    return;
     context.ensureMatrixConnected();
 
     context

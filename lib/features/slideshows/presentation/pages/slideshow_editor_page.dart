@@ -200,8 +200,8 @@ Future<bool> _validateSlideshow(BuildContext context, MosaicoSlideshow slideshow
       return false;
     }
 
-    if (item.secondsDuration < 1 || item.secondsDuration > 999999999) {
-      Toaster.error("All items must have a duration greater than 0");
+    if (item.secondsDuration < 5 || item.secondsDuration > 999999999) {
+      Toaster.error("All items must have a duration of at least 5 seconds");
       return false;
     }
   }

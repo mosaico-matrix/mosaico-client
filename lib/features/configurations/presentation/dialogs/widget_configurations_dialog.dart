@@ -81,35 +81,37 @@ class WidgetConfigurationsDialog extends StatelessWidget {
       BuildContext context, List<MosaicoWidgetConfiguration> configurations) {
     if (configurations.isEmpty) return const EmptyPlaceholder();
 
-    return Column(
-      children: configurations.map((configuration) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.pop(context, configuration);
-          },
-          child: MosaicoConfigurationTile(
-              configuration: configuration,
-              trailing: PopupMenuButton(
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    child: ListTile(
-                      title: const Text('Edit'),
-                      leading: const Icon(Icons.edit),
-                      onTap: () => editConfiguration(context, configuration),
+    return SingleChildScrollView(
+      child: Column(
+        children: configurations.map((configuration) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.pop(context, configuration);
+            },
+            child: MosaicoConfigurationTile(
+                configuration: configuration,
+                trailing: PopupMenuButton(
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child: ListTile(
+                        title: const Text('Edit'),
+                        leading: const Icon(Icons.edit),
+                        onTap: () => editConfiguration(context, configuration),
+                      ),
                     ),
-                  ),
-                  PopupMenuItem(
-                    child: ListTile(
-                        title: const Text('Delete'),
-                        leading: Icon(Icons.delete,
-                            color: Theme.of(context).colorScheme.error),
-                        onTap: () =>
-                            deleteConfiguration(context, configuration)),
-                  ),
-                ],
-              )),
-        );
-      }).toList(),
+                    PopupMenuItem(
+                      child: ListTile(
+                          title: const Text('Delete'),
+                          leading: Icon(Icons.delete,
+                              color: Theme.of(context).colorScheme.error),
+                          onTap: () =>
+                              deleteConfiguration(context, configuration)),
+                    ),
+                  ],
+                )),
+          );
+        }).toList(),
+      ),
     );
   }
 

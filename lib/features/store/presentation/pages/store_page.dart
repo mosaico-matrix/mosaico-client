@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaico/features/store/bloc/mosaico_store_bloc.dart';
@@ -5,10 +6,12 @@ import 'package:mosaico/features/store/bloc/mosaico_store_event.dart';
 import 'package:mosaico/features/store/bloc/mosaico_store_state.dart';
 import 'package:mosaico/features/store/presentation/widgets/mosaico_store_widget_tile.dart';
 import 'package:mosaico/shared/widgets/pixel_rain.dart';
+import 'package:mosaico_flutter_core/common/widgets/dialogs/confirmation_dialog.dart';
 import 'package:mosaico_flutter_core/common/widgets/empty_placeholder.dart';
 import 'package:mosaico_flutter_core/common/widgets/matrices/loading_matrix.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_bloc.dart';
 import 'package:mosaico_flutter_core/features/matrix_control/bloc/matrix_device_state.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class StorePage extends StatelessWidget {
   const StorePage({super.key});
@@ -24,7 +27,13 @@ class StorePage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Store')),
+      appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.help_outline),
+              onPressed: () => showStoreInfo(context),)
+          ],
+          title: const Text('Store')),
       body: PixelRain(
         child: Builder(builder: (context) {
           return BlocBuilder<MosaicoStoreBloc, MosaicoStoreState>(
@@ -59,5 +68,18 @@ class StorePage extends StatelessWidget {
         }),
       ),
     );
+  }
+
+  void showStoreInfo(BuildContext context) async {
+
+    var response = await ConfirmationDialog.ask(context: context,
+        title: 'Store Info',
+        message: "Here you can find all the widgets created by the mosaico community. \n"
+            "You can add them to your matrix by clicking on the install button or you can contribute by creating your own widgets. \n\n"
+            "Do you want to visit the project page?");
+
+    if (response) {
+      await launchUrl(Uri.parse('https://mosaico.murkrowdev.org'));
+    }
   }
 }
